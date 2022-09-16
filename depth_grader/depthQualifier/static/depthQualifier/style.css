@@ -146,10 +146,10 @@ label span:before {
 
 .submit-button:hover{
     background: #487a61;
+
+    /* INFO: transition doesn't work if switching between box-shadow "inset" and "normal" */
     box-shadow: inset 5px 5px 10px #355a48,
                 inset -5px -5px 10px #5b9a7a;
-
-    transition: 1s;
 }
 
 /* ============ TABLES ============ */

@@ -1,14 +1,17 @@
 from django.db import models
 from .validators import *
-from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 
 # Create your models here.
 def seq_location(instance, seq_name):
-    folder_name = str(seq_name)
-    folder_name = folder_name[:folder_name.rfind('.')].replace(' ', '_')
+    file_name = str(seq_name)
+    file_extension = file_name[file_name.index('.'):].lower()
 
-    return 'sequences/' + folder_name + '/' + str(seq_name)
+    name = str(instance.title).lower().replace(' ', '_')
+
+    # when returns: create folder of sequence_name title and name the file as it is
+    return 'sequences/' + name + '/' + name + file_extension
+
 
 def validate_project_name_exist(value):
     for elem in SequenceModel.objects.all():
