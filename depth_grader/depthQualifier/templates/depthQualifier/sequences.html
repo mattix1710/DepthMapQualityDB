@@ -21,7 +21,7 @@
                     <span>ID ⬆️</span>
                 </label>
                 <label>
-                    <input type="radio" name="sort" value="idUP" />
+                    <input type="radio" name="sort" value="idDOWN" />
                     <span>ID ⬇️</span>
                 </label>
                 <label>
@@ -46,6 +46,7 @@
                         <th>Lokalizacja pliku</th>
                         <th>Pobierz</th>
                         <th>Jakość sekwencji</th>
+                        <th>Usuń sekwencję</th>
                     </tr>
             {% for seq in seq_list %}
                     <tr>
@@ -55,6 +56,7 @@
                         <td>{{ seq.src }}</td>
                         <td><a href="{{ seq.src.url }}">💾</a></td>
                         <td>😎</td>
+                        <td><a href="{% url 'delete_view' seq_id=seq.id %}">Usuń skurwiela</a></td>
                     </tr>
             {% endfor %}
                 </table>
