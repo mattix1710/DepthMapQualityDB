@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head lang="pl">
+        <title>Formularz dodawania sekwencji</title>
+        <link href='https://fonts.googleapis.com/css?family=Lato:400' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'depthQualifier/style.css' %}">
+    </head>
+    <body>
+        <a href="{% url 'sequences_list' %}" class="submit-button return">Wróć</a>
+        <div class="tile-container">
+            <div class="tile info">
+                Formularz dodawania sekwencji
+            </div>
+            <div class="tile form">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Dodaj">
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

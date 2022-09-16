@@ -1,0 +1,277 @@
+/* Neumorphism generator
+https://s.muz.li/YmRhYjU4ODY0 */
+
+body{
+    font-family: 'Lato';
+    font-weight: 400;
+    background-color: #487a61;
+}
+
+.float-container{
+    display: flex;
+    height: auto;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.float-child{
+    width: 30%;
+    height: 100%;           /* it's no matter which value is given - parent tile still wraps the content in itself... */
+    margin: 20px 5px;
+    padding: 15px;
+    background-color: #429177;
+    border-radius: 10px;
+    box-shadow: 10px 10px 50px #234b3d;
+}
+
+@media (max-width: 1440px)
+{
+    .float-child{
+        width: 100%;
+        height: 100%;           /* it's no matter which value is given - parent tile still wraps the content in itself... */
+    }
+}    
+
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.caption{
+    margin-top: 5px;
+    text-align: center;
+}
+
+/* ============== SORTING FORM =============== */
+
+.sort-info-box{
+    height: auto;
+    width: auto;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 0.375em;
+    border-radius: 10px;
+    background: #487a61;
+    box-shadow:  5px 5px 10px #355a48,
+                 -5px -5px 10px #5b9a7a;
+}
+
+
+.sort-info{
+    color: #d3ecd9;
+}
+
+.sort-container{
+    float: right;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    margin: 15px;
+    margin-top: 0px;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #416e57, #4d8368);
+    box-shadow:  5px 5px 10px #355a48,
+                -5px -5px 10px #5b9a7a;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+}
+label {
+    display: flex;
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0.375em;
+}
+/* label:focus-within {
+    outline: 0.125em solid #00005c;
+} */
+
+label input {
+    position: absolute;
+    left: -9999px;
+}
+label input:checked + span {
+    background-color: #429177;
+}
+label input:checked + span:before {
+    box-shadow: inset 0 0 0 0.4375em #234b3d;
+}
+label span {
+    display: flex;
+    align-items: center;
+    padding: 0.375em 0.75em 0.375em 0.375em;
+    border-radius: 99em;
+    transition: 0.25s ease;
+}
+label span:hover {
+    background-color: #d6e5dc;
+}
+label span:before {
+    display: flex;
+    flex-shrink: 0;
+    content: "";
+    background-color: #429177;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    margin-right: 0.375em;
+    transition: 0.25s ease;
+    box-shadow: inset 0 0 0 0.125em #234b3d;
+}
+
+.submit-button{
+    color: #FFF;
+    font-size: 16px;
+    background-color: #429177;
+    /* border-radius: 10px; */
+    border: 0px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    background: #487a61;
+    box-shadow:  5px 5px 10px #355a48,
+                 -5px -5px 10px #5b9a7a;
+}
+
+.submit-button:hover{
+    background: #487a61;
+    box-shadow: inset 5px 5px 10px #355a48,
+                inset -5px -5px 10px #5b9a7a;
+
+    transition: 1s;
+}
+
+/* ============ TABLES ============ */
+
+.submit-button.proceed{
+    color: #8ec792;
+}
+
+.table-container{
+    margin: 10px;
+}
+
+table {
+    border: 1px solid #274f41;
+    border-collapse: collapse; 
+    margin: 0 auto;  
+    padding: 0px;
+    table-layout: fixed;
+    min-width: 100%;
+}
+table th {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #274f41;
+    background:#1b90bb;
+    color:#FFFFFF;
+    font-weight:bold;
+    text-align:center
+}
+table td{
+    padding: 8px;
+    border: 1px solid #274f41;
+}
+table tr{
+    background-color: #8ec792;
+    color:#000000;
+    text-align:left;
+}
+table tr:nth-child(odd) {
+    background-color: #b9dfcd;
+    color: #000000
+}
+table tr:hover {
+    background-color: green;
+    color: #FFFFFF;
+}table .mobile-head {
+    display:none;
+}
+
+@media screen and (max-width: 600px) {
+    table {
+        border: 1px solid #274f41;
+        border-collapse: collapse; 
+        margin: 0 auto;  
+        padding: 0px;
+        table-layout: fixed;
+        min-width: 100%;
+    }table td{
+        padding: 8px;
+        border: 1px solid #274f41;
+        display: block;
+        text-align: right;
+        width: 100%\9;  
+        float: left\9;
+    }table tr{background-color: #dddddd;
+        color:#000000;
+        text-align:right;
+        margin:8px
+    }table tr:first-child {
+        display:none;
+    }table tr{
+        display: block;
+    }table td:not(:first-child){
+        border-top:0px;
+    }table .mobile-head{
+        font-weight:bold;
+        color:#000000;
+        float:left;
+        text-align:left;
+        display:block
+    }
+}
+
+/* =========== FORMS =========== */
+
+.submit-button.return{
+    float: right;
+    margin: 20px 20px 0px 0px;
+}
+
+.tile{
+    padding: 20px;
+    margin: 20px;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #416e57, #4d8368);
+    box-shadow:  5px 5px 10px #355a48,
+                -5px -5px 10px #5b9a7a;
+}
+
+.tile.info{
+    font-weight: bold;
+    color: #b9dfcd;
+    font-size:xx-large;
+}
+
+.tile.form{
+    color: #173128;
+}
+
+.tile-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+    width: auto;
+    height: auto;
+    /* border-radius: 10px;
+    background: linear-gradient(145deg, #416e57, #4d8368);
+    box-shadow:  5px 5px 10px #355a48,
+                -5px -5px 10px #5b9a7a; */
+}

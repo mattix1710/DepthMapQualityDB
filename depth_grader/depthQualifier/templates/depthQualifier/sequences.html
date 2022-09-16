@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <title>Sekwencje wielowidokowe</title>
+        <link href='https://fonts.googleapis.com/css?family=Lato:400' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'depthQualifier/style.css' %}">
+    </head>
+    <body>
+        <center><h1>Tutaj znajdują się sekwencje wielowidokowe!</h1></center>
+        <a href="{% url 'seq_test' %}" class="submit-button proceed">Testy</a>
+        <center><a href="{% url 'sequence_form' %}" class="submit-button proceed">Wgraj sekwencję!</a></center>
+
+        <div class="sort-container">
+            <div class="sort-info-box">
+                <span class="sort-info">SORTOWANIE</span><br>
+            </div>
+            <form method="GET">
+                <label>
+                    <input type="radio" name="sort" value="idUP" />
+                    <span>ID ⬆️</span>
+                </label>
+                <label>
+                    <input type="radio" name="sort" value="idUP" />
+                    <span>ID ⬇️</span>
+                </label>
+                <label>
+                    <input type="radio" name="sort" value="titleUP"/>
+                    <span>Nazwa ⬆️</span>
+                </label>
+                <label>
+                    <input type="radio" name="sort" value="titleDOWN"/>
+                    <span>Nazwa ⬇️</span>
+                </label>
+                <button class="submit-button" type="submit">Zatwierdź</button>
+            </form>
+        </div>
+
+        {% if seq_list %}
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nazwa sekwencji</th>
+                        <th>Opis</th>
+                        <th>Lokalizacja pliku</th>
+                        <th>Pobierz</th>
+                        <th>Jakość sekwencji</th>
+                    </tr>
+            {% for seq in seq_list %}
+                    <tr>
+                        <td>{{ seq.id }}</td>
+                        <td>{{ seq.title }}</td>
+                        <td>{{ seq.desc }}</td>
+                        <td>{{ seq.src }}</td>
+                        <td><a href="{{ seq.src.url }}">💾</a></td>
+                        <td>😎</td>
+                    </tr>
+            {% endfor %}
+                </table>
+            </div>
+        {% else %}
+            <p> No sequences available.</p>
+        {% endif %}
+    </body>
+</html>
