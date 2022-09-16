@@ -11,4 +11,5 @@ urlpatterns = [
     path('sequences/', views.SequenceList.as_view(), name='sequences_list'),
     path('addSequence/', views.addSequence, name='sequence_form'),
     path('testy/', views.testing, name = 'seq_test'),
+    path('delete_view/<seq_id>/', views.delete_view, name='delete_view'),
 ]

@@ -50,6 +50,19 @@ class SequenceList(ListView):
     context_object_name = 'seq_list'
 
     def get_queryset(self):
+
+        # table sorting
+        if(self.request.method == 'GET' and self.request.GET.__contains__('sort')):         # if GET method was set
+            switch = {
+                'titleUP'   : SequenceModel.objects.order_by('title'),
+                'titleDOWN' : SequenceModel.objects.order_by('-title'),             # "-" is used for managing descending order
+                'idUP'      : SequenceModel.objects.order_by('id'),
+                'idDOWN'    : SequenceModel.objects.order_by('-id'),
+            }
+            # return chosen order or (if there is no such position) - defualt one
+            return switch.get(self.request.GET.__getitem__('sort'), SequenceModel.objects.all())
+
+
         return SequenceModel.objects.all()
 
 def testing(request):
@@ -58,3 +71,7 @@ def testing(request):
         print("ELEM:", elem, "of type:", type(elem))
 
     return render(request, TEMPLATE_PATH + 'testing.html')
+
+def delete_view(request, seq_id):
+    print("Deleting...")
+    return HttpResponse("<br><br><center><h1>Jeszcze nie usuwamy</h1></center>")
