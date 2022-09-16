@@ -7,7 +7,10 @@
         <link rel="stylesheet" href="{% static 'depthQualifier/style.css' %}">
     </head>
     <body>
-        <center><h1>Tutaj znajdują się sekwencje wielowidokowe!</h1></center>
+        <div class="logo">
+            {% load static %} <img src="{% static 'depthQualifier/img/logo.png'%}" alt="home" />
+        </div>
+        
         <a href="{% url 'seq_test' %}" class="submit-button proceed">Testy</a>
         <center><a href="{% url 'sequence_form' %}" class="submit-button proceed">Wgraj sekwencję!</a></center>
 

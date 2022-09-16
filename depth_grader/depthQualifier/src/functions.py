@@ -51,6 +51,7 @@ def unzip(x):
         # os.remove(zip_name)
         
 def loop():
+    
     for x in os.listdir('depth_grader/media/sequences'):
 
         path = 'depth_grader/media/sequences/' + x
