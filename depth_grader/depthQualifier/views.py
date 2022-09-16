@@ -49,6 +49,8 @@ class SequenceList(ListView):
     context_object_name = 'seq_list'
 
     def get_queryset(self):
+        
+        loop()
 
         # table sorting
         if(self.request.method == 'GET' and self.request.GET.__contains__('sort')):         # if GET method was set
@@ -58,6 +60,7 @@ class SequenceList(ListView):
                 'idUP'      : SequenceModel.objects.order_by('id'),
                 'idDOWN'    : SequenceModel.objects.order_by('-id'),
             }
+
             # return chosen order or (if there is no such position) - defualt one
             return switch.get(self.request.GET.__getitem__('sort'), SequenceModel.objects.all())
 

@@ -52,6 +52,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+STATIC_URL = 'static/'
+
 ROOT_URLCONF = 'depth_grader.urls'
 
 TEMPLATES = [
