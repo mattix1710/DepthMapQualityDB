@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views import generic
 from django.views.generic.list import ListView
 
 # from .src.functions import handle_uploaded_image
@@ -69,8 +68,6 @@ def testing(request):
     for elem in SequenceModel.objects.all():
         print(elem.title)
         print("ELEM:", elem, "of type:", type(elem))
-
-    # deleteFile(SequenceModel.objects.get(id=3))
 
     return render(request, TEMPLATE_PATH + 'testing.html')
 
