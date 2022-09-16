@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views import generic
 from django.views.generic.list import ListView
 
 # from .src.functions import handle_uploaded_image
@@ -72,6 +71,9 @@ def testing(request):
 
     return render(request, TEMPLATE_PATH + 'testing.html')
 
-def delete_view(request, seq_id):
+def delete_view(request, seq_id=None):
+    object = SequenceModel.objects.get(id=seq_id)
+    deleteFile(object)
+    object.delete()
     print("Deleting...")
-    return HttpResponse("<br><br><center><h1>Jeszcze nie usuwamy</h1></center>")
+    return HttpResponseRedirect('../../sequences')
