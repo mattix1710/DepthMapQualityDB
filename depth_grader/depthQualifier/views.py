@@ -5,8 +5,9 @@ from django.views.generic.list import ListView
 # from .src.functions import handle_uploaded_image
 from .forms import UploadZipForm
 from .src.functions import *
-
 from .models import *
+
+import subprocess
 
 TEMPLATE_PATH = 'depthQualifier/'
 
@@ -36,6 +37,10 @@ def addSequence(request):
                                         desc = form.cleaned_data['desc'],
                                         src = f)
 
+            # perform operations on given files
+            seqTitle = (str(form.cleaned_data['title'])).lower().replace(' ', '_')
+            
+
             # form.save()
 
             return HttpResponseRedirect('../sequences')
@@ -51,6 +56,10 @@ class SequenceList(ListView):
     def get_queryset(self):
         
         loop()
+
+        # running BATCH file
+        batchPATH = os.path.abspath('./depthQualifier/src/testBatch.bat')
+        # subprocess.call(batchPATH)
 
         # table sorting
         if(self.request.method == 'GET' and self.request.GET.__contains__('sort')):         # if GET method was set

@@ -1,5 +1,6 @@
 from zipfile import ZipFile
 import os
+import pathlib
 
 def deleteFile(fileObject):
     folder_path = os.path.dirname(str(fileObject.src))
@@ -14,75 +15,55 @@ def deleteFile(fileObject):
     os.rmdir(folder_path)
 
 def compression_factor(x):
-
     if x.endswith('.zip'):
-
         file_name = x
-
         print(file_name)
-        
         file_size = round((os.path.getsize(file_name) / 1048576), 2)
-
         print(file_size, 'Mb')
-
         zip_object = ZipFile(file_name, 'r')
-
         size = sum([zinfo.file_size for zinfo in zip_object.filelist])
-
         archive_size = round((size / 1048576), 2)
-
         print(archive_size, 'Mb')
-
         compression_factor = round((100 * (file_size / archive_size)), 2)
-
         print('Compression:', compression_factor, '%')
 
 
 def unzip(x):
-
     if x.endswith('.zip'):
-
         file_name = x
-
         zip_object = ZipFile(file_name, 'r')
-
         # zip_name = file_name
-
         file_names = zip_object.namelist()
-
         end_path = file_name.replace('.zip', '')
 
         for file_name in file_names:
-
             if file_name.endswith('.yuv'):
-
                 zip_object.extract(file_name, end_path)
 
         zip_object.close()
-
+        print(end_path)
         # os.remove(zip_name)
 
 PATH = '../depth_grader/media/sequences/'
         
 def loop():
     absPATH = os.path.abspath(PATH)
-    print(absPATH)
 
     for x in os.listdir(absPATH):
 
         path = absPATH + '/' + x
-        print(path)
-
-        # if path == absPATH + '.DS_Store':
-        #     os.remove(path)
-        # elif path == absPATH + '.gitignore':
-        #     continue
 
         if os.path.isdir(path):
-            for x in os.listdir(path):
+            dirName = pathlib.PurePath(path).name
 
-                new_path = path + "/" + x
+            absInsideFolder = path + "/" + dirName
+            if(os.path.isdir(absInsideFolder)):
+                print(dirName, "has folder!")
+            else:
+                for x in os.listdir(path):
 
-                if new_path.endswith('.zip'):
-                    compression_factor(new_path)
-                    unzip(new_path)
+                    new_path = path + "/" + x
+
+                    if new_path.endswith('.zip'):
+                        compression_factor(new_path)
+                        unzip(new_path)
