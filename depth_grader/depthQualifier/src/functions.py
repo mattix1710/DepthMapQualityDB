@@ -1,18 +1,16 @@
 from zipfile import ZipFile
 import os
 import pathlib
+import shutil
+
+MEDIA_PATH = str(pathlib.Path(__file__).parent.parent.parent) + '/media/'
 
 def deleteFile(fileObject):
     folder_path = os.path.dirname(str(fileObject.src))
-    index = os.path.abspath(folder_path).find('\sequences')
-    folder_path = os.path.abspath(folder_path)[:index] + '\media' + os.path.abspath(folder_path)[index:]
+    seqPath = MEDIA_PATH + folder_path
 
-    # removing all files in sequeunce directory
-    for file in os.listdir(folder_path):
-        os.remove(os.path.join(folder_path, file))
-
-    # removing folder itself
-    os.rmdir(folder_path)
+    # remove folder and its contents
+    shutil.rmtree(seqPath)
 
 def compression_factor(x):
     if x.endswith('.zip'):
@@ -43,11 +41,10 @@ def unzip(x):
         zip_object.close()
         print(end_path)
         # os.remove(zip_name)
-
-PATH = '/media/sequences/'
         
 def loop():
-    absPATH = str(pathlib.Path(__file__).parent.parent.parent) + PATH
+    # /media/sequences/ path
+    absPATH = MEDIA_PATH + 'sequences/'
 
     for x in os.listdir(absPATH):
 

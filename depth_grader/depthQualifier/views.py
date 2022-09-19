@@ -39,7 +39,7 @@ def addSequence(request):
 
             # perform operations on given files
             seqTitle = (str(form.cleaned_data['title'])).lower().replace(' ', '_')
-            
+
 
             # form.save()
 
@@ -86,6 +86,7 @@ def testing(request):
 def delete_view(request, seq_id=None):
     object = SequenceModel.objects.get(id=seq_id)
     deleteFile(object)
+    objTitle = object.title
     object.delete()
-    print("Deleting...")
+    print('Sequence "' + str(objTitle) + '" has been deleted!')
     return HttpResponseRedirect('../../sequences')
