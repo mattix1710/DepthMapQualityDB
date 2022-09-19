@@ -1,5 +1,5 @@
 __pycache__/
 
-**/sequences/
+*.pyc
 
 *.sqlite3
