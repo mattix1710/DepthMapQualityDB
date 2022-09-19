@@ -83,11 +83,6 @@ def loop():
 
                 new_path = path + "/" + x
 
-                if new_path == path + "/.DS_Store":
-                    continue
-
-                else:
-
+                if new_path.endswith('.zip'):
                     compression_factor(new_path)
-
                     unzip(new_path)
