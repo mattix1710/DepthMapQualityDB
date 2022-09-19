@@ -54,33 +54,37 @@ def unzip(x):
 
         for file_name in file_names:
 
-            if file_name.endswith('.pdf'):
+            if file_name.endswith('.yuv'):
 
                 zip_object.extract(file_name, end_path)
 
         zip_object.close()
 
         # os.remove(zip_name)
+
+PATH = '../depth_grader/media/sequences/'
         
 def loop():
-    
-    for x in os.listdir('depth_grader/media/sequences'):
+    absPATH = os.path.abspath(PATH)
+    print(absPATH)
 
-        path = 'depth_grader/media/sequences/' + x
+    for x in os.listdir(absPATH):
 
-        if path == 'depth_grader/media/sequences/.DS_Store':
+        path = absPATH + '/' + x
+        print(path)
 
-            os.remove(path)
+        # if path == absPATH + '.DS_Store':
+        #     os.remove(path)
+        # elif path == absPATH + '.gitignore':
+        #     continue
 
-        else:
-
+        if os.path.isdir(path):
             for x in os.listdir(path):
 
                 new_path = path + "/" + x
 
                 if new_path == path + "/.DS_Store":
-
-                    os.remove(new_path)
+                    continue
 
                 else:
 
