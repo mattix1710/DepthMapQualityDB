@@ -44,10 +44,10 @@ def unzip(x):
         print(end_path)
         # os.remove(zip_name)
 
-PATH = '../depth_grader/media/sequences/'
+PATH = '/media/sequences/'
         
 def loop():
-    absPATH = os.path.abspath(PATH)
+    absPATH = str(pathlib.Path(__file__).parent.parent.parent) + PATH
 
     for x in os.listdir(absPATH):
 
