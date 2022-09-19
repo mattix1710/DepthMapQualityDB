@@ -1,3 +1,3 @@
 @echo off
-color a & date
+DIR
 pause

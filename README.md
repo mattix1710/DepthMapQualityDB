@@ -16,3 +16,14 @@ TODO - before starting server (if no database file in the project)
 ***
 * <span style="color:#f1c232"><b>starting a server</b></span>
     > py manage.py runserver
+
+***
+EXECUTION of BATCH files
+--------------------
+while calling BATCH file - current absolute path is the path that was entered in terminal<br>
+i.e. 
+
+* terminal PATH is: <em>DepthMapQualityDB/depth_grader/</em>
+* BAT file PATH is: <em>DepthMapQualityDB/depth_grader/depthQualifier/src/testBatch.bat</em>
+
+**then commands written on .bat file will be executed as on "terminal PATH"**

@@ -1,3 +1,4 @@
+from pathlib import Path
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.list import ListView
@@ -8,8 +9,10 @@ from .src.functions import *
 from .models import *
 
 import subprocess
+import pathlib
 
 TEMPLATE_PATH = 'depthQualifier/'
+FUNCTIONS_PATH = str(pathlib.Path(__file__).parent) + "/src/"
 
 DEBUG = "INFO: "
 
@@ -58,8 +61,9 @@ class SequenceList(ListView):
         loop()
 
         # running BATCH file
-        batchPATH = os.path.abspath('./depthQualifier/src/testBatch.bat')
-        # subprocess.call(batchPATH)
+        batchPATH = os.path.abspath(FUNCTIONS_PATH + 'testBatch.bat')
+        print(batchPATH)
+        subprocess.call(batchPATH)
 
         # table sorting
         if(self.request.method == 'GET' and self.request.GET.__contains__('sort')):         # if GET method was set
