@@ -86,12 +86,14 @@ def testing(request):
     #     print("ELEM:", elem, "of type:", type(elem))
 
     if(request.method == 'GET' and request.GET.__contains__('process')):
-       switch = {
-            'compress' : batchCompress(),
-            'decompress': batchDecompress()
-       }
 
-       switch.get(request.GET.__getitem__('process'))
+        value = request.GET.__getitem__('process')
+        if(value == 'compress'):
+            batchCompress()
+        elif(value == 'decompress'):
+            batchDecompress()
+        elif(value == 'synthesis'):
+            batchSynthesis()
 
     return render(request, TEMPLATE_PATH + 'testing.html')
 

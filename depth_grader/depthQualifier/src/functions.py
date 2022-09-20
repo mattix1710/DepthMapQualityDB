@@ -72,8 +72,8 @@ def loop():
 FUNCTIONS_PATH = str(pathlib.Path(__file__).parent)
 
 def batchCompress():
-    print("hello compression!")
-    object = SequenceModel.objects.get(id=4)
+    print("COmpression!")
+    object = SequenceModel.objects.get(id=1)
 
     # running BATCH file
     batchPATH = os.path.abspath(FUNCTIONS_PATH + '/batchCompress.bat ' + str(object.src).replace('.zip', ''))
@@ -81,10 +81,18 @@ def batchCompress():
     subprocess.call(batchPATH)
 
 def batchDecompress():
-    print("hello compression!")
-    object = SequenceModel.objects.get(id=4)
+    print("DEcompression!")
+    object = SequenceModel.objects.get(id=1)
 
     # running BATCH file
     batchPATH = os.path.abspath(FUNCTIONS_PATH + '/batchDecompress.bat ' + str(object.src).replace('.zip', ''))
+    print(batchPATH)
+    subprocess.call(batchPATH)
+
+def batchSynthesis():
+    object = SequenceModel.objects.get(id=1)
+
+    # running BATCH file
+    batchPATH = os.path.abspath(FUNCTIONS_PATH + '/batchSynthesis.bat ' + str(object.src).replace('.zip', ''))
     print(batchPATH)
     subprocess.call(batchPATH)

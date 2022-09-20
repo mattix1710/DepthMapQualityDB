@@ -29,7 +29,10 @@ i.e.
 **then commands written on .bat file will be executed as on "terminal PATH"**
 
 ***
-TODO - while running server
+TODO - while inserting/running server
 --------------------
 * unpack "ffmpeg.exe" file from "ffmpeg.zip" archive
 * * this file is located in **DepthMapQualityDB\depth_grader\depthQualifier\src\media_handling\\** location
+* check TERMINAL path
+* * BATCH files depend on the terminal path:<br>
+i.e. access to **/media/** folder

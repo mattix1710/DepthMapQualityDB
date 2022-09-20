@@ -33,6 +33,7 @@ SET QP_TEXT=24
 
 FOR /l %%c IN (%START%, %STEP%, %STOP%) DO (
     .\media\media_handling\ffmpeg.exe -i ".\media\%FOLDER_LOCATION%\v%%c_%PROCESS_DEPTH_MP4%_%QP_DEPTH%.mp4" -f rawvideo -pix_fmt %FORMAT_16% ".\media\%FOLDER_LOCATION%\v%%c_%ENC_DEPTH_420%"
-    .\media\media_handling\fc8.1.exe ".\media\%FOLDER_LOCATION%\v%%c_%ENC_DEPTH_420%" -iw %WIDTH% -ih %HEIGHT% -ibps 16 -ics 420 -ocs 400 -w %WIDTH% -h %HEIGHT% -o ".\media\%FOLDER_LOCATION%\DEC_v%%c_%IN_NAME_DEPTH%"
-    @REM TODO: DEL old compressed YUV
+    .\media\media_handling\fc8.1.exe ".\media\%FOLDER_LOCATION%\v%%c_%ENC_DEPTH_420%" -iw %WIDTH% -ih %HEIGHT% -ibps 16 -ics 420 -ocs 400 -w %WIDTH% -h %HEIGHT% -o ".\media\%FOLDER_LOCATION%\v%%c_%IN_NAME_DEPTH%"
+    DEL ".\media\%FOLDER_LOCATION%\v%%c_%PROCESS_DEPTH_MP4%_%QP_DEPTH%.mp4" /Q
+    DEL ".\media\%FOLDER_LOCATION%\v%%c_%ENC_DEPTH_420%" /Q
 )

@@ -32,6 +32,6 @@ SET QP_TEXT=24
 FOR /l %%c IN (%START%, %STEP%, %STOP%) DO (
     .\media\media_handling\fc8.1.exe "./media/%FOLDER_LOCATION%/v%%c_%IN_NAME_DEPTH%" -iw %WIDTH% -ih %HEIGHT% -ics 400 -ocs 420 -w %WIDTH% -h %HEIGHT% -o "./media/%FOLDER_LOCATION%/v%%c_%PROCESS_DEPTH_420%"
     .\media\media_handling\ffmpeg.exe -f rawvideo -pix_fmt %FORMAT_16% -s:v %WIDTH%:%HEIGHT% -r 25 -i "./media/%FOLDER_LOCATION%/v%%c_%PROCESS_DEPTH_420%" -c:v libx265 -crf %QP_DEPTH% -pix_fmt yuv420p "./media/%FOLDER_LOCATION%/v%%c_%PROCESS_DEPTH_MP4%_%QP_DEPTH%.mp4"
-    @REM delete old yuv420p16le sequence
-    DEL "./media/%FOLDER_LOCATION%/v%%c_%PROCESS_DEPTH_420%" /Q
+    DEL ".\media\%FOLDER_LOCATION%\v%%c_%IN_NAME_DEPTH%" /Q
+    DEL ".\media\%FOLDER_LOCATION%\v%%c_%PROCESS_DEPTH_420%" /Q
 )
