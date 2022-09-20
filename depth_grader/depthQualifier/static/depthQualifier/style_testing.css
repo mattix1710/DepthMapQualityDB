@@ -240,7 +240,6 @@ table tr:hover {
 /* =========== FORMS =========== */
 
 .submit-button.return{
-    float: right;
     margin: 10px 20px;
     text-align: center;
 }

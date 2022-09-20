@@ -81,9 +81,17 @@ class SequenceList(ListView):
         return SequenceModel.objects.all()
 
 def testing(request):
-    for elem in SequenceModel.objects.all():
-        print(elem.title)
-        print("ELEM:", elem, "of type:", type(elem))
+    # for elem in SequenceModel.objects.all():
+    #     print(elem.title)
+    #     print("ELEM:", elem, "of type:", type(elem))
+
+    if(request.method == 'GET' and request.GET.__contains__('process')):
+       switch = {
+            'compress' : batchCompress(),
+            'decompress': batchDecompress()
+       }
+
+       switch.get(request.GET.__getitem__('process'))
 
     return render(request, TEMPLATE_PATH + 'testing.html')
 

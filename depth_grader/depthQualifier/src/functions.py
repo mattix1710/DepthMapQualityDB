@@ -2,6 +2,10 @@ from zipfile import ZipFile
 import os
 import pathlib
 import shutil
+import subprocess
+
+# from parent location
+from ..models import *
 
 MEDIA_PATH = str(pathlib.Path(__file__).parent.parent.parent) + '/media/'
 
@@ -64,3 +68,23 @@ def loop():
                     if new_path.endswith('.zip'):
                         compression_factor(new_path)
                         unzip(new_path)
+
+FUNCTIONS_PATH = str(pathlib.Path(__file__).parent)
+
+def batchCompress():
+    print("hello compression!")
+    object = SequenceModel.objects.get(id=4)
+
+    # running BATCH file
+    batchPATH = os.path.abspath(FUNCTIONS_PATH + '/batchCompress.bat ' + str(object.src).replace('.zip', ''))
+    print(batchPATH)
+    subprocess.call(batchPATH)
+
+def batchDecompress():
+    print("hello compression!")
+    object = SequenceModel.objects.get(id=4)
+
+    # running BATCH file
+    batchPATH = os.path.abspath(FUNCTIONS_PATH + '/batchDecompress.bat ' + str(object.src).replace('.zip', ''))
+    print(batchPATH)
+    subprocess.call(batchPATH)
