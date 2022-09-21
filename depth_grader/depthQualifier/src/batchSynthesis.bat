@@ -4,8 +4,6 @@
 @REM %1 - first argument;
 
 @REM get current directory from terminal - from PYTHON doesn't work
-SET TERMINAL_PATH = %CD%
-SET BATCH_PATH = %~dp0
 
 SET FORMAT=yuv420p
 SET FORMAT_16=yuv420p16le
@@ -17,6 +15,8 @@ SET STEP=1
 SET STOP=9
 
 SET FOLDER_LOCATION=%1
+SET TERMINAL_PATH=%2
+
 SET IN_NAME_TEXTURE=texture_1920x1080_yuv420p8le.yuv
 SET PROCESS_TEXTURE_MP4=ENCODED_texture
 
@@ -38,10 +38,38 @@ SET QP_TEXT=24
 
 @REM TEXTURE CODING
 
-FOR /l %%c IN (%START%, %STEP5, %STOP%) DO (
-    .\media\media_handling\ffmpeg.exe -f rawvideo -pix_fmt %FORMAT% -s:v %WIDTH%:%HEIGHT% -r 25 -i ".\media\raw_textures\PoznanFencing_texture\v%%c_%IN_NAME_TEXTURE%" -c:v libx265 -crf %QP_TEXT% -pix_fmt yuv420p ".\media\%FOLDER_LOCATION%\v%%c_%PROCESS_TEXTURE_MP4%_%QP_TEXT%.mp4"
-    .\media\media_handling\ffmpeg.exe -i ".\media\%FOLDER_LOCATION%\v%%c_%PROCESS_TEXTURE_MP4%_%QP_TEXT%.mp4" -f rawvideo -pix_fmt %FORMAT% ".\media\%FOLDER_LOCATION%\v%%c_%IN_NAME_TEXTURE%"
-    DEL ".\media\%FOLDER_LOCATION%\v%%c_%PROCESS_TEXTURE_MP4%_%QP_TEXT%.mp4" /Q
-)
+@REM FOR /l %%c IN (%START%, %STEP%, %STOP%) DO (
+@REM     .\media\media_handling\ffmpeg.exe -f rawvideo -pix_fmt %FORMAT% -s:v %WIDTH%:%HEIGHT% -r 25 -i ".\media\raw_textures\PoznanFencing_texture\v%%c_%IN_NAME_TEXTURE%" -c:v libx265 -crf %QP_TEXT% -pix_fmt yuv420p ".\media\%FOLDER_LOCATION%\v%%c_%PROCESS_TEXTURE_MP4%_%QP_TEXT%.mp4"
+@REM     @REM INFO: IDK why, but INPUT file is copied into the OUTPUT folder
+@REM     DEL ".\media\%FOLDER_LOCATION%\v%%c_%IN_NAME_TEXTURE%" /Q
+@REM     .\media\media_handling\ffmpeg.exe -i ".\media\%FOLDER_LOCATION%\v%%c_%PROCESS_TEXTURE_MP4%_%QP_TEXT%.mp4" -f rawvideo -pix_fmt %FORMAT% ".\media\%FOLDER_LOCATION%\v%%c_%IN_NAME_TEXTURE%"
+@REM     DEL ".\media\%FOLDER_LOCATION%\v%%c_%PROCESS_TEXTURE_MP4%_%QP_TEXT%.mp4" /Q
+@REM )
 
-@REM TODO: rethink PoznanFencing...
+@REM @REM TODO: rethink PoznanFencing...
+
+@REM @REM copy PoznanFencing scripts to the sequence folder
+@REM XCOPY ".\media\media_handling\PoznanFencing\*.*" ".\media\%FOLDER_LOCATION%\"
+@REM @REM copy synthesizing & paralleling app to the sequence folder
+@REM XCOPY ".\media\media_handling\TAppVvs.exe" ".\media\%FOLDER_LOCATION%\"
+@REM XCOPY ".\media\media_handling\MParallel.exe" ".\media\%FOLDER_LOCATION%\"
+
+CD .\media\%FOLDER_LOCATION%\
+
+@REM START /WAIT PoznanFencing.bat
+
+CD %TERMINAL_PATH%
+
+ECHO %CD%
+
+CALL .\media\media_handling\IV_PSNR.bat %FOLDER_LOCATION%
+
+@REM CALL py "%TERMINAL_PATH%\media\media_handling\retrievingPSNRdata.py"
+
+@REM cleaning data
+
+DEL ".\media\%FOLDER_LOCATION%\*.cfg" /Q
+DEL ".\media\%FOLDER_LOCATION%\*.bat" /Q
+DEL ".\media\%FOLDER_LOCATION%\*.json" /Q
+DEL ".\media\%FOLDER_LOCATION%\*.exe" /Q
+DEL ".\media\%FOLDER_LOCATION%\*.yuv" /Q

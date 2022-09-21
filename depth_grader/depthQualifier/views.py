@@ -61,9 +61,9 @@ class SequenceList(ListView):
         loop()
 
         # running BATCH file
-        batchPATH = os.path.abspath(FUNCTIONS_PATH + 'testBatch.bat')
-        print(batchPATH)
-        subprocess.call(batchPATH)
+        # batchPATH = os.path.abspath(FUNCTIONS_PATH + 'testBatch.bat')
+        # print(batchPATH)
+        # subprocess.call(batchPATH)
 
         # table sorting
         if(self.request.method == 'GET' and self.request.GET.__contains__('sort')):         # if GET method was set
@@ -81,10 +81,6 @@ class SequenceList(ListView):
         return SequenceModel.objects.all()
 
 def testing(request):
-    # for elem in SequenceModel.objects.all():
-    #     print(elem.title)
-    #     print("ELEM:", elem, "of type:", type(elem))
-
     if(request.method == 'GET' and request.GET.__contains__('process')):
 
         value = request.GET.__getitem__('process')
@@ -94,6 +90,8 @@ def testing(request):
             batchDecompress()
         elif(value == 'synthesis'):
             batchSynthesis()
+
+    # checkPrint()
 
     return render(request, TEMPLATE_PATH + 'testing.html')
 
