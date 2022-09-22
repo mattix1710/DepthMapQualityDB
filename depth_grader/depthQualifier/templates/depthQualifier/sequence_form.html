@@ -5,8 +5,30 @@
         <title>Formularz dodawania sekwencji</title>
         <link href='https://fonts.googleapis.com/css?family=Lato:400' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="{% static 'depthQualifier/style.css' %}">
+
+        <!-- INFO: NOT WORKING -->
+        <script>
+            const openButton = document.getElementById('form_submit')
+            const modal = document.querySelector('.bg-modal')
+
+            openButton.addEventListener('click', () => {
+                modal.style.display = 'flex'
+            })
+
+            const closeBtn = document.querySelector('.close')
+            
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none'
+            })
+        </script>
     </head>
     <body>
+        <div class="bg-modal">
+            <div class="modal-content">
+                <div class="close">+</div>
+            </div>
+        </div>
+
         <a href="{% url 'sequences_list' %}" class="submit-button return">Wróć</a>
         <div class="tile-container">
             <div class="tile info">
@@ -16,9 +38,12 @@
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <input type="submit" value="Dodaj">
+                    <button type="submit" value="Dodaj">Add</button>
                 </form>
             </div>
+        </div>
+        <div class="tile-container">
+            <button id="form_submit" class="submit-button">Click me!</button>
         </div>
     </body>
 </html>

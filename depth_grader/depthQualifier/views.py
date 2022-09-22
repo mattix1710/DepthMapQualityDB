@@ -1,15 +1,21 @@
+# REGULAR imports
 from pathlib import Path
+import subprocess
+import pathlib
+
+# DJANGO imports
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.list import ListView
+from django.contrib import messages
 
-# from .src.functions import handle_uploaded_image
+# LOCAL imports
 from .forms import UploadZipForm
 from .src.functions import *
 from .models import *
 
-import subprocess
-import pathlib
+# EOF imports
+#=================================
 
 TEMPLATE_PATH = 'depthQualifier/'
 FUNCTIONS_PATH = str(pathlib.Path(__file__).parent) + "/src/"
@@ -40,11 +46,12 @@ def addSequence(request):
 
             # TODO: unzip and calculate estimated PSNR
             # UNZIP DATA from the newly created object
-            # if(SequenceModel.objects.get(id=...))
-
-            # AND THEN proceed with BATCH file execution
-            # batchSynthesis(object.id)
-
+            for obj in SequenceModel.objects.all():
+                if obj.title == form.cleaned_data['title']:
+                    # display a message
+                    print("Hello")
+                    # zipUnpack(str(obj.src))
+                    # batchSynthesis(obj)
 
             # form.save()
 

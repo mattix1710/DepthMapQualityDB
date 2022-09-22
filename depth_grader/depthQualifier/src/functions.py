@@ -47,9 +47,9 @@ def unzip(x):
         print(end_path)
         # os.remove(zip_name)
         
-def zipUnpack():
+def zipUnpack(location):
     # /media/sequences/ path
-    absPATH = MEDIA_PATH + 'sequences/'
+    absPATH = MEDIA_PATH + pathlib.Path(location).parent
 
     for x in os.listdir(absPATH):
 
@@ -74,14 +74,9 @@ FUNCTIONS_PATH = str(pathlib.Path(__file__).parent)
 
 MAIN_PATH = str(pathlib.Path(__file__).parent.parent.parent)
 
-def batchSynthesis(objID):
-    object = SequenceModel.objects.get(id=objID)
-
+def batchSynthesis(object):
     # running BATCH file
     batchPATH = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
         + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_"))
     print(batchPATH)
     subprocess.call(batchPATH)
-
-def checkPrint():
-    print(MAIN_PATH)
