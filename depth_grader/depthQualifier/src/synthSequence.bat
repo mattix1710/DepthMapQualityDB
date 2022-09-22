@@ -1,5 +1,5 @@
 @REM %0 - the executable (batch file) name as specified in the command line;
-@REM %1 - first argument;
+@REM %1 - first argument etc...;
 
 @REM get current directory from terminal - from PYTHON doesn't work
 
@@ -72,11 +72,4 @@ CALL .\media\media_handling\IV_PSNR.bat %FOLDER_LOCATION% %SEQ_PATH% %SEQ_NAME%
 @REM CALL py "%TERMINAL_PATH%\media\media_handling\retrievingPSNRdata.py"
 
 @REM cleaning data
-
-@REM DEL ".\media\%FOLDER_LOCATION%\*.cfg" /Q
-@REM DEL ".\media\%FOLDER_LOCATION%\*.bat" /Q
-@REM DEL ".\media\%FOLDER_LOCATION%\*.json" /Q
-@REM DEL ".\media\%FOLDER_LOCATION%\*.exe" /Q
-@REM DEL ".\media\%FOLDER_LOCATION%\*.yuv" /Q
-
 RMDIR .\media\%FOLDER_LOCATION% /s /q
