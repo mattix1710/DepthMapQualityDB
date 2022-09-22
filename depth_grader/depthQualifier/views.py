@@ -84,11 +84,11 @@ def testing(request):
     if(request.method == 'GET' and request.GET.__contains__('process')):
 
         value = request.GET.__getitem__('process')
-        if(value == 'compress'):
-            batchCompress()
-        elif(value == 'decompress'):
-            batchDecompress()
-        elif(value == 'synthesis'):
+        # if(value == 'compress'):
+        #     batchCompress()
+        # elif(value == 'decompress'):
+        #     batchDecompress()
+        if(value == 'synthesis'):
             batchSynthesis()
 
     # checkPrint()

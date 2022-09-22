@@ -74,29 +74,30 @@ FUNCTIONS_PATH = str(pathlib.Path(__file__).parent)
 
 MAIN_PATH = str(pathlib.Path(__file__).parent.parent.parent)
 
-def batchCompress():
-    print("COmpression!")
-    object = SequenceModel.objects.get(id=4)
+# def batchCompress():
+#     print("COmpression!")
+#     object = SequenceModel.objects.get(id=4)
 
-    # running BATCH file
-    batchPATH = os.path.abspath(FUNCTIONS_PATH + '/batchCompress.bat ' + str(object.src).replace('.zip', '_SYNTH'))
-    print(batchPATH)
-    subprocess.call(batchPATH)
+#     # running BATCH file
+#     batchPATH = os.path.abspath(FUNCTIONS_PATH + '/batchCompress.bat ' + str(object.src).replace('.zip', '_SYNTH'))
+#     print(batchPATH)
+#     subprocess.call(batchPATH)
 
-def batchDecompress():
-    print("DEcompression!")
-    object = SequenceModel.objects.get(id=4)
+# def batchDecompress():
+#     print("DEcompression!")
+#     object = SequenceModel.objects.get(id=4)
 
-    # running BATCH file
-    batchPATH = os.path.abspath(FUNCTIONS_PATH + '/batchDecompress.bat ' + str(object.src).replace('.zip', '_SYNTH'))
-    print(batchPATH)
-    subprocess.call(batchPATH)
+#     # running BATCH file
+#     batchPATH = os.path.abspath(FUNCTIONS_PATH + '/batchDecompress.bat ' + str(object.src).replace('.zip', '_SYNTH'))
+#     print(batchPATH)
+#     subprocess.call(batchPATH)
 
 def batchSynthesis():
     object = SequenceModel.objects.get(id=4)
 
     # running BATCH file
-    batchPATH = os.path.abspath(FUNCTIONS_PATH + '/batchSynthesis.bat ' + str(object.src).replace('.zip', '_SYNTH') + " " + MAIN_PATH)
+    batchPATH = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_"))
     print(batchPATH)
     subprocess.call(batchPATH)
 
