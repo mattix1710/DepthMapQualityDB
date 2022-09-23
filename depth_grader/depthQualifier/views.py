@@ -50,8 +50,8 @@ def addSequence(request):
                 if obj.title == form.cleaned_data['title']:
                     # display a message
                     print("Hello")
-                    # zipUnpack(str(obj.src))
-                    # batchSynthesis(obj)
+                    zipUnpack(str(obj.src))
+                    batchSynthesis(obj)
 
             # form.save()
 

@@ -49,26 +49,33 @@ def unzip(x):
         
 def zipUnpack(location):
     # /media/sequences/ path
-    absPATH = MEDIA_PATH + pathlib.Path(location).parent
+    absPATH = MEDIA_PATH + str(pathlib.Path(location).parent)
 
     for x in os.listdir(absPATH):
-
         path = absPATH + '/' + x
+        
+        if path.endswith('.zip'):
+            compression_factor(path)
+            unzip(path)
 
-        if os.path.isdir(path):
-            dirName = pathlib.PurePath(path).name
+    # for x in os.listdir(absPATH):
 
-            absInsideFolder = path + "/" + dirName
-            if(os.path.isdir(absInsideFolder)):
-                print(dirName, "has folder!")
-            else:
-                for x in os.listdir(path):
+    #     path = absPATH + '/' + x
 
-                    new_path = path + "/" + x
+    #     if os.path.isdir(path):
+    #         dirName = pathlib.PurePath(path).name
 
-                    if new_path.endswith('.zip'):
-                        compression_factor(new_path)
-                        unzip(new_path)
+    #         absInsideFolder = path + "/" + dirName
+    #         if(os.path.isdir(absInsideFolder)):
+    #             print(dirName, "has folder!")
+    #         else:
+    #             for x in os.listdir(path):
+
+    #                 new_path = path + "/" + x
+
+    #                 if new_path.endswith('.zip'):
+    #                     compression_factor(new_path)
+    #                     unzip(new_path)
 
 FUNCTIONS_PATH = str(pathlib.Path(__file__).parent)
 
