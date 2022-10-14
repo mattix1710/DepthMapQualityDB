@@ -1,18 +1,20 @@
 # REGULAR imports
-from pathlib import Path
-import subprocess
 import pathlib
+import subprocess
+from pathlib import Path
 
+from django.contrib import messages
+from django.http import HttpResponse, HttpResponseRedirect
 # DJANGO imports
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.list import ListView
-from django.contrib import messages
+
+from depth_grader.depthQualifier.tasks import process_the_sequence  #TODO: errors while "makemigrations"
 
 # LOCAL imports
 from .forms import UploadZipForm
-from .src.functions import *
 from .models import *
+from .src.functions import *
 
 # EOF imports
 #=================================
@@ -44,14 +46,14 @@ def addSequence(request):
             # perform operations on given files
             seqTitle = (str(form.cleaned_data['title'])).lower().replace(' ', '_')
 
-            # TODO: unzip and calculate estimated PSNR
             # UNZIP DATA from the newly created object
             for obj in SequenceModel.objects.all():
                 if obj.title == form.cleaned_data['title']:
                     # display a message
                     print("Hello")
-                    zipUnpack(str(obj.src))
-                    batchSynthesis(obj)
+                    # zipUnpack(str(obj.src))
+                    # batchSynthesis(obj)
+                    process_the_sequence.delay(obj)
 
             # form.save()
 
