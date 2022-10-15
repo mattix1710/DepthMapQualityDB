@@ -2,10 +2,12 @@
 
 from celery import shared_task
 
-from depth_grader.depthQualifier.src.functions import batchSynthesis, zipUnpack
+from .models import SequenceModel
+from .src.functions import batchSynthesis, zipUnpack
 
 
 @shared_task
-def process_the_sequence(seq):
+def process_the_sequence(seq_id):          # arguments in this function need to be serializable (i.e. string, int, etc.)
+    seq = SequenceModel.objects.get(id=seq_id)
     zipUnpack(str(seq.src))
     batchSynthesis(seq)

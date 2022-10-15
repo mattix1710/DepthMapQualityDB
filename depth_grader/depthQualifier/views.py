@@ -2,6 +2,7 @@
 import pathlib
 import subprocess
 from pathlib import Path
+from turtle import delay
 
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
@@ -9,12 +10,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.list import ListView
 
-from depth_grader.depthQualifier.tasks import process_the_sequence  #TODO: errors while "makemigrations"
-
 # LOCAL imports
 from .forms import UploadZipForm
 from .models import *
 from .src.functions import *
+from .tasks import process_the_sequence  # TODO: errors while "makemigrations"
 
 # EOF imports
 #=================================
@@ -50,10 +50,10 @@ def addSequence(request):
             for obj in SequenceModel.objects.all():
                 if obj.title == form.cleaned_data['title']:
                     # display a message
-                    print("Hello")
-                    # zipUnpack(str(obj.src))
-                    # batchSynthesis(obj)
-                    process_the_sequence.delay(obj)
+                    print("Processing sequence: {}".format(obj.id))
+                    zipUnpack(str(obj.src))
+                    batchSynthesis(obj)
+                    # process_the_sequence.delay(obj.id)
 
             # form.save()
 
