@@ -14,7 +14,18 @@ TODO - before starting server (if no database file in the project)
     > py manage.py makemigrations
 
 ***
-* <span style="color:#f1c232"><b>starting a server</b></span>
+* <span style="color:#f1c232"><b>starting a server</b></span><br>
+    ON WSL server (Windows Subsystem for Linux) run Redis server:
+    >\# redis-server<br>
+    
+
+    Before executing Python server, run Celery broker:
+    > python -m celery -A depth_grader worker -l info -P gevent
+
+    * **_depth_grader_** | Django app that will manage all the incoming traffic
+    * **_-l info_** | command flag that shows all current "tasks" accounted for code execution
+    * **_-P gevent_** | command flag that handles coroutines with help of **gevent** (Python networking library)<br><br>
+
     > py manage.py runserver
 
 ***

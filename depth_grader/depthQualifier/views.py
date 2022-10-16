@@ -51,9 +51,9 @@ def addSequence(request):
                 if obj.title == form.cleaned_data['title']:
                     # display a message
                     print("Processing sequence: {}".format(obj.id))
-                    zipUnpack(str(obj.src))
-                    batchSynthesis(obj)
-                    # process_the_sequence.delay(obj.id)
+                    # zipUnpack(str(obj.src))
+                    # batchSynthesis(obj)
+                    process_the_sequence.delay(obj.id)
 
             # form.save()
 
