@@ -4,6 +4,7 @@ import shutil
 import subprocess
 from importlib.resources import path
 from zipfile import ZipFile
+import re
 
 # from parent location
 from ..models import *
@@ -133,3 +134,29 @@ def batchSynthesis(object):
         + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_"))
     print(batchPATH)
     subprocess.call(batchPATH)
+    
+# MATEUSZ
+def processPSNR(location):
+    # /media/sequences/ path
+    absPATH = MEDIA_PATH + str(pathlib.Path(location).parent)
+    
+    print(location)
+    
+    # .parts[-2] indicates currents sequence folder name, i.e. with path: "sequences/abc/abc.zip" -> "abc"
+    seqName = pathlib.PurePath(location).parts[-2]
+    
+    for fileName in os.listdir(absPATH):
+        if fileName.startswith('ivpsnr_SL_' + seqName):
+            file = open(fileName)
+            
+            psnrValues = []
+            
+            for line in file:
+                if line.startswith('IVPSNR'):
+                    psnrValues.append(re.findall('[0-9]+\.[0-9]+', line)[0])
+            
+            if psnrValues:      # if psnrValues list isn't empty
+                maxValue = max(psnrValues)
+                minValue = min(psnrValues)
+                avgValue = round((sum(psnrValues) / len(psnrValues)), 4)
+                # TODO: update SequenceModels object
