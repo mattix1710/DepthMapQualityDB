@@ -84,6 +84,12 @@ class SequenceList(ListView):
         return SequenceModel.objects.all()
 
 def testing(request):
+    
+    ############ TEMP data
+    # obj = SequenceModel.objects.get(id=9)
+    # processPSNR(obj, str(obj.src))
+    ############ EOF TEMP data
+    
     if(request.method == 'GET' and request.GET.__contains__('process')):
 
         value = request.GET.__getitem__('process')
