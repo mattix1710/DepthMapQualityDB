@@ -135,28 +135,33 @@ def batchSynthesis(object):
     print(batchPATH)
     subprocess.call(batchPATH)
     
-# MATEUSZ
-def processPSNR(location):
-    # /media/sequences/ path
-    absPATH = MEDIA_PATH + str(pathlib.Path(location).parent)
-    
-    print(location)
+# WOJCIECH (listowanie po folderze; wyznaczanie wartości: min, max, avg)
+# MATEUSZ (dostosowanie do ścieżek absolutnych; wyszukiwanie określonego pliku; pobieranie wartości za pomocą REGEX; zapis do tabeli)
+def processPSNR(object, location):
+    # /media/sequences/ absolute path - works properly
+    absPATH = pathlib.Path(MEDIA_PATH, pathlib.Path(location).parent)
     
     # .parts[-2] indicates currents sequence folder name, i.e. with path: "sequences/abc/abc.zip" -> "abc"
     seqName = pathlib.PurePath(location).parts[-2]
     
     for fileName in os.listdir(absPATH):
         if fileName.startswith('ivpsnr_SL_' + seqName):
-            file = open(fileName)
+            # opening a file with getting its absolute path
+            file = open(pathlib.Path(absPATH, fileName))
             
             psnrValues = []
             
             for line in file:
                 if line.startswith('IVPSNR'):
-                    psnrValues.append(re.findall('[0-9]+\.[0-9]+', line)[0])
+                    psnrValues.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
             
             if psnrValues:      # if psnrValues list isn't empty
                 maxValue = max(psnrValues)
                 minValue = min(psnrValues)
                 avgValue = round((sum(psnrValues) / len(psnrValues)), 4)
                 # TODO: update SequenceModels object
+                object.quality = avgValue
+                # INFO: .update method doesn't work on single objects
+                # object.update(quality=avgValue)
+                print("AVG_DATA:", avgValue)
+                object.save(update_fields=['quality'])
