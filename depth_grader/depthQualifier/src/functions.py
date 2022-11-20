@@ -82,47 +82,6 @@ def zipUnpack(location):
     #                     compression_factor(new_path)
     #                     unzip(new_path)
 
-# WOJCIECH (podstawa - wyznaczanie PSNRu) / MATEUSZ (dostosowanie do aktualnego kodu/podłączenie do modelu)
-def read_psnr():                # TODO: pass object model ID as an argument
-    out = []
-
-    for file_name in os.listdir():
-
-        if file_name == 'ivpsnr_SL.txt':
-
-            f = open(file_name)
-
-            for line in f:
-
-                if line.startswith('IVPSNR'):
-
-                    psnr = str(line.strip())
-
-                    psnr = psnr.replace('IVPSNR', '').replace('dB', '').replace(' ', '')
-
-                    psnr = float(psnr)
-
-                    psnr = round(psnr, 2)
-
-                    out.append(psnr)
-
-        max_value = max(out)
-        min_value = min(out)
-        avg_value = 0 if len(out) == 0 else sum(out) / len(out)
-        avg_value = round(avg_value, 2)
-
-        max_PSNR = "Maximum PSNR: " + str(max_value) + '\n'
-        min_PSNR = "Maximum PSNR: " + str(min_value) + '\n'
-        avg_PSNR = "Average PSNR: " + str(avg_value) + '\n'
-        
-        # TODO: saving PSNR values to the model...
-
-        # x = open('psnr.txt', "w+")
-        # x.write(max)
-        # x.write(min)
-        # x.write(avg)
-
-
 FUNCTIONS_PATH = str(pathlib.Path(__file__).parent)
 
 MAIN_PATH = str(pathlib.Path(__file__).parent.parent.parent)

@@ -1,3 +1,4 @@
+@REM IVPSNR gitlab src: https://gitlab.com/mpeg-i-visual/ivpsnr
 setlocal enableDelayedExpansion
 
 set NFRAMES=5

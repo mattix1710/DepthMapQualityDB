@@ -2,7 +2,7 @@
 import pathlib
 import subprocess
 from pathlib import Path
-from turtle import delay
+# from turtle import delay
 
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
@@ -14,7 +14,7 @@ from django.views.generic.list import ListView
 from .forms import UploadZipForm
 from .models import *
 from .src.functions import *
-from .tasks import process_the_sequence  # TODO: errors while "makemigrations"
+from .tasks import process_the_sequence
 
 # EOF imports
 #=================================

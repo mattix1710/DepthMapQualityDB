@@ -48,6 +48,7 @@ FOR /l %%c IN (%START%, %STEP%, %STOP%) DO (
 
 FOR /l %%c IN (%START%, %STEP%, %STOP%) DO (
     .\media\media_handling\ffmpeg.exe -f rawvideo -pix_fmt %FORMAT% -s:v %WIDTH%:%HEIGHT% -r 25 -i ".\media\raw_textures\PoznanFencing_texture\v%%c_%IN_NAME_TEXTURE%" -c:v libx265 -crf %QP_TEXT% -pix_fmt yuv420p ".\media\%FOLDER_LOCATION%\v%%c_%PROCESS_TEXTURE_MP4%_%QP_TEXT%.mp4"
+    @REM TODO: sprawdzić, czy DEL ma tu sens - wydaje się, że nie...
     DEL ".\media\%FOLDER_LOCATION%\v%%c_%IN_NAME_TEXTURE%" /Q
     .\media\media_handling\ffmpeg.exe -i ".\media\%FOLDER_LOCATION%\v%%c_%PROCESS_TEXTURE_MP4%_%QP_TEXT%.mp4" -f rawvideo -pix_fmt %FORMAT% ".\media\%FOLDER_LOCATION%\v%%c_%IN_NAME_TEXTURE%"
     DEL ".\media\%FOLDER_LOCATION%\v%%c_%PROCESS_TEXTURE_MP4%_%QP_TEXT%.mp4" /Q
