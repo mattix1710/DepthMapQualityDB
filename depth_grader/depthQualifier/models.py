@@ -90,28 +90,35 @@ def seq1_location(instance, seq_name):
     return 'raw_textures/' + name + '_texture' + '/' + name + file_extension
 
 class MethodProposal(models.Model):
-    method_id = models.IntegerField(primary_key=True)
+    method_id = models.AutoField(primary_key=True)
     method_name = models.CharField(max_length=30, unique=True, validators=[validate_method_name_exist, validate_method_name_correct])
     desc = models.TextField()
-    upload_date = models.DateField()                            # maybeee changing to DateTimeField()
+    upload_date = models.DateField(auto_now=True)                            # maybeee changing to DateTimeField()
     src = models.FileField(upload_to=method_location, validators=[validate_archive_extension])
     
 # little lighter than the previous proposition
 # IDEA: SequenceModel can be updated only from admin perspective (??)
 class Sequence(models.Model):
-    seq_id = models.IntegerField(primary_key=True)
+    seq_id = models.AutoField(primary_key=True)
     seq_name = models.CharField(max_length=30, unique=True, validators=[validate_sequence_name_exist, validate_sequence_name_correct])
     seq_src = models.FileField(upload_to=seq1_location, validators=[validate_archive_extension])
     
-class SeqDepthResults:
-    method_id = models.ForeignKey(MethodProposal, on_delete=models.CASCADE)
-    seq_id = models.ForeignKey(Sequence)
-    PSNR_1018    = models.FloatField(null=True)
-    bitrate_1018 = models.FloatField(null=True)
-    PSNR_3042    = models.FloatField(null=True)
-    bitrate_3042 = models.FloatField(null=True)
-    PSNR_none    = models.FloatField(null=True)
-    bitrate_none = models.FloatField(null=True)
+class SeqDepthResults(models.Model):
+    depth_id = models.AutoField(primary_key=True)
+    method_id = models.ForeignKey(MethodProposal, on_delete=models.CASCADE, db_index=True)         # while deleting method - delete its data
+    seq_id = models.ForeignKey(Sequence, on_delete=models.PROTECT, db_index=True)                  # while deleting test sequence - protect calcutions
+    synth_PSNR_1018    = models.FloatField(null=True)
+    synth_bitrate_1018 = models.FloatField(null=True)
+    synth_PSNR_3042    = models.FloatField(null=True)
+    synth_bitrate_3042 = models.FloatField(null=True)
+    synth_PSNR_none    = models.FloatField(null=True)
+    synth_bitrate_none = models.FloatField(null=True)
     
-    class Meta:
-        unique_together = (('method_id', 'seq_id'))
+    # TODO: read about constraints with FK ids
+    
+    # TODO: clean this sht
+    # class Meta:
+        # unique constraint is reduntant - & blocks adding another records while the same METHOD or SEQUENCE is related to it
+        # constraints = [
+        #     models.UniqueConstraint(fields=['method_id', 'seq_id'], name='unique_method_seq')
+        # ]
