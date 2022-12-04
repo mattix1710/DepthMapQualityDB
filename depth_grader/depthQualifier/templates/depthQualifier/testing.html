@@ -104,8 +104,11 @@
                             {% for method in depths %}
                             <tr>
                                 <td>{{ method.depth_id }}</td>
-                                <td>{{ method.method_id }}</td>
-                                <td>{{ method.seq_id }}</td>
+                                <td>{{ method.method_id_id }}</td>
+                                <td>{% for seq in seqs %} 
+                                    {{ seq.seq_name}}
+                                    {% endfor %}
+                                </td>
                                 <td>{{ method.synth_PSNR_1018 }}</td>
                                 <td>{{ method.synth_bitrate_1018 }}</td>
                                 <td>{{ method.synth_PSNR_3042 }}</td>

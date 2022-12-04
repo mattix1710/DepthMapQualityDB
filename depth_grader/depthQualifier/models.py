@@ -103,18 +103,19 @@ class Sequence(models.Model):
     seq_name = models.CharField(max_length=30, unique=True, validators=[validate_sequence_name_exist, validate_sequence_name_correct])
     seq_src = models.FileField(upload_to=seq1_location, validators=[validate_archive_extension])
     
+    def get_seq_name(self):
+        return Sequence.objects.filter(pk=self.pk)
+    
 class SeqDepthResults(models.Model):
     depth_id = models.AutoField(primary_key=True)
-    method_id = models.ForeignKey(MethodProposal, on_delete=models.CASCADE, db_index=True)         # while deleting method - delete its data
-    seq_id = models.ForeignKey(Sequence, on_delete=models.PROTECT, db_index=True)                  # while deleting test sequence - protect calcutions
+    method_id = models.ForeignKey(MethodProposal, on_delete=models.CASCADE, db_column='method_id')         # while deleting method - delete its data
+    seq_id = models.ForeignKey(Sequence, on_delete=models.PROTECT, db_column='seq_id')                  # while deleting test sequence - protect calcutions
     synth_PSNR_1018    = models.FloatField(null=True)
     synth_bitrate_1018 = models.FloatField(null=True)
     synth_PSNR_3042    = models.FloatField(null=True)
     synth_bitrate_3042 = models.FloatField(null=True)
     synth_PSNR_none    = models.FloatField(null=True)
     synth_bitrate_none = models.FloatField(null=True)
-    
-    # TODO: read about constraints with FK ids
     
     # TODO: clean this sht
     # class Meta:

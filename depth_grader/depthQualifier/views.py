@@ -118,18 +118,16 @@ def testing(request):
             seq1.save()
             seq2.save()
         elif(value == 'depths'):
-            for i in range(1,25):
-                SeqDepthResults.objects.filter(pk=i).delete()
+            # for i in range(1,25):
+            #     SeqDepthResults.objects.filter(pk=i).delete()
+            
+            #########################################################
             # WHAT'S THAT QUERY: getting_all_objects.WHERE_method_name=sth.retrieve_value_list_of_PK[get_first_element]      <-- REMEMBER: only one element will be in the table!!
             methodID1 = MethodProposal.objects.get(pk=MethodProposal.objects.all().extra(where=["method_name='A**'"]).values_list("pk", flat=True)[0])
-            
             # WHAT'S THAT QUERY: getting_values_of_SEQ_ID.WHERE_seq_name=sth.retrieve_first_element_which_is_dictionary
             seqID1 = Sequence.objects.get(pk=Sequence.objects.values('seq_id').extra(where=["seq_name='PoznanFencing'"])[0]['seq_id'])
-            
             methodID2 = MethodProposal.objects.get(pk=MethodProposal.objects.values('method_id').extra(where=["method_name='AAA'"])[0]['method_id'])
-            
             seqID2 = Sequence.objects.get(pk=Sequence.objects.values('seq_id').extra(where=["seq_name='PoznanCars'"])[0]['seq_id'])
-            
             methodID3 = MethodProposal.objects.get(pk=MethodProposal.objects.values('method_id').extra(where=["method_name='PanapiRapis_s'"])[0]['method_id'])
             
             # TODO: depth1 gives ERRORs!!!
@@ -157,8 +155,16 @@ def testing(request):
     # displaying multiple tables in one view
     methods = MethodProposal.objects.all()
     sequences = Sequence.objects.all()
-    depths = SeqDepthResults.objects.all()
-    context = {'methods' : methods, 'sequences' : sequences, 'depths' : depths}
+    # depths = SeqDepthResults.objects.all()
+    
+    # TODO: rethink displaying FK data: i.e. instead seq_id -> display its name
+    depths = SeqDepthResults.objects.filter(method_id=methodID).values()
+    
+    # TODO: adding columns matching queryset (seq_names in depths)
+    depth_seq = Sequence.get_seq_name(methodID)
+    
+    print(depths)
+    context = {'methods' : methods, 'sequences' : sequences, 'depths' : depths, 'seqs': depth_seq}
 
     return render(request, TEMPLATE_PATH + 'testing.html', context=context)
 
