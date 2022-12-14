@@ -7,8 +7,16 @@
         <link rel="stylesheet" href="{% static 'depthQualifier/style.css' %}">
     </head>
     <body>
-        <div class="logo">
-            {% load static %} <img src="{% static 'depthQualifier/img/logo.png'%}" alt="home" />
+        <div class="navbar">
+            <ol>
+                <li><a href="{% url 'index' %}">Homepage</a></li>
+                <li><a href="{% url 'sequence_form' %}">Upload</a></li>
+                <li><a href="{% url 'sequences_list' %}">Ratings</a></li>
+            </ol>
+        </div>
+
+        <div class="block">
+            
         </div>
         
         <a href="{% url 'seq_test' %}" class="submit-button proceed">Testy</a>
@@ -72,5 +80,10 @@
         {% else %}
             <p> No sequences available.</p>
         {% endif %}
+
+    <div id = "footer">
+        Wojciech Kaczmarek Mateusz Szuda &copy; 2023. All rights reserved</br>
+    </div>
+
     </body>
 </html>

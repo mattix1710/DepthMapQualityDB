@@ -1,10 +1,49 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pl">
     <head>
-        <title>Ocena sekwencji!!!</title>
+        <title>Badanie map głębi</title>
+        <link href='https://fonts.googleapis.com/css?family=Lato:400' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'depthQualifier/style.css' %}">
     </head>
     <body>
-        <center><h1>Sequences index!</h1></center>
-        <a href="{% url 'sequences_list' %}">Klik</a>
+        <div class="navbar">
+            <ol>
+                <li><a href="{% url 'index' %}">Homepage</a></li>
+                <li><a href="{% url 'sequence_form' %}">Upload</a></li>
+                <li><a href="{% url 'sequences_list' %}">Ratings</a></li>
+            </ol>
+        </div>
+        <div id = "container">
+            <div class = "square">
+                <div class = "basictile">
+                    {% load static %} <img src="{% static 'depthQualifier/img/logo.png'%}" alt="home" />
+                </div>
+                <div style="clear: both;"></div>
+
+                <div class = "tile1">
+                    Analyze file<br/><br/>
+                    Upload your sequences<br/><br/>
+                    <a href="{% url 'sequence_form' %}">
+                        <input type="button" class="button" value="Upload files">
+                    </a>
+                </div>
+
+                <div class = "tile1">
+                    Uploaded files<br/><br/>
+                    View previously uploaded files<br/><br/>
+                    <a href="{% url 'sequences_list' %}">
+                        <input type="button" class="button" value="Check files">
+                    </a>
+                    
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+
+        </div>
+
+        <div id = "footer">
+            Wojciech Kaczmarek Mateusz Szuda &copy; 2023. All rights reserved</br>
+        </div>
     </body>
 </html>
