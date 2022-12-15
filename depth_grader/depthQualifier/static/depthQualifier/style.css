@@ -533,17 +533,22 @@ table tr:hover {
     width: 350px;
     padding: 25px;
     margin: 25px;
-    margin-top: 50px;
-    margin-bottom: 10px;
+    margin-top: -15px;
+    margin-bottom: -10px;
     border-radius: 20px;
-    color: black;
-    background-color: rgb(146, 146, 146);
+    color: rgb(36, 36, 36);
+    background-color: white;
     font-size: 22px;
     opacity: 0.8;
-    float: left;
     text-align: center;
     /* outline-style: dashed; */
     box-shadow: 1px 1px 30px;
+    display: inline-block;
+}
+
+.tile3::first-line
+{
+    font-size: 28px;
 }
 
 .button
@@ -555,6 +560,8 @@ table tr:hover {
     border: none;
     font-size: 16px;
     width: 150px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .button:hover
@@ -569,25 +576,96 @@ table tr:hover {
 
 .titletile
 {
-    width: 300px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: 90px;
-    margin-right: 90px;
+    width: 350px;
+    padding: 25px;
+    margin: 25px;
+    margin-top: -35px;
+    margin-bottom: 10px;
     border-radius: 20px;
-    color: rgb(36, 36, 36);
-    background-color: white;
+    color: rgb(173, 173, 173);
+    background-color: rgb(39, 38, 38);
     font-size: 16px;
     opacity: 0.8;
     float: left;
     text-align: center;
-    /* outline-style: dashed; */
     box-shadow: 1px 1px 30px;
 }
 
 .titletile::first-line
 {
     font-size: 28px;
+}
+
+.form-title{
+    width: 250px;
+    padding: 10px;
+    background-color: rgb(235, 235, 235);
+    font-size: 18px;
+    border-radius: 5px;
+    border: 0px solid;
+}
+
+.form-title:hover{
+    border: 1px solid;
+    border-color: gray;
+}
+
+.form-title:focus{
+    border: 1px solid;
+    border-color: gray;
+}
+
+.form-desc{
+    width: 250px;
+    height: 100px;
+    padding: 10px;
+    background-color: rgb(235, 235, 235);
+    font-size: 18px;
+    border-radius: 5px;
+    border: 0px solid;
+}
+
+.form-desc:hover{
+    border: 1px solid;
+    border-color: gray;
+  }
+
+  .form-desc:focus{
+    border: 1px solid;
+    border-color: gray;
+  }
+
+  input[type="file"] {
+    width: 250px;
+    padding: 10px;
+    background-color: rgb(235, 235, 235);
+    font-size: 12px;
+    border-radius: 5px;
+    border: 0px solid;
+}
+
+input[type="file"]:hover {
+    border: 1px solid;
+    border-color: gray;
+}
+
+input[type="file"]:focus {
+    border: 1px solid;
+    border-color: gray;
+}
+
+input::file-selector-button
+{
+    background-color: rgb(39, 38, 38);
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 12px;
+    width: 100px;
+}
+
+input::file-selector-button:hover
+{
+    background-color: rgb(19, 18, 18);
 }
