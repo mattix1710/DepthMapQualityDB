@@ -607,11 +607,13 @@ table tr:hover {
 
 .form-title:hover{
     border: 1px solid;
+    padding: 9px;
     border-color: gray;
 }
 
 .form-title:focus{
     border: 1px solid;
+    padding: 9px;
     border-color: gray;
 }
 
@@ -627,11 +629,13 @@ table tr:hover {
 
 .form-desc:hover{
     border: 1px solid;
+    padding: 9px;
     border-color: gray;
   }
 
   .form-desc:focus{
     border: 1px solid;
+    padding: 9px;
     border-color: gray;
   }
 
@@ -646,11 +650,13 @@ table tr:hover {
 
 input[type="file"]:hover {
     border: 1px solid;
+    padding: 9px;
     border-color: gray;
 }
 
 input[type="file"]:focus {
     border: 1px solid;
+    padding: 9px;
     border-color: gray;
 }
 
@@ -669,3 +675,7 @@ input::file-selector-button:hover
 {
     background-color: rgb(19, 18, 18);
 }
+
+textarea {
+    resize: none;
+  }

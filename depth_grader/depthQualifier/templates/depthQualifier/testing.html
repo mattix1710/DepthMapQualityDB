@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="{% static 'depthQualifier/style_testing.css' %}">
     </head>
     <body>
-        <a href="{% url 'sequences_list' %}" class="submit-button return">Wróć</a>
+        {% comment %} <a href="{% url 'sequences_list' %}" class="submit-button return">Wróć</a>
         <center><h1>Sequences TESTING!</h1></center>
         <div class="sort-container">
             <form method="GET">
@@ -19,6 +19,110 @@
             <form method="GET">
                 <button type="submit" class="submit-button return" name="process" value="synthesis">Syntezuj</button>
             </form>
+        </div> {% endcomment %}
+        <div class="sort-container">
+            <form method="GET">
+                <button class="submit-button return" type="submit" name="process" value="methods">insert MODELS</button>
+            </form>
+            <form method="GET">
+                <button class="submit-button return" type="submit" name="process" value="sequences">insert SEQUENCES</button>
+            </form>
+            <form method="GET">
+                <button class="submit-button return" type="submit" name="process" value="depths">insert DEPTHS</button>
+            </form>
+        </div>
+
+        <br><br><br>
+
+        <div>
+            <div style="width:33%; float: left; background-color: #ABCDBC;">
+                {% comment %} first table {% endcomment %}
+                {% if methods %}
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Method ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Src</th>
+                            </tr>
+                            {% for method in methods %}
+                            <tr>
+                                <td>{{ method.method_id }}</td>
+                                <td>{{ method.method_name }}</td>
+                                <td>{{ method.desc }}</td>
+                                <td>{{ method.upload_date }}</td>
+                                <td>{{ method.src }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% else %}
+                    <p> No models available.</p>
+                {% endif %}
+            </div>
+            <div style="width:33%; float: left; background-color: #EFADCD;">
+                {% comment %} second table {% endcomment %}
+                {% if sequences %}
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Seq ID</th>
+                                <th>Name</th>
+                                <th>Src</th>
+                            </tr>
+                            {% for seq in sequences %}
+                            <tr>
+                                <td>{{ seq.seq_id }}</td>
+                                <td>{{ seq.seq_name }}</td>
+                                <td>{{ seq.seq_src }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% else %}
+                    <p>No models available.</p>
+                {% endif %}
+            </div>
+            <div style="width:33%; float: left; background-color: #EBEBEB;">
+                {% comment %} third table {% endcomment %}
+                {% if depths %}
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Depth ID</th>
+                                <th>FK: Method (ID)</th>
+                                <th>FK: Sequence(ID)</th>
+                                <th>PSNR_1018</th>
+                                <th>bitrate_1018</th>
+                                <th>PSNR_3042</th>
+                                <th>bitrate_3042</th>
+                                <th>PSNR_none</th>
+                                <th>bitrate_none</th>
+                            </tr>
+                            {% for method in depths %}
+                            <tr>
+                                <td>{{ method.depth_id }}</td>
+                                <td>{{ method.method_id_id }}</td>
+                                <td>{% for seq in seqs %} 
+                                    {{ seq.seq_name}}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ method.synth_PSNR_1018 }}</td>
+                                <td>{{ method.synth_bitrate_1018 }}</td>
+                                <td>{{ method.synth_PSNR_3042 }}</td>
+                                <td>{{ method.synth_bitrate_3042 }}</td>
+                                <td>{{ method.synth_PSNR_none }}</td>
+                                <td>{{ method.synth_bitrate_none }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% else %}
+                    <p> No models available.</p>
+                {% endif %}
+            </div>
         </div>
     </body>
 </html>
