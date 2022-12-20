@@ -19,13 +19,13 @@
             
         </div>
         
-        <a href="{% url 'seq_test' %}" class="submit-button proceed">Testy</a>
-        <center><a href="{% url 'sequence_form' %}" class="submit-button proceed">Wgraj sekwencję!</a></center>
+        <a href="{% url 'seq_test' %}" class="submit-button">Testy</a>
+        <center><a href="{% url 'sequence_form' %}" class="button">Wgraj sekwencję!</a></center>
 
         <div class="sort-container">
-            <div class="sort-info-box">
-                <span class="sort-info">SORTOWANIE</span><br>
-            </div>
+            
+                <span class="sort-info">SORT BY</span><br>
+
             <form method="GET">
                 <label>
                     <input type="radio" name="sort" value="idUP" />
@@ -37,13 +37,13 @@
                 </label>
                 <label>
                     <input type="radio" name="sort" value="titleUP"/>
-                    <span>Nazwa ⬆️</span>
+                    <span>Title ⬆️</span>
                 </label>
                 <label>
                     <input type="radio" name="sort" value="titleDOWN"/>
-                    <span>Nazwa ⬇️</span>
+                    <span>Title ⬇️</span>
                 </label>
-                <button class="submit-button" type="submit">Zatwierdź</button>
+                <button class="submit-button" type="submit">Confirm</button>
             </form>
         </div>
 

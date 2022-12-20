@@ -241,13 +241,13 @@ label span:before {
     display: flex;
     flex-shrink: 0;
     content: "";
-    background-color: lightblue;
+    background-color: white;
     width: 1.5em;
     height: 1.5em;
     border-radius: 50%;
     margin-right: 0.375em;
     transition: 0.25s ease;
-    box-shadow: inset 0 0 0 0.125em rgb(39, 38, 38);
+    box-shadow: inset 0 0 0 0.125em rgb(25, 105, 226);
 }
 
 .submit-button{
