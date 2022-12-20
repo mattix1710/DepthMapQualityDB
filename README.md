@@ -15,6 +15,8 @@ TODO - before starting server (if no database file in the project)
 
 ***
 * <span style="color:#f1c232"><b>starting a server</b></span><br>
+    * <span style="color:#ff0000">**!!**</span> server must be started in main directory of the project (inside _depth_grader_ folder - manage.py root directory) <span style="color:#ff0000">**!!**</span><br><br>
+  
     ON WSL server (Windows Subsystem for Linux) run Redis server:
     >\# redis-server<br>
     
