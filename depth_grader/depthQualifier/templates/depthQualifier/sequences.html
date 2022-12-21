@@ -18,11 +18,18 @@
         <div class="block">
             
         </div>
-        
         <a href="{% url 'seq_test' %}" class="submit-button">Testy</a>
-        <center><a href="{% url 'sequence_form' %}" class="button">Wgraj sekwencję!</a></center>
+        <!-- <center><a href="{% url 'sequence_form' %}" class="button">Wgraj sekwencję!</a></center> -->
+        <div id="container">
+            <!-- <center><div class="upload-container">
+                Prace nad stworzeniem internetowej bazy do porównywania metod estymacji map głębi. Studenci stworzą oprogramowanie serwera na podstawie pracy An Online Platform for Testing and Evaluating Random Number Generators. Wynikami praktyki powinny być wstępne implementacje odpowiedniego serwera i wykonanie jego testów.
 
-        <div class="sort-container">
+Pozdrawiam,
+Dawid Mieloch
+
+        </div>
+    </center> -->
+        <center><div class="sort-container">
             
                 <span class="sort-info">SORT BY</span><br>
 
@@ -46,18 +53,22 @@
                 <button class="submit-button" type="submit">Confirm</button>
             </form>
         </div>
+    </center>
+</div>
+<div style="clear:both"></div>
 
         {% if seq_list %}
+        <div id="container-ratings">
             <div class="table-container">
                 <table>
                     <tr>
                         <th>ID</th>
-                        <th>Nazwa sekwencji</th>
-                        <th>Opis</th>
-                        <th>Lokalizacja pliku</th>
-                        <th>Pobierz</th>
-                        <th>Jakość sekwencji [avg]</th>
-                        <th>Usuń sekwencję</th>
+                        <th>Depth <title></title></th>
+                        <th>Description</th>
+                        <th>File path</th>
+                        <th>Download</th>
+                        <th>Depth quality [avg]</th>
+                        <th>Delete depth</th>
                     </tr>
             {% for seq in seq_list %}
                     <tr>
@@ -72,7 +83,7 @@
                             {{ seq.quality }} dB
                             {% endif %}
                         </td>
-                        <td><a href="{% url 'delete_view' seq_id=seq.id %}">Usuń bydlaka, bo za dużo zajmuje</a></td>
+                        <td><a href="{% url 'delete_view' seq_id=seq.id %}">Delete</a></td>
                     </tr>
             {% endfor %}
                 </table>
@@ -80,7 +91,7 @@
         {% else %}
             <p> No sequences available.</p>
         {% endif %}
-
+    </div>
     <div id = "footer">
         Wojciech Kaczmarek Mateusz Szuda &copy; 2023. All rights reserved</br>
     </div>
