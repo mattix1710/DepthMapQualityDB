@@ -25,11 +25,11 @@ def compression_factor(x):
         file_name = x
         print(file_name)
         file_size = round((os.path.getsize(file_name) / 1048576), 2)
-        print(file_size, 'Mb')
+        print(file_size, 'MB')
         zip_object = ZipFile(file_name, 'r')
         size = sum([zinfo.file_size for zinfo in zip_object.filelist])
         archive_size = round((size / 1048576), 2)
-        print(archive_size, 'Mb')
+        print(archive_size, 'MB')
         compression_factor = round((100 * (file_size / archive_size)), 2)
         print('Compression:', compression_factor, '%')
 
@@ -87,12 +87,43 @@ FUNCTIONS_PATH = str(pathlib.Path(__file__).parent)
 MAIN_PATH = str(pathlib.Path(__file__).parent.parent.parent)
 
 # MATEUSZ
+# DONE: probably - batchSynthesis
 def batchSynthesis(object):
     # running BATCH file
-    batchPATH = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
-        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_"))
-    print(batchPATH)
-    subprocess.call(batchPATH)
+    batchPATH_Poznan_10 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_") + " PoznanFencing 10")
+    
+    batchPATH_Poznan_30 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_") + " PoznanFencing 30")
+    
+    batchPATH_Poznan_raw = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_") + " PoznanFencing raw")
+    
+    batchPATH_Carpark_10 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_") + " Carpark 10")
+    
+    batchPATH_Carpark_30 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_") + " Carpark 30")
+    
+    batchPATH_Carpark_raw = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_") + " Carpark raw")
+    
+    # subprocess.call(batchPATH)        - old/deprecated
+    # PROCESSING PoznanFencing (10/30/raw depth_QP)
+    subprocess.run(batchPATH_Poznan_10)
+    subprocess.run(batchPATH_Poznan_30)
+    subprocess.run(batchPATH_Poznan_raw)
+    
+    # PROCESSING Carpark (10/30/raw depth_QP)
+    subprocess.run(batchPATH_Carpark_10)
+    subprocess.run(batchPATH_Carpark_30)
+    subprocess.run(batchPATH_Carpark_raw)
+    
+    # delete folder with unpacked depths
+    rmPATH = pathlib.Path(MEDIA_PATH, str(object.src).replace('.zip', ''))
+    shutil.rmtree(rmPATH)
+    print("PROCESSING_{}: REMOVING auxilliary folder of {}".format(str(object.title), str(object.title)))
+    
     
 # WOJCIECH (listowanie po folderze; wyznaczanie wartości: min, max, avg)
 # MATEUSZ (dostosowanie do ścieżek absolutnych; wyszukiwanie określonego pliku; pobieranie wartości za pomocą REGEX; zapis do tabeli)
@@ -124,3 +155,30 @@ def processPSNR(object, location):
                 # object.update(quality=avgValue)
                 print("AVG_DATA:", avgValue)
                 object.save(update_fields=['quality'])
+                
+##############################################
+# multicolumn
+
+# MATEUSZ - wyciąganie map głębi dla wielu sekwencji i restrukturyzacja kodu
+# WOJCIECH - pierwotny zamysł
+# DONE: zipUnpack [multicolumn]
+def zipUnpack_m(location):
+    absPATH = MEDIA_PATH + str(pathlib.Path(location).parent)
+    file_name = str(pathlib.PurePath(location).stem) + '.zip'
+    if file_name in os.listdir(absPATH):
+        file_path = absPATH + "\\" + file_name
+        zip_obj = ZipFile(file_path, 'r')
+        zip_obj.extractall(file_path.replace('.zip', ''))       # extracts all files from archive to new subfolder named the same as archive
+        zip_obj.close()
+        
+def batchSynths_m(object):
+    print("NOTHING")
+    # TODO: rethink synthSequence.bat file
+    # WHAT TO DO for a multiple sequences??
+    # 1. insert all the code in one file
+    # 2. create multiple synthSequences.bat each for 1 seqeunce
+    
+    
+def processPSNR_m(object, location):
+    print("NOTHING") 
+    # TODO: PSNR for multiple depths
