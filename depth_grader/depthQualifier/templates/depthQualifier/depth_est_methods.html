@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <title>Metody estymacji głębi</title>
+        <link href='https://fonts.googleapis.com/css?family=Lato:400' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'depthQualifier/style.css' %}">
+    </head>
+    <body>
+        <div class="navbar">
+            <ol>
+                <li><a href="{% url 'index' %}">Homepage</a></li>
+                <li><a href="{% url 'method_form' %}">Upload</a></li>
+                <li><a href="{% url 'methods_list' %}">Ratings</a></li>
+            </ol>
+        </div>
+
+        <div class="block">
+            
+        </div>
+        <a href="{% url 'seq_test' %}" class="submit-button">Testy</a>
+        <!-- <center><a href="{% url 'sequence_form' %}" class="button">Wgraj sekwencję!</a></center> -->
+        <div id="container">
+            <!-- <center><div class="upload-container">
+                Prace nad stworzeniem internetowej bazy do porównywania metod estymacji map głębi. Studenci stworzą oprogramowanie serwera na podstawie pracy An Online Platform for Testing and Evaluating Random Number Generators. Wynikami praktyki powinny być wstępne implementacje odpowiedniego serwera i wykonanie jego testów.
+
+Pozdrawiam,
+Dawid Mieloch
+
+        </div>
+    </center> -->
+        <center><div class="sort-container">
+            
+                <span class="sort-info">SORT BY</span><br>
+
+            <form method="GET">
+                <label>
+                    <input type="radio" name="sort" value="idUP" />
+                    <span>ID ⬆️</span>
+                </label>
+                <label>
+                    <input type="radio" name="sort" value="idDOWN" />
+                    <span>ID ⬇️</span>
+                </label>
+                <label>
+                    <input type="radio" name="sort" value="titleUP"/>
+                    <span>Title ⬆️</span>
+                </label>
+                <label>
+                    <input type="radio" name="sort" value="titleDOWN"/>
+                    <span>Title ⬇️</span>
+                </label>
+                <button class="submit-button" type="submit">Confirm</button>
+            </form>
+        </div>
+    </center>
+</div>
+<div style="clear:both"></div>
+
+        {% if est_methods %}
+        <div id="container-ratings">
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th rowspan="2" width="10%">Method name</th>
+                        <th colspan="6">PoznanFencing</th>
+                        <th colspan="6">PoznanCars</th>
+                        <!-- <th>Download</th>
+                        <th>Delete depth</th> -->
+                    </tr>
+                    <tr>
+                        <!-- PoznanFencing -->
+                        <th>PSNR (10/18)</th>
+                        <th>PSNR (30/42)</th>
+                        <th>PSNR (raw)</th>
+                        <th>bitrate (10/18)</th>
+                        <th>bitrate (30/42)</th>
+                        <th>bitrate (raw)</th>
+                        <!-- PoznanCars -->
+                        <th>PSNR (10/18)</th>
+                        <th>PSNR (30/42)</th>
+                        <th>PSNR (raw)</th>
+                        <th>bitrate (10/18)</th>
+                        <th>bitrate (30/42)</th>
+                        <th>bitrate (raw)</th>
+                    </tr>
+            {% for method in est_methods %}
+                    <tr>
+                        <td>{{ method.method_name}}</td>
+                        <!-- PoznanFencing -->
+                        <td>{{ method.seq_1_PSNR_1018 }}</td>
+                        <td>{{ method.seq_1_PSNR_3042 }}</td>
+                        <td>{{ method.seq_1_PSNR_raw }}</td>
+                        <td>{{ method.seq_1_bitrate_1018 }}</td>
+                        <td>{{ method.seq_1_bitrate_3042 }}</td>
+                        <td>{{ method.seq_1_bitrate_raw }}</td>
+
+                        <!-- PoznanCars -->
+                        <td>{{ method.seq_2_PSNR_1018 }}</td>
+                        <td>{{ method.seq_2_PSNR_3042 }}</td>
+                        <td>{{ method.seq_2_PSNR_raw }}</td>
+                        <td>{{ method.seq_2_bitrate_1018 }}</td>
+                        <td>{{ method.seq_2_bitrate_3042 }}</td>
+                        <td>{{ method.seq_2_bitrate_raw }}</td>
+                    </tr>
+            {% endfor %}
+                </table>
+            </div>
+        {% else %}
+            <p> No methods available.</p>
+        {% endif %}
+    </div>
+    <div id = "footer">
+        Wojciech Kaczmarek Mateusz Szuda &copy; 2023. All rights reserved</br>
+    </div>
+
+    </body>
+</html>

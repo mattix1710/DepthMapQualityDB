@@ -64,6 +64,70 @@ def addSequence(request):
 
     return render(request, TEMPLATE_PATH + 'sequence_form.html', {'form': form})
 
+##############################################
+# multicolumn
+# NEW METHOD VERSIONs
+
+# addSequence - equivalent
+def addDepthMethod(request):
+    if(request.method == 'POST'):
+        form = UploadZipForm(request.POST, request.FILES)
+        if form.is_valid():
+            f = request.FILES.getlist('src')[0]
+            MethodProposal.objects.create(method_name = form.cleaned_data['title'],
+                                          desc = form.cleaned_data['desc'],
+                                          src = f)
+            
+            depthTitle = (str(form.cleaned_data['title'])).lower().replace(' ', '_')
+            
+            # UNZIP DATA and process depths in order to obtain PSNR and bitrate results
+            obj_ID = MethodProposal.objects.get(method_name = depthTitle)
+            print("Processing depth method of ID: {}".format(obj_ID))
+            # process_the_sequence.delay(obj_ID)
+            process_the_method.delay(obj_ID)
+            
+        return HttpResponseRedirect('../depths')
+    else:
+        form = UploadZipForm()
+        
+    return render(request, TEMPLATE_PATH + 'depth_form.html', {'form': form})
+
+# TODO: TEMP version - maybe change it later
+class DepthEstMethodList(ListView):
+    template_name = TEMPLATE_PATH + 'depth_est_methods.html'
+    context_object_name = 'est_methods'
+    
+    default_queryset = MethodProposal.objects.raw('''SELECT met.method_id, met.method_name, met.desc, 
+                res_1.synth_PSNR_1018 AS seq_1_PSNR_1018, 
+                res_1.synth_PSNR_3042 AS seq_1_PSNR_3042, 
+                res_1.synth_PSNR_none AS seq_1_PSNR_raw, 
+                res_1.synth_bitrate_1018 AS seq_1_bitrate_1018,
+                res_1.synth_bitrate_3042 AS seq_1_bitrate_3042,
+                res_1.synth_bitrate_none AS seq_1_bitrate_raw,
+                res_2.synth_PSNR_1018 AS seq_2_PSNR_1018, 
+                res_2.synth_PSNR_3042 AS seq_2_PSNR_3042, 
+                res_2.synth_PSNR_none AS seq_2_PSNR_raw,
+                res_2.synth_bitrate_1018 AS seq_2_bitrate_1018,
+                res_2.synth_bitrate_3042 AS seq_2_bitrate_3042,
+                res_2.synth_bitrate_none AS seq_2_bitrate_raw
+            FROM depthQualifier_methodproposal met
+                INNER JOIN depthQualifier_seqdepthresults res_1
+                    ON res_1.method_id = met.method_id AND res_1.seq_id = (
+                                                            SELECT seq_id
+                                                            FROM depthQualifier_sequence
+                                                            WHERE seq_name = 'PoznanFencing')
+                INNER JOIN depthQualifier_seqdepthresults res_2
+                    ON res_2.method_id = met.method_id AND res_2.seq_id = (
+                                                            SELECT seq_id
+                                                            FROM depthQualifier_sequence
+                                                            WHERE seq_name = 'PoznanCars')''')
+    
+    def get_queryset(self):
+        return self.default_queryset
+            
+# END OF multicolumn
+##############################################
+
 class SequenceList(ListView):
     template_name = TEMPLATE_PATH + 'sequences.html'
     context_object_name = 'seq_list'
@@ -152,19 +216,62 @@ def testing(request):
     print("SEQ:", seqID)
     
     
+    # for i in range(31, 37):
+    #     SeqDepthResults.objects.get(depth_id=i).delete()
+    
+    
     # displaying multiple tables in one view
     methods = MethodProposal.objects.all()
     sequences = Sequence.objects.all()
     # depths = SeqDepthResults.objects.all()
     
     # TODO: rethink displaying FK data: i.e. instead seq_id -> display its name
-    depths = SeqDepthResults.objects.filter(method_id=methodID).values()
+    # depths = SeqDepthResults.objects.filter(method_id=methodID).values()
+    depths = SeqDepthResults.objects.all()
     
     # TODO: adding columns matching queryset (seq_names in depths)
     depth_seq = Sequence.get_seq_name(methodID)
     
-    print(depths)
-    context = {'methods' : methods, 'sequences' : sequences, 'depths' : depths, 'seqs': depth_seq}
+    
+    ######################################
+    # overall depth results table
+    # results = MethodProposal.objects.select_related('seqdepthresults').values(
+    #     'seqdepthresults__synth_PSNR_1018', 'seqdepthresults__synth_PSNR_3042', 'seqdepthresults__synth_PSNR_none').annotate(
+            
+    #         seq_id=FilteredRelation(
+    #             'sequence', condition=Q(sequence__seq_name='PoznanFencing'),
+    #         )
+    #     )
+    results = MethodProposal.objects.raw('''SELECT met.method_id, met.method_name, met.desc, 
+                res_1.synth_PSNR_1018 AS seq_1_PSNR_1018, 
+                res_1.synth_PSNR_3042 AS seq_1_PSNR_3042, 
+                res_1.synth_PSNR_none AS seq_1_PSNR_raw, 
+                res_1.synth_bitrate_1018 AS seq_1_bitrate_1018,
+                res_1.synth_bitrate_3042 AS seq_1_bitrate_3042,
+                res_1.synth_bitrate_none AS seq_1_bitrate_raw,
+                res_2.synth_PSNR_1018 AS seq_2_PSNR_1018, 
+                res_2.synth_PSNR_3042 AS seq_2_PSNR_3042, 
+                res_2.synth_PSNR_none AS seq_2_PSNR_raw,
+                res_2.synth_bitrate_1018 AS seq_2_bitrate_1018,
+                res_2.synth_bitrate_3042 AS seq_2_bitrate_3042,
+                res_2.synth_bitrate_none AS seq_2_bitrate_raw
+            FROM depthQualifier_methodproposal met
+                INNER JOIN depthQualifier_seqdepthresults res_1
+                    ON res_1.method_id = met.method_id AND res_1.seq_id = (
+                                                            SELECT seq_id
+                                                            FROM depthQualifier_sequence
+                                                            WHERE seq_name = 'PoznanFencing')
+                INNER JOIN depthQualifier_seqdepthresults res_2
+                    ON res_2.method_id = met.method_id AND res_2.seq_id = (
+                                                            SELECT seq_id
+                                                            FROM depthQualifier_sequence
+                                                            WHERE seq_name = 'PoznanCars')''')
+    
+    # display keys available in this custom QUERY        
+    print(results[0].__dict__.keys())
+    
+    # print(depths)
+    context = {'methods' : methods, 'sequences' : sequences, 'depths' : depths, 'seqs': depth_seq, 'results': results}
 
     return render(request, TEMPLATE_PATH + 'testing.html', context=context)
 

@@ -19,7 +19,7 @@
             <form method="GET">
                 <button type="submit" class="submit-button return" name="process" value="synthesis">Syntezuj</button>
             </form>
-        </div> {% endcomment %}
+        </div>
         <div class="sort-container">
             <form method="GET">
                 <button class="submit-button return" type="submit" name="process" value="methods">insert MODELS</button>
@@ -33,6 +33,7 @@
         </div>
 
         <br><br><br>
+        {% endcomment %}
 
         <div>
             <div style="width:33%; float: left; background-color: #ABCDBC;">
@@ -105,9 +106,11 @@
                             <tr>
                                 <td>{{ method.depth_id }}</td>
                                 <td>{{ method.method_id_id }}</td>
-                                <td>{% for seq in seqs %} 
+                                <td>{{ method.seq_id_id }}
+                                    
+                                    <!-- {% for seq in seqs %} 
                                     {{ seq.seq_name}}
-                                    {% endfor %}
+                                    {% endfor %} -->
                                 </td>
                                 <td>{{ method.synth_PSNR_1018 }}</td>
                                 <td>{{ method.synth_bitrate_1018 }}</td>
@@ -123,6 +126,52 @@
                     <p> No models available.</p>
                 {% endif %}
             </div>
+        </div>
+        <br><br>
+        <div style="background-color: #3a8b63;">
+            <table>
+                <tr>
+                    <th rowspan="2" width="10%">Method name</th>
+                    <th colspan="6">PoznanFencing</th>
+                    <th colspan="6">PoznanCars</th>
+                </tr>
+                <tr>
+                    <!-- PoznanFencing -->
+                    <th>PSNR (10/18)</th>
+                    <th>PSNR (30/42)</th>
+                    <th>PSNR (raw)</th>
+                    <th>bitrate (10/18)</th>
+                    <th>bitrate (30/42)</th>
+                    <th>bitrate (raw)</th>
+                    <!-- PoznanCars -->
+                    <th>PSNR (10/18)</th>
+                    <th>PSNR (30/42)</th>
+                    <th>PSNR (raw)</th>
+                    <th>bitrate (10/18)</th>
+                    <th>bitrate (30/42)</th>
+                    <th>bitrate (raw)</th>
+                </tr>
+                {% for record in results %}
+                <tr>
+                    <td>{{ record.method_name}}</td>
+                    <!-- PoznanFencing -->
+                    <td>{{ record.seq_1_PSNR_1018 }}</td>
+                    <td>{{ record.seq_1_PSNR_3042 }}</td>
+                    <td>{{ record.seq_1_PSNR_raw }}</td>
+                    <td>{{ record.seq_1_bitrate_1018 }}</td>
+                    <td>{{ record.seq_1_bitrate_3042 }}</td>
+                    <td>{{ record.seq_1_bitrate_raw }}</td>
+
+                    <!-- PoznanCars -->
+                    <td>{{ record.seq_2_PSNR_1018 }}</td>
+                    <td>{{ record.seq_2_PSNR_3042 }}</td>
+                    <td>{{ record.seq_2_PSNR_raw }}</td>
+                    <td>{{ record.seq_2_bitrate_1018 }}</td>
+                    <td>{{ record.seq_2_bitrate_3042 }}</td>
+                    <td>{{ record.seq_2_bitrate_raw }}</td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </body>
 </html>
