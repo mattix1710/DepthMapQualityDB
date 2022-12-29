@@ -11,7 +11,8 @@ def seq_location(instance, seq_name):
     name = str(instance.title).lower().replace(' ', '_')
 
     # when returns: create folder of sequence_name title and name the file as it is
-    return 'sequences/' + name + '/' + name + file_extension
+    # return 'sequences/' + name + '/' + name + file_extension
+    return 'RESULTS_proposed_depths/' + name + '/' + name + file_extension
 
 # MATEUSZ
 def validate_project_name_exist(value):
@@ -96,6 +97,9 @@ class MethodProposal(models.Model):
     upload_date = models.DateField(auto_now=True)                            # maybeee changing to DateTimeField()
     src = models.FileField(upload_to=method_location, validators=[validate_archive_extension])
     
+    def __str__(self) -> str:
+        return self.method_name
+    
 # little lighter than the previous proposition
 # IDEA: SequenceModel can be updated only from admin perspective (??)
 class Sequence(models.Model):
@@ -106,8 +110,11 @@ class Sequence(models.Model):
     def get_seq_name(self):
         return Sequence.objects.filter(pk=self.pk)
     
+    def __str__(self) -> str:
+        return self.seq_name
+    
 class SeqDepthResults(models.Model):
-    depth_id = models.AutoField(primary_key=True)
+    result_id = models.AutoField(primary_key=True)
     method_id = models.ForeignKey(MethodProposal, on_delete=models.CASCADE, db_column='method_id')         # while deleting method - delete its data
     seq_id = models.ForeignKey(Sequence, on_delete=models.PROTECT, db_column='seq_id')                  # while deleting test sequence - protect calcutions
     synth_PSNR_1018    = models.FloatField(null=True)
@@ -117,9 +124,5 @@ class SeqDepthResults(models.Model):
     synth_PSNR_none    = models.FloatField(null=True)
     synth_bitrate_none = models.FloatField(null=True)
     
-    # TODO: clean this sht
-    # class Meta:
-        # unique constraint is reduntant - & blocks adding another records while the same METHOD or SEQUENCE is related to it
-        # constraints = [
-        #     models.UniqueConstraint(fields=['method_id', 'seq_id'], name='unique_method_seq')
-        # ]
+    def __str__(self) -> str:
+        return "{} : {}".format(self.method_id, self.seq_id)

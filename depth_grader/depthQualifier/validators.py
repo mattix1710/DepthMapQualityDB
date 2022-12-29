@@ -4,4 +4,4 @@ def validate_archive_extension(value):
     ext = os.path.splitext(value.name)[1]       # [0] returns path+filename
     validExtensions = ['.zip']
     if not ext.lower() in validExtensions:
-        raise ValidationError('Unsupported file extension.')
+        raise ValidationError('Unsupported file extension. Use ZIP archive!')
