@@ -12,7 +12,7 @@ from django.views.generic.list import ListView
 from django.utils import timezone
 
 # LOCAL imports
-from .forms import UploadZipForm
+from .forms import UploadZipForm, UploadMethodZipForm
 from .models import *
 from .src.functions import *
 from .tasks import process_the_sequence
@@ -71,24 +71,28 @@ def addSequence(request):
 # addSequence - equivalent
 def addDepthMethod(request):
     if(request.method == 'POST'):
-        form = UploadZipForm(request.POST, request.FILES)
+        form = UploadMethodZipForm(request.POST, request.FILES)
         if form.is_valid():
             f = request.FILES.getlist('src')[0]
-            MethodProposal.objects.create(method_name = form.cleaned_data['title'],
-                                          desc = form.cleaned_data['desc'],
-                                          src = f)
+            print("FILE:", request.FILES['src'])
+            # MethodProposal.objects.create(method_name = form.cleaned_data['title'],
+            #                               desc = form.cleaned_data['desc'],
+            #                               src = f)
             
-            depthTitle = (str(form.cleaned_data['title'])).lower().replace(' ', '_')
+            # depthTitle = (str(form.cleaned_data['title'])).lower().replace(' ', '_')
+            depthTitle = str(form.cleaned_data['method_name'])
             
             # UNZIP DATA and process depths in order to obtain PSNR and bitrate results
-            obj_ID = MethodProposal.objects.get(method_name = depthTitle)
-            print("Processing depth method of ID: {}".format(obj_ID))
+            try:
+                obj_ID = MethodProposal.objects.get(method_name = depthTitle)
+                print("Processing depth method of ID: {}".format(obj_ID))
+            except MethodProposal.DoesNotExist:
+                print("ERROR: uploaded method wasn't saved!")
             # process_the_sequence.delay(obj_ID)
-            process_the_method.delay(obj_ID)
-            
-        return HttpResponseRedirect('../depths')
+            # process_the_method.delay(obj_ID)
+            return HttpResponseRedirect('../methods')
     else:
-        form = UploadZipForm()
+        form = UploadMethodZipForm()
         
     return render(request, TEMPLATE_PATH + 'depth_form.html', {'form': form})
 

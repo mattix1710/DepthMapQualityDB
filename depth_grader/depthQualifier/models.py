@@ -1,44 +1,16 @@
 from django.db import models
-from .validators import *
 from django.core.exceptions import ValidationError
 import re
 
-# MATEUSZ
-def seq_location(instance, seq_name):
-    file_name = str(seq_name)
-    file_extension = file_name[file_name.index('.'):].lower()
+# importing own file (for better function separation)
+from .validators import *
 
-    name = str(instance.title).lower().replace(' ', '_')
+############################
+# VALIDATORS
+#
 
-    # when returns: create folder of sequence_name title and name the file as it is
-    # return 'sequences/' + name + '/' + name + file_extension
-    return 'RESULTS_proposed_depths/' + name + '/' + name + file_extension
-
-# MATEUSZ
-def validate_project_name_exist(value):
-    for elem in SequenceModel.objects.all():
-        if(elem.title.lower() == value.lower()):
-            raise ValidationError('Project of the same name already exists!')
-
-# MATEUSZ
-def validate_project_name_correct(value):
-    if not re.search("^[a-zA-Z_][a-zA-Z_ ]{4,}$", value):
-        if not re.search("^.{5,}$", value):
-            raise ValidationError('Title should have at least 5 characters!')
-        raise ValidationError('Title encloses invalid characters!\nIt should include only a-z, A-Z, _ and space characters.')
-
-# MATEUSZ
-class SequenceModel(models.Model):
-    title = models.CharField(max_length=30, unique=True, validators=[validate_project_name_exist, validate_project_name_correct])
-    desc = models.TextField()
-    src = models.FileField(upload_to=seq_location, validators=[validate_archive_extension])
-    quality = models.FloatField(null=True)
-
-    def __str__(self):
-        return self.title
-    
-###########################
-# TEMP - multicolumn tests
+####################
+# multicolumn
 
 # MATEUSZ
 def method_location(instance, method_name):
@@ -61,9 +33,10 @@ def validate_method_name_exist(value):
 # regular expression propositions:
 # ^[\w][\w #&()+*\\\/-]{1,}$
 
-def validate_method_name_correct(value):
-    if not re.search("^[a-zA-Z_][a-zA-Z_ ]{1,}$", value):       # TODO: rethink regular expression (allow some special characters to be used)
-        if not re.search("^.{1,}$", value):
+# method_name - name of a method given by user in form
+def validate_method_name_correct(method_name):
+    if not re.search(r"^[a-zA-Z_][a-zA-Z_ ]{1,}$", method_name): # TODO: rethink regular expression (allow some special characters to be used)
+        if not re.search("^.{1,}$", method_name):
             raise ValidationError('Title should have at least 2 characters!')
         raise ValidationError('Title encloses invalid characters!\nIt should include only a-z, A-Z, _ and space characters.')
     
@@ -89,6 +62,48 @@ def seq1_location(instance, seq_name):
 
     # when returns: create folder of sequence_name title and name the file as it is
     return 'raw_textures/' + name + '_texture' + '/' + name + file_extension
+
+############################
+# MODELS
+#
+
+# MATEUSZ
+def seq_location(instance, seq_name):
+    file_name = str(seq_name)
+    file_extension = file_name[file_name.index('.'):].lower()
+
+    name = str(instance.title).lower().replace(' ', '_')
+
+    # when returns: create folder of sequence_name title and name the file as it is
+    # return 'sequences/' + name + '/' + name + file_extension
+    return 'RESULTS_proposed_depths/' + name + '/' + name + file_extension
+
+# MATEUSZ
+def validate_project_name_exist(value):
+    for elem in SequenceModel.objects.all():
+        if(elem.title.lower() == value.lower()):
+            raise ValidationError('Project of the same name already exists!')
+
+# MATEUSZ
+def validate_project_name_correct(value):
+    if not re.search("^[a-zA-Z_][a-zA-Z_ ]{4,}$", value):
+        if not re.search("^.{5,}$", value):
+            raise ValidationError('Title should have at least 5 characters!')
+        raise ValidationError('Title encloses invalid characters!\nIt should include only a-z, A-Z, _ and space characters.')
+
+# TODO: delete
+# MATEUSZ
+class SequenceModel(models.Model):
+    title = models.CharField(max_length=30, unique=True, validators=[validate_project_name_exist, validate_project_name_correct])
+    desc = models.TextField()
+    src = models.FileField(upload_to=seq_location, validators=[validate_archive_extension])
+    quality = models.FloatField(null=True)
+
+    def __str__(self):
+        return self.title
+    
+###########################
+# TEMP - multicolumn tests
 
 class MethodProposal(models.Model):
     method_id = models.AutoField(primary_key=True)
