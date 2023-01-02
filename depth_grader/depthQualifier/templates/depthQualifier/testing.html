@@ -2,24 +2,14 @@
 <!DOCTYPE html>
 <html lang="pl">
     <head>
-        <title>Ocena sekwencji!!!</title>
+        <title>⚠️TESTS⚠️</title>
         <link href='https://fonts.googleapis.com/css?family=Lato:400' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="{% static 'depthQualifier/style_testing.css' %}">
     </head>
     <body>
-        {% comment %} <a href="{% url 'sequences_list' %}" class="submit-button return">Wróć</a>
-        <center><h1>Sequences TESTING!</h1></center>
-        <div class="sort-container">
-            <form method="GET">
-                <button type="submit" class="submit-button return" name="process" value="compress">Kompresuj</button>
-            </form>
-            <form method="GET">
-                <button type="submit" class="submit-button return" name="process" value="decompress">Dekompresuj</button>
-            </form>
-            <form method="GET">
-                <button type="submit" class="submit-button return" name="process" value="synthesis">Syntezuj</button>
-            </form>
-        </div>
+        <a href="{% url 'methods_list' %}" class="submit-button return">Wróć</a>
+        <center><h1>Methods TESTING!</h1></center>
+        {% comment %}
         <div class="sort-container">
             <form method="GET">
                 <button class="submit-button return" type="submit" name="process" value="methods">insert MODELS</button>
@@ -31,9 +21,9 @@
                 <button class="submit-button return" type="submit" name="process" value="depths">insert DEPTHS</button>
             </form>
         </div>
+        {% endcomment %}
 
         <br><br><br>
-        {% endcomment %}
 
         <div>
             <div style="width:33%; float: left; background-color: #ABCDBC;">
@@ -104,7 +94,7 @@
                             </tr>
                             {% for method in depths %}
                             <tr>
-                                <td>{{ method.depth_id }}</td>
+                                <td>{{ method.result_id }}</td>
                                 <td>{{ method.method_id_id }}</td>
                                 <td>{{ method.seq_id_id }}
                                     
@@ -131,25 +121,31 @@
         <div style="background-color: #3a8b63;">
             <table>
                 <tr>
-                    <th rowspan="2" width="10%">Method name</th>
+                    <th rowspan="3" width="10%">Method name</th>
                     <th colspan="6">PoznanFencing</th>
                     <th colspan="6">Carpark</th>
                 </tr>
                 <tr>
+                    <th colspan="3" style="font-size: small;">PSNR (QP depth/QP texture) [db]</th>
+                    <th colspan="3" style="font-size: small;">bitrate (QP depth/QP texture) [Mb/s]</th>
+                    <th colspan="3" style="font-size: small;">PSNR (QP depth/QP texture) [db]</th>
+                    <th colspan="3" style="font-size: small;">bitrate (QP depth/QP texture) [Mb/s]</th>
+                </tr>
+                <tr>
                     <!-- PoznanFencing -->
-                    <th>PSNR (10/18)</th>
-                    <th>PSNR (30/42)</th>
-                    <th>PSNR (raw)</th>
-                    <th>bitrate (10/18)</th>
-                    <th>bitrate (30/42)</th>
-                    <th>bitrate (raw)</th>
+                    <th>(10/18)</th>
+                    <th>(30/42)</th>
+                    <th>(raw)</th>
+                    <th>(10/18)</th>
+                    <th>(30/42)</th>
+                    <th>(raw)</th>
                     <!-- Carpark -->
-                    <th>PSNR (10/18)</th>
-                    <th>PSNR (30/42)</th>
-                    <th>PSNR (raw)</th>
-                    <th>bitrate (10/18)</th>
-                    <th>bitrate (30/42)</th>
-                    <th>bitrate (raw)</th>
+                    <th>(10/18)</th>
+                    <th>(30/42)</th>
+                    <th>(raw)</th>
+                    <th>(10/18)</th>
+                    <th>(30/42)</th>
+                    <th>(raw)</th>
                 </tr>
                 {% for record in results %}
                 <tr>

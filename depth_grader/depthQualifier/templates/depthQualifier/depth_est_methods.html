@@ -18,8 +18,7 @@
         <div class="block">
             
         </div>
-        <a href="{% url 'seq_test' %}" class="submit-button">Testy</a>
-        <!-- <center><a href="{% url 'sequence_form' %}" class="button">Wgraj sekwencję!</a></center> -->
+        <a href="{% url 'testing' %}" class="submit-button">Testy</a>
         <div id="container">
             <!-- <center><div class="upload-container">
                 Prace nad stworzeniem internetowej bazy do porównywania metod estymacji map głębi. Studenci stworzą oprogramowanie serwera na podstawie pracy An Online Platform for Testing and Evaluating Random Number Generators. Wynikami praktyki powinny być wstępne implementacje odpowiedniego serwera i wykonanie jego testów.
@@ -62,46 +61,56 @@ Dawid Mieloch
             <div class="table-container">
                 <table>
                     <tr>
-                        <th rowspan="2" width="10%">Method name</th>
+                        <th rowspan="3" width="10%">Method name</th>
                         <th colspan="6">PoznanFencing</th>
                         <th colspan="6">PoznanCars</th>
-                        <!-- <th>Download</th>
-                        <th>Delete depth</th> -->
+                        <th rowspan="3">Download</th>
+                        <th rowspan="3">Delete method</th>
+                    </tr>
+                    <tr>
+                        <th colspan="3" style="font-size: small;">PSNR (QP depth/QP texture) [db]</th>
+                        <th colspan="3" style="font-size: small;">bitrate (QP depth/QP texture) [Mb/s]</th>
+                        <th colspan="3" style="font-size: small;">PSNR (QP depth/QP texture) [db]</th>
+                        <th colspan="3" style="font-size: small;">bitrate (QP depth/QP texture) [Mb/s]</th>
                     </tr>
                     <tr>
                         <!-- PoznanFencing -->
-                        <th>PSNR (10/18)</th>
-                        <th>PSNR (30/42)</th>
-                        <th>PSNR (raw)</th>
-                        <th>bitrate (10/18)</th>
-                        <th>bitrate (30/42)</th>
-                        <th>bitrate (raw)</th>
+                        <th>(10/18)</th>
+                        <th>(30/42)</th>
+                        <th>(raw)</th>
+                        <th>(10/18)</th>
+                        <th>(30/42)</th>
+                        <th>(raw)</th>
                         <!-- Carpark -->
-                        <th>PSNR (10/18)</th>
-                        <th>PSNR (30/42)</th>
-                        <th>PSNR (raw)</th>
-                        <th>bitrate (10/18)</th>
-                        <th>bitrate (30/42)</th>
-                        <th>bitrate (raw)</th>
+                        <th>(10/18)</th>
+                        <th>(30/42)</th>
+                        <th>(raw)</th>
+                        <th>(10/18)</th>
+                        <th>(30/42)</th>
+                        <th>(raw)</th>
                     </tr>
             {% for method in est_methods %}
                     <tr>
                         <td>{{ method.method_name}}</td>
                         <!-- PoznanFencing -->
-                        <td>{{ method.seq_1_PSNR_1018 }}</td>
-                        <td>{{ method.seq_1_PSNR_3042 }}</td>
-                        <td>{{ method.seq_1_PSNR_raw }}</td>
-                        <td>{{ method.seq_1_bitrate_1018 }}</td>
-                        <td>{{ method.seq_1_bitrate_3042 }}</td>
-                        <td>{{ method.seq_1_bitrate_raw }}</td>
+                        <td style="text-align: center;">{% if method.seq_1_PSNR_1018 is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_1018 }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_1_PSNR_3042 is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_3042 }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_1_PSNR_raw is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_raw }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_1_bitrate_1018 is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_1018 }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_1_bitrate_3042 is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_3042 }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_1_bitrate_raw is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_raw }}{% endif %}</td>
 
                         <!-- Carpark -->
-                        <td>{{ method.seq_2_PSNR_1018 }}</td>
-                        <td>{{ method.seq_2_PSNR_3042 }}</td>
-                        <td>{{ method.seq_2_PSNR_raw }}</td>
-                        <td>{{ method.seq_2_bitrate_1018 }}</td>
-                        <td>{{ method.seq_2_bitrate_3042 }}</td>
-                        <td>{{ method.seq_2_bitrate_raw }}</td>
+                        <td style="text-align: center;">{% if method.seq_2_PSNR_1018 is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_1018 }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_2_PSNR_3042 is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_3042 }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_2_PSNR_raw is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_raw }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_2_bitrate_1018 is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_1018 }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_2_bitrate_3042 is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_3042 }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_2_bitrate_raw is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_raw }}{% endif %}</td>
+
+                        <!-- common -->
+                        <td><a href="{{ seq.src.url }}" style="font-size: large;">💾</a></td>
+                        <td><a href="{% url 'delete_method_view' method_id=method.id %}">Delete</a></td>
                     </tr>
             {% endfor %}
                 </table>
