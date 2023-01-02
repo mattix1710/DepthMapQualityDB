@@ -10,12 +10,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
 
 # LOCAL imports
-from .forms import UploadZipForm
+from .forms import UploadMethodZipForm#, UploadZipForm
 from .models import *
 from .src.functions import *
-from .tasks import process_the_sequence
+from .tasks import process_the_depth_method#, process_the_sequence
 
 # EOF imports
 #=================================
@@ -34,55 +35,88 @@ def index(request):
     return render(request, TEMPLATE_PATH + 'index.html')
     # return HttpResponse("<br><br><center><h1>Here will be placed a database of cute HTTP cats!</h1></center>")
 
-def addSequence(request):
-    if request.method == 'POST':
-        form = UploadZipForm(request.POST, request.FILES)
+##############################################
+# multicolumn
+# NEW METHOD VERSIONs
+
+# addSequence - equivalent
+def addDepthMethod(request):
+    if(request.method == 'POST'):
+        form = UploadMethodZipForm(request.POST, request.FILES)
         if form.is_valid():
             f = request.FILES.getlist('src')[0]
-            # CURRENT_LOCATION = form.cleaned_data['title']           # INFO: meh - działa tylko w tym pliku...
-            SequenceModel.objects.create(title = form.cleaned_data['title'],
-                                        desc = form.cleaned_data['desc'],
-                                        src = f)
-
-            # perform operations on given files
-            seqTitle = (str(form.cleaned_data['title'])).lower().replace(' ', '_')
-
-            # UNZIP DATA from the newly created object
-            for obj in SequenceModel.objects.all():
-                if obj.title == form.cleaned_data['title']:
-                    # display a message
-                    print("Processing sequence: {}".format(obj.id))
-                    # zipUnpack(str(obj.src))
-                    # batchSynthesis(obj)
-                    process_the_sequence.delay(obj.id)
-
-            # form.save()
-
-            return HttpResponseRedirect('../sequences')
+            print("FILE:", request.FILES['src'])
+            # MethodProposal.objects.create(method_name = form.cleaned_data['title'],
+            #                               desc = form.cleaned_data['desc'],
+            #                               src = f)
+            
+            # depth_name = (str(form.cleaned_data['title'])).lower().replace(' ', '_')
+            depth_name = str(form.cleaned_data['method_name'])
+            
+            # UNZIP DATA and process depths in order to obtain PSNR and bitrate results
+            try:
+                obj_ID = MethodProposal.objects.get(method_name = depth_name)
+                print("Processing depth method of ID: {}".format(obj_ID))
+            except MethodProposal.DoesNotExist:
+                print("ERROR: uploaded method wasn't saved!")
+            # process_the_sequence.delay(obj_ID)
+            process_the_depth_method.delay(obj_ID)
+            return HttpResponseRedirect('../methods')
     else:
-        form = UploadZipForm()
+        form = UploadMethodZipForm()
+        
+    return render(request, TEMPLATE_PATH + 'depth_form.html', {'form': form})
 
-    return render(request, TEMPLATE_PATH + 'sequence_form.html', {'form': form})
-
-class SequenceList(ListView):
-    template_name = TEMPLATE_PATH + 'sequences.html'
-    context_object_name = 'seq_list'
-
+# TODO: TEMP version - maybe change it later
+class DepthEstMethodList(ListView):
+    template_name = TEMPLATE_PATH + 'depth_est_methods.html'
+    context_object_name = 'est_methods'
+    
+    default_queryset = MethodProposal.objects.raw(
+        ''' SELECT met.method_id, met.method_name, met.desc, 
+                res_1.synth_PSNR_1018 AS seq_1_PSNR_1018, 
+                res_1.synth_PSNR_3042 AS seq_1_PSNR_3042, 
+                res_1.synth_PSNR_none AS seq_1_PSNR_raw, 
+                res_1.synth_bitrate_1018 AS seq_1_bitrate_1018,
+                res_1.synth_bitrate_3042 AS seq_1_bitrate_3042,
+                res_1.synth_bitrate_none AS seq_1_bitrate_raw,
+                res_2.synth_PSNR_1018 AS seq_2_PSNR_1018, 
+                res_2.synth_PSNR_3042 AS seq_2_PSNR_3042, 
+                res_2.synth_PSNR_none AS seq_2_PSNR_raw,
+                res_2.synth_bitrate_1018 AS seq_2_bitrate_1018,
+                res_2.synth_bitrate_3042 AS seq_2_bitrate_3042,
+                res_2.synth_bitrate_none AS seq_2_bitrate_raw,
+                met.src
+            FROM depthQualifier_methodproposal met
+            INNER JOIN depthQualifier_seqdepthresults res_1
+                ON res_1.method_id = met.method_id AND res_1.seq_id = (
+                                                        SELECT seq_id
+                                                        FROM depthQualifier_sequence
+                                                        WHERE seq_name = 'PoznanFencing')
+            INNER JOIN depthQualifier_seqdepthresults res_2
+                ON res_2.method_id = met.method_id AND res_2.seq_id = (
+                                                        SELECT seq_id
+                                                        FROM depthQualifier_sequence
+                                                        WHERE seq_name = 'Carpark')''')
+    
     def get_queryset(self):
-        # table sorting
-        if(self.request.method == 'GET' and self.request.GET.__contains__('sort')):         # if GET method was set
-            switch = {
-                'titleUP'   : SequenceModel.objects.order_by('title'),
-                'titleDOWN' : SequenceModel.objects.order_by('-title'),             # "-" is used for managing descending order
-                'idUP'      : SequenceModel.objects.order_by('id'),
-                'idDOWN'    : SequenceModel.objects.order_by('-id'),
-            }
+        return self.default_queryset
+    
+    # old: TABLE SORTING
+    # if(self.request.method == 'GET' and self.request.GET.__contains__('sort')):         # if GET method was set
+    #     switch = {
+    #         'titleUP'   : SequenceModel.objects.order_by('title'),
+    #         'titleDOWN' : SequenceModel.objects.order_by('-title'),             # "-" is used for managing descending order
+    #         'idUP'      : SequenceModel.objects.order_by('id'),
+    #         'idDOWN'    : SequenceModel.objects.order_by('-id'),
+    #     }
 
-            # return chosen order or (if there is no such position) - defualt one
-            return switch.get(self.request.GET.__getitem__('sort'), SequenceModel.objects.all())
-
-
-        return SequenceModel.objects.all()
+    #     # return chosen order or (if there is no such position) - defualt one
+    #     return switch.get(self.request.GET.__getitem__('sort'), SequenceModel.objects.all())
+    
+            
+# END OF multicolumn
+##############################################
 
 def testing(request):
     
@@ -95,12 +129,6 @@ def testing(request):
     if(request.method == 'GET' and request.GET.__contains__('process')):
 
         value = request.GET.__getitem__('process')
-        # if(value == 'compress'):
-        #     batchCompress()
-        # elif(value == 'decompress'):
-        #     batchDecompress()
-        # if(value == 'synthesis'):
-        #     batchSynthesis()
         
         if(value == 'methods'):
             #inserting MODEL records to the database
@@ -113,7 +141,7 @@ def testing(request):
             method3.save()
         elif(value == 'sequences'):
             seq1 = Sequence(seq_name = 'PoznanFencing', seq_src = 'seq_src/thisSeq11')
-            seq2 = Sequence(seq_name = 'PoznanCars', seq_src = 'seq_src/thisSeq22')
+            seq2 = Sequence(seq_name = 'Carpark', seq_src = 'seq_src/thisSeq22')
             
             seq1.save()
             seq2.save()
@@ -127,7 +155,7 @@ def testing(request):
             # WHAT'S THAT QUERY: getting_values_of_SEQ_ID.WHERE_seq_name=sth.retrieve_first_element_which_is_dictionary
             seqID1 = Sequence.objects.get(pk=Sequence.objects.values('seq_id').extra(where=["seq_name='PoznanFencing'"])[0]['seq_id'])
             methodID2 = MethodProposal.objects.get(pk=MethodProposal.objects.values('method_id').extra(where=["method_name='AAA'"])[0]['method_id'])
-            seqID2 = Sequence.objects.get(pk=Sequence.objects.values('seq_id').extra(where=["seq_name='PoznanCars'"])[0]['seq_id'])
+            seqID2 = Sequence.objects.get(pk=Sequence.objects.values('seq_id').extra(where=["seq_name='Carpark'"])[0]['seq_id'])
             methodID3 = MethodProposal.objects.get(pk=MethodProposal.objects.values('method_id').extra(where=["method_name='PanapiRapis_s'"])[0]['method_id'])
             
             # TODO: depth1 gives ERRORs!!!
@@ -144,12 +172,16 @@ def testing(request):
             depth6 = SeqDepthResults(method_id = methodID3, seq_id = seqID1, synth_PSNR_1018 = 65.65, synth_bitrate_1018 = 3.04, synth_PSNR_3042 = 5.24, synth_bitrate_3042 = 62.16, synth_PSNR_none = 846.24, synth_bitrate_none = 34.345)
             depth6.save()
             
-    methodID = MethodProposal.objects.get(pk=MethodProposal.objects.values('method_id').extra(where=["method_name='AAA'"])[0]['method_id'])
+    # methodID = MethodProposal.objects.get(pk=MethodProposal.objects.values('method_id').extra(where=["method_name='AAA'"])[0]['method_id'])
     
-    seqID = Sequence.objects.get(pk=Sequence.objects.values('seq_id').extra(where=["seq_name='PoznanCars'"])[0]['seq_id'])
+    # seqID = Sequence.objects.get(pk=Sequence.objects.values('seq_id').extra(where=["seq_name='Carpark'"])[0]['seq_id'])
     
-    print("METHOD:", methodID)
-    print("SEQ:", seqID)
+    # print("METHOD:", methodID)
+    # print("SEQ:", seqID)
+    
+    
+    # for i in range(31, 37):
+    #     SeqDepthResults.objects.get(depth_id=i).delete()
     
     
     # displaying multiple tables in one view
@@ -158,20 +190,65 @@ def testing(request):
     # depths = SeqDepthResults.objects.all()
     
     # TODO: rethink displaying FK data: i.e. instead seq_id -> display its name
-    depths = SeqDepthResults.objects.filter(method_id=methodID).values()
+    # depths = SeqDepthResults.objects.filter(method_id=methodID).values()
+    depths = SeqDepthResults.objects.all()
     
     # TODO: adding columns matching queryset (seq_names in depths)
-    depth_seq = Sequence.get_seq_name(methodID)
+    # depth_seq = Sequence.get_seq_name(methodID)
     
-    print(depths)
-    context = {'methods' : methods, 'sequences' : sequences, 'depths' : depths, 'seqs': depth_seq}
+    
+    ######################################
+    # overall depth results table
+    # results = MethodProposal.objects.select_related('seqdepthresults').values(
+    #     'seqdepthresults__synth_PSNR_1018', 'seqdepthresults__synth_PSNR_3042', 'seqdepthresults__synth_PSNR_none').annotate(
+            
+    #         seq_id=FilteredRelation(
+    #             'sequence', condition=Q(sequence__seq_name='PoznanFencing'),
+    #         )
+    #     )
+    results = MethodProposal.objects.raw('''SELECT met.method_id, met.method_name, met.desc, 
+                res_1.synth_PSNR_1018 AS seq_1_PSNR_1018, 
+                res_1.synth_PSNR_3042 AS seq_1_PSNR_3042, 
+                res_1.synth_PSNR_none AS seq_1_PSNR_raw, 
+                res_1.synth_bitrate_1018 AS seq_1_bitrate_1018,
+                res_1.synth_bitrate_3042 AS seq_1_bitrate_3042,
+                res_1.synth_bitrate_none AS seq_1_bitrate_raw,
+                res_2.synth_PSNR_1018 AS seq_2_PSNR_1018, 
+                res_2.synth_PSNR_3042 AS seq_2_PSNR_3042, 
+                res_2.synth_PSNR_none AS seq_2_PSNR_raw,
+                res_2.synth_bitrate_1018 AS seq_2_bitrate_1018,
+                res_2.synth_bitrate_3042 AS seq_2_bitrate_3042,
+                res_2.synth_bitrate_none AS seq_2_bitrate_raw
+            FROM depthQualifier_methodproposal met
+                INNER JOIN depthQualifier_seqdepthresults res_1
+                    ON res_1.method_id = met.method_id AND res_1.seq_id = (
+                                                            SELECT seq_id
+                                                            FROM depthQualifier_sequence
+                                                            WHERE seq_name = 'PoznanFencing')
+                INNER JOIN depthQualifier_seqdepthresults res_2
+                    ON res_2.method_id = met.method_id AND res_2.seq_id = (
+                                                            SELECT seq_id
+                                                            FROM depthQualifier_sequence
+                                                            WHERE seq_name = 'Carpark')''')
+    
+    # display keys available in this custom QUERY        
+    # print(results[0].__dict__.keys())
+    
+    # print(depths)
+    context = {'methods' : methods, 'sequences' : sequences, 'depths' : depths, 'results': results}
 
     return render(request, TEMPLATE_PATH + 'testing.html', context=context)
 
-def delete_view(request, seq_id=None):
-    object = SequenceModel.objects.get(id=seq_id)
-    deleteFile(object)
-    objTitle = object.title
-    object.delete()
-    print('Sequence "' + str(objTitle) + '" has been deleted!')
-    return HttpResponseRedirect('../../sequences')
+def delete_method_view(request, method_id=None):
+    try:
+        method = MethodProposal.objects.get(id=method_id)
+        delete_method(method)
+        method_name = method.method_name
+        # while deleting this object, it deletes also connected SeqDepthResults object
+        method.delete()
+        
+        # DEBUG
+        print('DELETE: Method "{}" of id ({}) has been deleted!'.format(method_name, method_id))
+    except ObjectDoesNotExist:
+        print("ERROR: was trying to delete non-existing MethodProposal object of id {}!".format(method_id))
+    return HttpResponseRedirect('../../methods')
