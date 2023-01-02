@@ -58,7 +58,7 @@ def sequence_location(instance, seq_name):
     name = str(instance.title).lower().replace(' ', '_')
 
     # when returns: create folder of sequence_name title and name the file as it is
-    return 'raw_textures/' + name + '_texture' + '/' + name + file_extension
+    return 'textures_DOWNLOAD/' + 'texture_' + name + file_extension
 
 ############################
 # MODELS
