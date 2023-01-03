@@ -11,5 +11,5 @@ urlpatterns = [
     path('testy/', views.testing, name = 'testing'),
     path('methods/', views.DepthEstMethodList.as_view(), name='methods_list'),
     path('addMethod/', views.addDepthMethod, name='method_form'),
-    path('delete_view/<seq_id>/', views.delete_method_view, name='delete_method')
+    path('delete_view/<method_id>/', views.delete_method_view, name='delete_method')
 ]

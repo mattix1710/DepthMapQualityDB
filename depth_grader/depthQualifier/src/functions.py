@@ -84,31 +84,31 @@ def mul_zip_unpack(location):
     file_name = str(pathlib.PurePath(location).stem) + '.zip'
     if file_name in os.listdir(absPATH):
         file_path = absPATH + "\\" + file_name
-        zip_obj = ZipFile(file_path, 'r')
-        zip_obj.extractall(file_path.replace('.zip', ''))       # extracts all files from archive to new subfolder named the same as archive
-        zip_obj.close()
+        with ZipFile(file_path, 'r') as zip_obj:
+            zip_obj.extractall(file_path.replace('.zip', ''))       # extracts all files from archive to new subfolder named the same as archive
+            zip_obj.close()
         
 # MATEUSZ
 # DONE: probably - batchSynthesis
-def mul_batch_synthesis(object):
+def mul_batch_synthesis(method):
     # running BATCH file
-    batchPATH_Poznan_10 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
-        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_") + " PoznanFencing 10")
+    batchPATH_Poznan_10 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(method.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(method.src)).parent) + " " + str(method.method_name).lower().replace(" ", "_") + " PoznanFencing 10")
     
-    batchPATH_Poznan_30 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
-        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_") + " PoznanFencing 30")
+    batchPATH_Poznan_30 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(method.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(method.src)).parent) + " " + str(method.method_name).lower().replace(" ", "_") + " PoznanFencing 30")
     
-    batchPATH_Poznan_raw = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
-        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_") + " PoznanFencing raw")
+    batchPATH_Poznan_raw = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(method.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(method.src)).parent) + " " + str(method.method_name).lower().replace(" ", "_") + " PoznanFencing raw")
     
-    batchPATH_Carpark_10 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
-        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_") + " Carpark 10")
+    batchPATH_Carpark_10 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(method.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(method.src)).parent) + " " + str(method.method_name).lower().replace(" ", "_") + " Carpark 10")
     
-    batchPATH_Carpark_30 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
-        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_") + " Carpark 30")
+    batchPATH_Carpark_30 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(method.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(method.src)).parent) + " " + str(method.method_name).lower().replace(" ", "_") + " Carpark 30")
     
-    batchPATH_Carpark_raw = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(object.src).replace('.zip', '') 
-        + " " + MAIN_PATH + " " + str(pathlib.Path(str(object.src)).parent) + " " + str(object.title).lower().replace(" ", "_") + " Carpark raw")
+    batchPATH_Carpark_raw = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(method.src).replace('.zip', '') 
+        + " " + MAIN_PATH + " " + str(pathlib.Path(str(method.src)).parent) + " " + str(method.method_name).lower().replace(" ", "_") + " Carpark raw")
     
     # subprocess.call(batchPATH)        - old/deprecated
     # PROCESSING PoznanFencing (10/30/raw depth_QP)
@@ -122,12 +122,12 @@ def mul_batch_synthesis(object):
     subprocess.run(batchPATH_Carpark_raw)
     
     # delete folder with unpacked depths
-    rmPATH = pathlib.Path(MEDIA_PATH, str(object.src).replace('.zip', ''))
+    rmPATH = pathlib.Path(MEDIA_PATH, str(method.src).replace('.zip', ''))
     shutil.rmtree(rmPATH)
-    print("PROCESSING_{}: REMOVING auxilliary folder of {}".format(str(object.title), str(object.title)))
+    print("PROCESSING_{}: REMOVING auxilliary folder of {}".format(str(method.method_name), str(method.method_name)))
 
 
-# process calculated data: PSNR & bitrate (found in txt files in methods location)
-def mul_process_data(object, location):
+# process calculated data: PSNR & bitrate (found in txt files in objects location)
+def mul_process_data(method, location):
     print("NOTHING") 
     # TODO: PSNR for multiple depths

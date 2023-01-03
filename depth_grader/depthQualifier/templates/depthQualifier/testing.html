@@ -40,7 +40,7 @@
                             </tr>
                             {% for method in methods %}
                             <tr>
-                                <td>{{ method.method_id }}</td>
+                                <td>{{ method.id }}</td>
                                 <td>{{ method.method_name }}</td>
                                 <td>{{ method.desc }}</td>
                                 <td>{{ method.upload_date }}</td>
@@ -65,7 +65,7 @@
                             </tr>
                             {% for seq in sequences %}
                             <tr>
-                                <td>{{ seq.seq_id }}</td>
+                                <td>{{ seq.id }}</td>
                                 <td>{{ seq.seq_name }}</td>
                                 <td>{{ seq.seq_src }}</td>
                             </tr>
@@ -95,8 +95,8 @@
                             {% for method in depths %}
                             <tr>
                                 <td>{{ method.result_id }}</td>
-                                <td>{{ method.method_id_id }}</td>
-                                <td>{{ method.seq_id_id }}
+                                <td>{{ method.method_id }}</td>
+                                <td>{{ method.seq_id }}
                                     
                                     <!-- {% for seq in seqs %} 
                                     {{ seq.seq_name}}
@@ -118,6 +118,7 @@
             </div>
         </div>
         <br><br>
+        {% comment %}{% endcomment %}
         <div style="background-color: #3a8b63;">
             <table>
                 <tr>
@@ -169,5 +170,6 @@
                 {% endfor %}
             </table>
         </div>
+        {% comment %}{% endcomment %}
     </body>
 </html>

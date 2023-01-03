@@ -63,7 +63,7 @@ Dawid Mieloch
                     <tr>
                         <th rowspan="3" width="10%">Method name</th>
                         <th colspan="6">PoznanFencing</th>
-                        <th colspan="6">PoznanCars</th>
+                        <th colspan="6">Carpark</th>
                         <th rowspan="3">Download</th>
                         <th rowspan="3">Delete method</th>
                     </tr>
@@ -109,8 +109,8 @@ Dawid Mieloch
                         <td style="text-align: center;">{% if method.seq_2_bitrate_raw is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_raw }}{% endif %}</td>
 
                         <!-- common -->
-                        <td><a href="{{ seq.src.url }}" style="font-size: large;">💾</a></td>
-                        <td><a href="{% url 'delete_method_view' method_id=method.id %}">Delete</a></td>
+                        <td><a href="{{ seq.src.url }}" style="font-size: large; text-align: center;">💾</a></td>
+                        <td><a href="{% url 'delete_method' method_id=method.method_id %}">Delete</a></td>
                     </tr>
             {% endfor %}
                 </table>
@@ -119,6 +119,7 @@ Dawid Mieloch
             <p> No methods available.</p>
         {% endif %}
     </div>
+    <br><br><br>
     <div id = "footer">
         Wojciech Kaczmarek Mateusz Szuda &copy; 2023. All rights reserved</br>
     </div>
