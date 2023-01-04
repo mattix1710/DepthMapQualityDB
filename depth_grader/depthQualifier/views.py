@@ -139,9 +139,7 @@ class DepthEstMethodList(ListView):
 # END OF multicolumn
 ##############################################
 
-def MethodList(request):
-    
-    RESULTS = MethodProposal.objects.raw('''SELECT met.id, met.method_name, met.desc, 
+QUERY_BASE = '''SELECT met.id, met.method_name, met.desc, 
                 res_1.synth_PSNR_1018 AS seq_1_PSNR_1018, 
                 res_1.synth_PSNR_3042 AS seq_1_PSNR_3042, 
                 res_1.synth_PSNR_none AS seq_1_PSNR_raw, 
@@ -164,7 +162,30 @@ def MethodList(request):
                     ON res_2.method_id = met.id AND res_2.seq_id = (
                                                             SELECT id
                                                             FROM depthQualifier_sequence
-                                                            WHERE seq_name = 'Carpark')''')
+                                                            WHERE seq_name = 'Carpark')'''
+
+ORDER_STRING = '\nORDER BY '
+
+def MethodList(request):
+    
+    qs = QUERY_BASE
+    if(request.method == 'GET' and request.GET.__contains__('sort')):
+        value = request.GET.__getitem__('sort')
+        
+        if value == 'idUP':
+            order_fields = ['met.id']
+        elif value == 'idDOWN':
+            order_fields = ['met.id DESC']
+        elif value == 'nameUP':
+            order_fields = ['met.method_name']
+        elif value == 'nameDOWN':
+            order_fields = ['met.method_name DESC']
+        else:
+            print('ERROR: No such value in sorting form!')
+        
+        qs += ORDER_STRING + ",".join(order_fields)
+        
+    RESULTS = MethodProposal.objects.raw(qs)
     
     context = {'est_methods': RESULTS}
     
