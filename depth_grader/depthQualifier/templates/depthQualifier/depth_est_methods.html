@@ -68,9 +68,9 @@ Dawid Mieloch
                         <th rowspan="3">Delete method</th>
                     </tr>
                     <tr>
-                        <th colspan="3" style="font-size: small;">PSNR (QP depth/QP texture) [db]</th>
+                        <th colspan="3" style="font-size: small;">PSNR (QP depth/QP texture) [dB]</th>
                         <th colspan="3" style="font-size: small;">bitrate (QP depth/QP texture) [Mb/s]</th>
-                        <th colspan="3" style="font-size: small;">PSNR (QP depth/QP texture) [db]</th>
+                        <th colspan="3" style="font-size: small;">PSNR (QP depth/QP texture) [dB]</th>
                         <th colspan="3" style="font-size: small;">bitrate (QP depth/QP texture) [Mb/s]</th>
                     </tr>
                     <tr>
@@ -110,7 +110,7 @@ Dawid Mieloch
 
                         <!-- common -->
                         <td><a href="{{ seq.src.url }}" style="font-size: large; text-align: center;">💾</a></td>
-                        <td><a href="{% url 'delete_method' method_id=method.method_id %}">Delete</a></td>
+                        <td><a href="{% url 'delete_method' method_id=method.id %}">Delete</a></td>
                     </tr>
             {% endfor %}
                 </table>

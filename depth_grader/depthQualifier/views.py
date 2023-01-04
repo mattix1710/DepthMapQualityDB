@@ -83,7 +83,7 @@ class DepthEstMethodList(ListView):
     template_name = TEMPLATE_PATH + 'depth_est_methods.html'
     context_object_name = 'est_methods'
     
-    default_queryset = MethodProposal.objects.raw(
+    queryset = MethodProposal.objects.raw(
         '''SELECT met.id, met.method_name, met.desc, 
                 res_1.synth_PSNR_1018 AS seq_1_PSNR_1018, 
                 res_1.synth_PSNR_3042 AS seq_1_PSNR_3042, 
@@ -110,18 +110,18 @@ class DepthEstMethodList(ListView):
                                                         FROM depthQualifier_sequence
                                                         WHERE seq_name = 'Carpark')''')
     
-    queryset = MethodProposal.objects.all()
+    # queryset = MethodProposal.objects.all()
     
-    def get_queryset(self):
-        try:
-            print("INFO: displaying methods!")
-            print(self.queryset)
-            return self.default_queryset
-        except:
-            print("ERROR: something is wrong!")
-        finally:
-            print("INFO: no methods were found!")
-            return None
+    # def get_queryset(self):
+    #     try:
+    #         print("INFO: displaying methods!")
+    #         print(self.queryset)
+    #         return self.default_queryset
+    #     except:
+    #         print("ERROR: something is wrong!")
+    #     finally:
+    #         print("INFO: no methods were found!")
+    #         return None
     
     # old: TABLE SORTING
     # if(self.request.method == 'GET' and self.request.GET.__contains__('sort')):         # if GET method was set
@@ -138,6 +138,38 @@ class DepthEstMethodList(ListView):
             
 # END OF multicolumn
 ##############################################
+
+def MethodList(request):
+    
+    RESULTS = MethodProposal.objects.raw('''SELECT met.id, met.method_name, met.desc, 
+                res_1.synth_PSNR_1018 AS seq_1_PSNR_1018, 
+                res_1.synth_PSNR_3042 AS seq_1_PSNR_3042, 
+                res_1.synth_PSNR_none AS seq_1_PSNR_raw, 
+                res_1.synth_bitrate_1018 AS seq_1_bitrate_1018,
+                res_1.synth_bitrate_3042 AS seq_1_bitrate_3042,
+                res_1.synth_bitrate_none AS seq_1_bitrate_raw,
+                res_2.synth_PSNR_1018 AS seq_2_PSNR_1018, 
+                res_2.synth_PSNR_3042 AS seq_2_PSNR_3042, 
+                res_2.synth_PSNR_none AS seq_2_PSNR_raw,
+                res_2.synth_bitrate_1018 AS seq_2_bitrate_1018,
+                res_2.synth_bitrate_3042 AS seq_2_bitrate_3042,
+                res_2.synth_bitrate_none AS seq_2_bitrate_raw
+            FROM depthQualifier_methodproposal met
+                INNER JOIN depthQualifier_seqdepthresult res_1
+                    ON res_1.method_id = met.id AND res_1.seq_id = (
+                                                            SELECT id
+                                                            FROM depthQualifier_sequence
+                                                            WHERE seq_name = 'PoznanFencing')
+                INNER JOIN depthQualifier_seqdepthresult res_2
+                    ON res_2.method_id = met.id AND res_2.seq_id = (
+                                                            SELECT id
+                                                            FROM depthQualifier_sequence
+                                                            WHERE seq_name = 'Carpark')''')
+    
+    context = {'est_methods': RESULTS}
+    
+    return render(request, TEMPLATE_PATH + 'depth_est_methods.html', context=context)
+    
 
 def testing(request):
     
@@ -267,9 +299,13 @@ def testing(request):
     
     init_methods = MethodProposal.objects.all()
     
-    # join_res1 = init_methods.filter(method_id_id = 6)
+    join_res1 = SeqDepthResult.objects.all().select_related('method_id')
     
-    # print(join_res1[0].__dict__.keys())
+    sec_res = SeqDepthResult.objects.all().values('method_id', 'seq_id', 'synth_PSNR_1018').filter(seq_id = Sequence.objects.get(seq_name = 'Carpark'))
+    
+    print(type(init_methods))
+    print(join_res1)
+    print(type(sec_res))
     
     ###############
     ###############
