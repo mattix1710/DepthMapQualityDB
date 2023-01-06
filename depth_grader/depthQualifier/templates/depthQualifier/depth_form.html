@@ -26,7 +26,7 @@
         <div class="navbar">
             <ol>
                 <li><a href="{% url 'index' %}">Homepage</a></li>
-                <li><a href="{% url 'method_form' %}">Upload</a></li>
+                <li><a href="{% url 'method_form' %}">Submit</a></li>
                 <li><a href="{% url 'methods_list' %}">Ratings</a></li>
             </ol>
         </div>
@@ -45,7 +45,7 @@
         <div class="tile-container">
 
             <div class="tile3">
-                METHOD UPLOAD
+                Submit method
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }}
@@ -57,12 +57,7 @@
              UNDER THE FORM - vertical view
             * display correct file hierarchy of requested ZIP file        
         -->
-
-        <!-- <div class="tile-container">
-            <button id="form_submit" class="submit-button">Click me!</button>
-        </div> -->
     </div>
-
         <div id = "footer">
             Wojciech Kaczmarek Mateusz Szuda &copy; 2023. All rights reserved</br>
         </div>

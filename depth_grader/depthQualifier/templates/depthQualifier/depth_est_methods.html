@@ -10,7 +10,7 @@
         <div class="navbar">
             <ol>
                 <li><a href="{% url 'index' %}">Homepage</a></li>
-                <li><a href="{% url 'method_form' %}">Upload</a></li>
+                <li><a href="{% url 'method_form' %}">Submit</a></li>
                 <li><a href="{% url 'methods_list' %}">Ratings</a></li>
             </ol>
         </div>
@@ -109,7 +109,7 @@ Dawid Mieloch
                         <td style="text-align: center;">{% if method.seq_2_bitrate_raw is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_raw }}{% endif %}</td>
 
                         <!-- common -->
-                        <td><a href="{{ seq.src.url }}" style="font-size: large; text-align: center;">💾</a></td>
+                        <td><a href="{{ method.src.url }}" style="font-size: large; text-align: center;">💾</a></td>
                         <td><a href="{% url 'delete_method' method_id=method.id %}">Delete</a></td>
                     </tr>
             {% endfor %}

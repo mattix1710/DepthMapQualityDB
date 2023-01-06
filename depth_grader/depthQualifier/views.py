@@ -78,68 +78,7 @@ def addDepthMethod(request):
         
     return render(request, TEMPLATE_PATH + 'depth_form.html', {'form': form})
 
-# TODO: TEMP version - maybe change it later
-class DepthEstMethodList(ListView):
-    template_name = TEMPLATE_PATH + 'depth_est_methods.html'
-    context_object_name = 'est_methods'
-    
-    queryset = MethodProposal.objects.raw(
-        '''SELECT met.id, met.method_name, met.desc, 
-                res_1.synth_PSNR_1018 AS seq_1_PSNR_1018, 
-                res_1.synth_PSNR_3042 AS seq_1_PSNR_3042, 
-                res_1.synth_PSNR_none AS seq_1_PSNR_raw, 
-                res_1.synth_bitrate_1018 AS seq_1_bitrate_1018,
-                res_1.synth_bitrate_3042 AS seq_1_bitrate_3042,
-                res_1.synth_bitrate_none AS seq_1_bitrate_raw,
-                res_2.synth_PSNR_1018 AS seq_2_PSNR_1018, 
-                res_2.synth_PSNR_3042 AS seq_2_PSNR_3042, 
-                res_2.synth_PSNR_none AS seq_2_PSNR_raw,
-                res_2.synth_bitrate_1018 AS seq_2_bitrate_1018,
-                res_2.synth_bitrate_3042 AS seq_2_bitrate_3042,
-                res_2.synth_bitrate_none AS seq_2_bitrate_raw,
-                met.src
-            FROM depthQualifier_methodproposal met
-            INNER JOIN depthQualifier_seqdepthresult res_1
-                ON res_1.method_id = met.id AND res_1.seq_id = (
-                                                        SELECT id
-                                                        FROM depthQualifier_sequence
-                                                        WHERE seq_name = 'PoznanFencing')
-            INNER JOIN depthQualifier_seqdepthresult res_2
-                ON res_2.method_id = met.id AND res_2.seq_id = (
-                                                        SELECT id
-                                                        FROM depthQualifier_sequence
-                                                        WHERE seq_name = 'Carpark')''')
-    
-    # queryset = MethodProposal.objects.all()
-    
-    # def get_queryset(self):
-    #     try:
-    #         print("INFO: displaying methods!")
-    #         print(self.queryset)
-    #         return self.default_queryset
-    #     except:
-    #         print("ERROR: something is wrong!")
-    #     finally:
-    #         print("INFO: no methods were found!")
-    #         return None
-    
-    # old: TABLE SORTING
-    # if(self.request.method == 'GET' and self.request.GET.__contains__('sort')):         # if GET method was set
-    #     switch = {
-    #         'titleUP'   : SequenceModel.objects.order_by('title'),
-    #         'titleDOWN' : SequenceModel.objects.order_by('-title'),             # "-" is used for managing descending order
-    #         'idUP'      : SequenceModel.objects.order_by('id'),
-    #         'idDOWN'    : SequenceModel.objects.order_by('-id'),
-    #     }
-
-    #     # return chosen order or (if there is no such position) - defualt one
-    #     return switch.get(self.request.GET.__getitem__('sort'), SequenceModel.objects.all())
-    
-            
-# END OF multicolumn
-##############################################
-
-QUERY_BASE = '''SELECT met.id, met.method_name, met.desc, 
+QUERY_BASE = '''SELECT met.id, met.method_name, met.desc, met.src,
                 res_1.synth_PSNR_1018 AS seq_1_PSNR_1018, 
                 res_1.synth_PSNR_3042 AS seq_1_PSNR_3042, 
                 res_1.synth_PSNR_none AS seq_1_PSNR_raw, 
@@ -171,6 +110,8 @@ def MethodList(request):
     qs = QUERY_BASE
     if(request.method == 'GET' and request.GET.__contains__('sort')):
         value = request.GET.__getitem__('sort')
+        
+        # TODO: insert sorting buttons inside table (list) headers
         
         if value == 'idUP':
             order_fields = ['met.id']
@@ -261,12 +202,6 @@ def testing(request):
     # displaying multiple tables in one view
     methods = MethodProposal.objects.all()
     sequences = Sequence.objects.all()
-    if not sequences.exists():
-        seq1 = Sequence(seq_name = 'PoznanFencing', seq_src = 'seq_src/thisSeq11')
-        seq2 = Sequence(seq_name = 'Carpark', seq_src = 'seq_src/thisSeq22')
-        
-        seq1.save()
-        seq2.save()
         
     # depths = SeqDepthResult.objects.all()
     

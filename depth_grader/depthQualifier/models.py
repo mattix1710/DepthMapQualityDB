@@ -17,7 +17,7 @@ def method_location(instance, method_name):
     name = str(instance.method_name).lower().replace(' ', '_')
 
     # when returns: create folder of method_name title and name the file as it is
-    return 'RESULTS_proposed_depths/' + name + '/' + name + file_extension
+    return 'proposed_methods/' + name + '/' + name + file_extension
 
 # MATEUSZ
 def validate_method_name_exist(value):

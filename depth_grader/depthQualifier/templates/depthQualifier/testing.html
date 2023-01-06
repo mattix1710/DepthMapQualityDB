@@ -61,13 +61,13 @@
                             <tr>
                                 <th>Seq ID</th>
                                 <th>Name</th>
-                                <th>Src</th>
+                                <th>Src files</th>
                             </tr>
                             {% for seq in sequences %}
                             <tr>
                                 <td>{{ seq.id }}</td>
                                 <td>{{ seq.seq_name }}</td>
-                                <td>{{ seq.seq_src }}</td>
+                                <td><a href="{{ seq.seq_src.url }}" style="font-size: large; text-align: center;">💾</a></td>
                             </tr>
                             {% endfor %}
                         </table>
