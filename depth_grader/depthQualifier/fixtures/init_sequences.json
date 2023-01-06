@@ -1,0 +1,26 @@
+[
+    {
+        "model": "depthQualifier.sequence",
+        "pk": 1,
+        "fields": {
+            "seq_name": "all_sequences",
+            "seq_src": "textures/textures.zip"
+        }
+    },
+    {
+        "model": "depthQualifier.sequence",
+        "pk": 2,
+        "fields": {
+            "seq_name": "PoznanFencing",
+            "seq_src": "textures/texture_PoznanFencing.zip"
+        }
+    },
+    {
+        "model": "depthQualifier.sequence",
+        "pk": 3,
+        "fields": {
+            "seq_name": "Carpark",
+            "seq_src": "textures/texture_Carpark.zip"
+        }
+    }
+]
