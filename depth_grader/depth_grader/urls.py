@@ -21,8 +21,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('', include('depthQualifier.urls')),
-    path('depthQualifier/', include('depthQualifier.urls')),
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),        # TODO: change admin login site to some custom name
 ]
 
 urlpatterns += staticfiles_urlpatterns()
