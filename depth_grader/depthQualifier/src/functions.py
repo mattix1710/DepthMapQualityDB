@@ -4,7 +4,7 @@
 """
 
 import os
-import pathlib
+import pathlib2 as pathlib
 import shutil
 import subprocess
 from zipfile import ZipFile
