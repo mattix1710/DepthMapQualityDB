@@ -14,9 +14,16 @@ body{
     margin-right: auto;
 }
 
+#container-rat
+{
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #container-ratings
 {
-    width: 980px;
+    width: 1180px;
     margin-left: auto;
     margin-right: auto;
     background-color: white;
@@ -266,14 +273,14 @@ label span {
     display: flex;
     align-items: center;
     padding: 0.375em 0.75em 0.375em 0.375em;
-    border-radius: 99em;
+    border-radius: 10px;
     transition: 0.25s ease;
 }
 label span:hover {
     background-color: lightgray;
 }
 label span:before {
-    display: flex;
+    display: none;
     flex-shrink: 0;
     content: "";
     background-color: white;
