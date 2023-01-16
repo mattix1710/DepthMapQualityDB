@@ -59,6 +59,8 @@ def addDepthMethod(request):
             
             # create new SeqDepthResult object
             for sequence in Sequence.objects.all():
+                if sequence.seq_name == 'all_sequences':
+                    continue
                 SeqDepthResult.objects.create(method_id = obj,
                                                 seq_id = sequence)
                 print("DEPTH: {} : {}".format(obj.id, sequence.id))
@@ -270,7 +272,7 @@ def testing(request):
 
 def delete_method_view(request, method_id=None):
     try:
-        method = MethodProposal.objects.get(method_id=method_id)
+        method = MethodProposal.objects.get(id=method_id)
         delete_method(method)
         method_name = method.method_name
         # while deleting this object, it deletes also connected SeqDepthResult object
