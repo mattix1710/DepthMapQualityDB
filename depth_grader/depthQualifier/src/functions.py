@@ -74,7 +74,7 @@ def processPSNR(object, location):
                 object.save(update_fields=['quality'])
                 
 ##############################################
-# multicolumn
+# multicolum
 
 # MATEUSZ - wyciąganie map głębi dla wielu sekwencji i restrukturyzacja kodu
 # WOJCIECH - pierwotny zamysł
@@ -129,5 +129,99 @@ def mul_batch_synthesis(method):
 
 # process calculated data: PSNR & bitrate (found in txt files in objects location)
 def mul_process_data(method, location):
-    print("NOTHING") 
+    print("NOTHING")
+    
+    Carpark_10 = ['Carpark_10']
+    Carpark_30 = ['Carpark_30']
+    Carpark_raw = ['Carpark_raw']
+    Fencing_10 = ['Fencing_10']
+    Fencing_30 = ['Fencing_30']
+    Fencing_raw = ['Fencing_raw']
+
+
+    for fileName in os.listdir():
+            if fileName.startswith('ivpsnr_SL_'):
+
+                file = open(fileName)
+
+                psnrValues = []
+                
+                for line in file:
+                    if line.startswith('IVPSNR'):
+                        psnrValues.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+                        avgValue = round((sum(psnrValues) / len(psnrValues)), 4)
+                if('Carpark_10' in fileName):
+                    Carpark_10.append(avgValue)
+                
+                if('Carpark_30' in fileName):
+                    Carpark_30.append(avgValue)
+
+                if('Carpark_raw' in fileName):
+                    Carpark_raw.append(avgValue)
+
+                if('Fencing_10' in fileName):
+                    Fencing_10.append(avgValue)
+
+                if('Fencing_30' in fileName):
+                    Fencing_30.append(avgValue)
+
+                if('Fencing_raw' in fileName):
+                    Fencing_raw.append(avgValue)
+
+            elif fileName.startswith('bitrate'):
+                file = open(fileName)
+                
+                for line in file:
+                    if(line.startswith('Carpark_10')):
+                        Carpark_10.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+
+                    if(line.startswith('Carpark_30')):
+                        Carpark_30.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+
+                    if(line.startswith('Carpark_raw')):
+                        Carpark_raw.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+
+                    if(line.startswith('PoznanFencing_10')):
+                        Fencing_10.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+
+                    if(line.startswith('PoznanFencing_30')):
+                        Fencing_30.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+
+                    if(line.startswith('PoznanFencing_raw')):
+                        Fencing_raw.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+
+    if Carpark_10[2] > Carpark_10[1]:
+        Carpark_10[1], Carpark_10[2] = Carpark_10[2], Carpark_10[1]
+
+    if Carpark_30[2] > Carpark_30[1]:
+        Carpark_30[1], Carpark_30[2] = Carpark_30[2], Carpark_30[1]
+
+    if Carpark_raw[2] > Carpark_raw[1]:
+        Carpark_raw[1], Carpark_raw[2] = Carpark_raw[2], Carpark_raw[1]
+
+    if Fencing_10[2] > Fencing_10[1]:
+        Fencing_10[1], Fencing_10[2] = Fencing_10[2], Fencing_10[1]
+
+    if Carpark_30[2] > Carpark_30[1]:
+        Fencing_30[1], Fencing_30[2] = Fencing_30[2], Fencing_30[1]
+
+    if Fencing_raw[2] > Fencing_raw[1]:
+        Fencing_raw[1], Fencing_raw[2] = Fencing_raw[2], Fencing_raw[1]
+
+    print(Carpark_10)
+    print(Carpark_30)
+    print(Carpark_raw)
+    print(Fencing_10)
+    print(Fencing_30)
+    print(Fencing_raw)
+
+    method = SeqDepthResult()
+    method.synth_PSNR_1018 = Fencing_10[1]
+    method.synth_PSNR_3042 = Fencing_30[1]
+    method.synth_PSNR_none = Fencing_raw[1]
+    method.synth_bitrate_1018 = Fencing_10[2]
+    method.synth_bitrate_3042 = Fencing_30[2]
+    method.synth_bitrate_none = Fencing_raw[2]
+    method.save(update_fields=['synth_PSNR_1018', 'synth_PSNR_3042', 'synth_PSNR_none', 'synth_bitrate_1018', 'synth_bitrate_3042', 'synth_bitrate_none'])
+    
     # TODO: PSNR for multiple depths
