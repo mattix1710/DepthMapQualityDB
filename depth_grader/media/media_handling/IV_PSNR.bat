@@ -20,5 +20,5 @@ IF %SEQ_NAME%==PoznanFencing (
 
 IF %SEQ_NAME%==Carpark (
     SET STOP=8
-    FOR /l %%c IN (%START%, %STEP%, %STOP%) DO ".\media\media_handling\IV_PSNR.exe" -i0 ".\media\%CURR_PATH%\v%%c_texture_1920x1088_yuv420p8le.yuv" -i1 ".\media\%CURR_PATH%\v%%c_synth_1920x1088_yuv420p8le.yuv" -w 1920 -h 1080 -l %NFRAMES% -bd 8 -cf 420 -o .\media\%METHOD_PATH%\ivpsnr_SL_%METHOD_NAME%_%SEQ_NAME%_%COMPRESSION_FACTOR%.txt
+    FOR /l %%c IN (%START%, %STEP%, %STOP%) DO ".\media\media_handling\IV_PSNR.exe" -i0 ".\media\%CURR_PATH%\v%%c_texture_1920x1088_yuv420p8le.yuv" -i1 ".\media\%CURR_PATH%\v%%c_synth_1920x1088_yuv420p8le.yuv" -w 1920 -h 1088 -l %NFRAMES% -bd 8 -cf 420 -o .\media\%METHOD_PATH%\ivpsnr_SL_%METHOD_NAME%_%SEQ_NAME%_%COMPRESSION_FACTOR%.txt
 )
