@@ -126,6 +126,9 @@ def mul_batch_synthesis(method):
     shutil.rmtree(rmPATH)
     print("PROCESSING_{}: REMOVING auxilliary folder of {}".format(str(method.method_name), str(method.method_name)))
 
+SEQUENCE_POZNAN_FENCING = Sequence.objects.get(seq_name = 'PoznanFencing')
+SEQUENCE_CARPARK = Sequence.objects.get(seq_name = 'Carpark')
+
 # WOJCIECH po wielkich męczarniach
 # process calculated data: PSNR & bitrate (found in txt files in objects location)
 def mul_process_data(method, location):
@@ -220,20 +223,20 @@ def mul_process_data(method, location):
     print(Fencing_30)
     print(Fencing_raw)
 
-    method1 = SeqDepthResult.objects.get(method_id = metoda, seq_id = 3)
-    method1.synth_PSNR_1018 = Carpark_10[1]
-    method1.synth_PSNR_3042 = Carpark_30[1]
-    method1.synth_PSNR_none = Carpark_raw[1]
-    method1.synth_bitrate_1018 = Carpark_10[2]
-    method1.synth_bitrate_3042 = Carpark_30[2]
-    method1.synth_bitrate_none = Carpark_raw[2]
-    method1.save()
+    results1 = SeqDepthResult.objects.get(method_id = metoda, seq_id = SEQUENCE_CARPARK)
+    results1.synth_PSNR_1018 = Carpark_10[1]
+    results1.synth_PSNR_3042 = Carpark_30[1]
+    results1.synth_PSNR_none = Carpark_raw[1]
+    results1.synth_bitrate_1018 = Carpark_10[2]
+    results1.synth_bitrate_3042 = Carpark_30[2]
+    results1.synth_bitrate_none = Carpark_raw[2]
+    results1.save()
 
-    method1 = SeqDepthResult.objects.get(method_id = metoda, seq_id = 2)
-    method1.synth_PSNR_1018 = Fencing_10[1]
-    method1.synth_PSNR_3042 = Fencing_30[1]
-    method1.synth_PSNR_none = Fencing_raw[1]
-    method1.synth_bitrate_1018 = Fencing_10[2]
-    method1.synth_bitrate_3042 = Fencing_30[2]
-    method1.synth_bitrate_none = Fencing_raw[2]
-    method1.save()
+    results2 = SeqDepthResult.objects.get(method_id = metoda, seq_id = SEQUENCE_POZNAN_FENCING)
+    results2.synth_PSNR_1018 = Fencing_10[1]
+    results2.synth_PSNR_3042 = Fencing_30[1]
+    results2.synth_PSNR_none = Fencing_raw[1]
+    results2.synth_bitrate_1018 = Fencing_10[2]
+    results2.synth_bitrate_3042 = Fencing_30[2]
+    results2.synth_bitrate_none = Fencing_raw[2]
+    results2.save()
