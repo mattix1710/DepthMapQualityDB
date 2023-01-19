@@ -126,10 +126,15 @@ def mul_batch_synthesis(method):
     shutil.rmtree(rmPATH)
     print("PROCESSING_{}: REMOVING auxilliary folder of {}".format(str(method.method_name), str(method.method_name)))
 
-
+# WOJCIECH po wielkich męczarniach
 # process calculated data: PSNR & bitrate (found in txt files in objects location)
 def mul_process_data(method, location):
-    print("NOTHING")
+
+    metoda = method
+
+    # absPATH = pathlib.Path(MEDIA_PATH, pathlib.Path(location).parent)
+
+    ideal_path = str(MEDIA_PATH) + str(pathlib.Path(location).parent)
     
     Carpark_10 = ['Carpark_10']
     Carpark_30 = ['Carpark_30']
@@ -138,11 +143,10 @@ def mul_process_data(method, location):
     Fencing_30 = ['Fencing_30']
     Fencing_raw = ['Fencing_raw']
 
-
-    for fileName in os.listdir():
+    for fileName in os.listdir(ideal_path):
             if fileName.startswith('ivpsnr_SL_'):
 
-                file = open(fileName)
+                file = open(pathlib.Path(ideal_path, fileName))
 
                 psnrValues = []
                 
@@ -169,7 +173,8 @@ def mul_process_data(method, location):
                     Fencing_raw.append(avgValue)
 
             elif fileName.startswith('bitrate'):
-                file = open(fileName)
+
+                file = open(pathlib.Path(ideal_path, fileName))
                 
                 for line in file:
                     if(line.startswith('Carpark_10')):
@@ -202,7 +207,7 @@ def mul_process_data(method, location):
     if Fencing_10[2] > Fencing_10[1]:
         Fencing_10[1], Fencing_10[2] = Fencing_10[2], Fencing_10[1]
 
-    if Carpark_30[2] > Carpark_30[1]:
+    if Fencing_30[2] > Fencing_30[1]:
         Fencing_30[1], Fencing_30[2] = Fencing_30[2], Fencing_30[1]
 
     if Fencing_raw[2] > Fencing_raw[1]:
@@ -215,13 +220,20 @@ def mul_process_data(method, location):
     print(Fencing_30)
     print(Fencing_raw)
 
-    method = SeqDepthResult()
-    method.synth_PSNR_1018 = Fencing_10[1]
-    method.synth_PSNR_3042 = Fencing_30[1]
-    method.synth_PSNR_none = Fencing_raw[1]
-    method.synth_bitrate_1018 = Fencing_10[2]
-    method.synth_bitrate_3042 = Fencing_30[2]
-    method.synth_bitrate_none = Fencing_raw[2]
-    method.save(update_fields=['synth_PSNR_1018', 'synth_PSNR_3042', 'synth_PSNR_none', 'synth_bitrate_1018', 'synth_bitrate_3042', 'synth_bitrate_none'])
-    
-    # TODO: PSNR for multiple depths
+    method1 = SeqDepthResult.objects.get(method_id = metoda, seq_id = 3)
+    method1.synth_PSNR_1018 = Carpark_10[1]
+    method1.synth_PSNR_3042 = Carpark_30[1]
+    method1.synth_PSNR_none = Carpark_raw[1]
+    method1.synth_bitrate_1018 = Carpark_10[2]
+    method1.synth_bitrate_3042 = Carpark_30[2]
+    method1.synth_bitrate_none = Carpark_raw[2]
+    method1.save()
+
+    method1 = SeqDepthResult.objects.get(method_id = metoda, seq_id = 2)
+    method1.synth_PSNR_1018 = Fencing_10[1]
+    method1.synth_PSNR_3042 = Fencing_30[1]
+    method1.synth_PSNR_none = Fencing_raw[1]
+    method1.synth_bitrate_1018 = Fencing_10[2]
+    method1.synth_bitrate_3042 = Fencing_30[2]
+    method1.synth_bitrate_none = Fencing_raw[2]
+    method1.save()
