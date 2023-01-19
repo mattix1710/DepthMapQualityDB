@@ -251,6 +251,10 @@ def testing(request):
     
     ###############
     ###############
+
+    # depth_method = MethodProposal.objects.get(method_name = 'XXXXX')
+
+    # mul_process_data(depth_method, str(depth_method.src))
     
     init_methods = MethodProposal.objects.all()
     
