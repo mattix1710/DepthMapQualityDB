@@ -22,7 +22,7 @@ for file in os.listdir(FILES_PATH):
 MEGABITS = 10**6
 
 # /5 * 25 * 8 = *40 <- five frames of video with framerate of 25fps in bits (1 byte = 8 bits) gives multiplication of 40
-bitrate_number = round((total_bytes * 40 / counter / MEGABITS), 2)
+bitrate_number = round((total_bytes * 40 / (counter * MEGABITS)), 2)
 bitrate_string = SEQ_NAME + "_" + QP_SET + ": " + str(bitrate_number) + " [Mb/s]"
 
 with open(ROOT_PATH_FILE,'a') as file:
