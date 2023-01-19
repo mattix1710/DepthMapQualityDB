@@ -139,12 +139,12 @@ def mul_process_data(method, location):
 
     ideal_path = str(MEDIA_PATH) + str(pathlib.Path(location).parent)
     
-    Carpark_10 = ['Carpark_10']
-    Carpark_30 = ['Carpark_30']
-    Carpark_raw = ['Carpark_raw']
-    Fencing_10 = ['Fencing_10']
-    Fencing_30 = ['Fencing_30']
-    Fencing_raw = ['Fencing_raw']
+    Carpark_10 = ['Carpark_10', 0, 0]
+    Carpark_30 = ['Carpark_30', 0, 0]
+    Carpark_raw = ['Carpark_raw', 0, 0]
+    Fencing_10 = ['Fencing_10', 0, 0]
+    Fencing_30 = ['Fencing_30', 0, 0]
+    Fencing_raw = ['Fencing_raw', 0, 0]
 
     for fileName in os.listdir(ideal_path):
             if fileName.startswith('ivpsnr_SL_'):
@@ -158,22 +158,22 @@ def mul_process_data(method, location):
                         psnrValues.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
                         avgValue = round((sum(psnrValues) / len(psnrValues)), 4)
                 if('Carpark_10' in fileName):
-                    Carpark_10.append(avgValue)
+                    Carpark_10[1] = (avgValue)
                 
                 if('Carpark_30' in fileName):
-                    Carpark_30.append(avgValue)
+                    Carpark_30[1] = (avgValue)
 
                 if('Carpark_raw' in fileName):
-                    Carpark_raw.append(avgValue)
+                    Carpark_raw[1] = (avgValue)
 
                 if('Fencing_10' in fileName):
-                    Fencing_10.append(avgValue)
+                    Fencing_10[1] = (avgValue)
 
                 if('Fencing_30' in fileName):
-                    Fencing_30.append(avgValue)
+                    Fencing_30[1] = (avgValue)
 
                 if('Fencing_raw' in fileName):
-                    Fencing_raw.append(avgValue)
+                    Fencing_raw[1] = (avgValue)
 
             elif fileName.startswith('bitrate'):
 
@@ -181,40 +181,22 @@ def mul_process_data(method, location):
                 
                 for line in file:
                     if(line.startswith('Carpark_10')):
-                        Carpark_10.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+                        Carpark_10[2] = (float(re.findall('[0-9]+\.[0-9]+', line)[0]))
 
                     if(line.startswith('Carpark_30')):
-                        Carpark_30.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+                        Carpark_30[2] = (float(re.findall('[0-9]+\.[0-9]+', line)[0]))
 
                     if(line.startswith('Carpark_raw')):
-                        Carpark_raw.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+                        Carpark_raw[2] = (float(re.findall('[0-9]+\.[0-9]+', line)[0]))
 
                     if(line.startswith('PoznanFencing_10')):
-                        Fencing_10.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+                        Fencing_10[2] = (float(re.findall('[0-9]+\.[0-9]+', line)[0]))
 
                     if(line.startswith('PoznanFencing_30')):
-                        Fencing_30.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+                        Fencing_30[2] = (float(re.findall('[0-9]+\.[0-9]+', line)[0]))
 
                     if(line.startswith('PoznanFencing_raw')):
-                        Fencing_raw.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
-
-    if Carpark_10[2] > Carpark_10[1]:
-        Carpark_10[1], Carpark_10[2] = Carpark_10[2], Carpark_10[1]
-
-    if Carpark_30[2] > Carpark_30[1]:
-        Carpark_30[1], Carpark_30[2] = Carpark_30[2], Carpark_30[1]
-
-    if Carpark_raw[2] > Carpark_raw[1]:
-        Carpark_raw[1], Carpark_raw[2] = Carpark_raw[2], Carpark_raw[1]
-
-    if Fencing_10[2] > Fencing_10[1]:
-        Fencing_10[1], Fencing_10[2] = Fencing_10[2], Fencing_10[1]
-
-    if Fencing_30[2] > Fencing_30[1]:
-        Fencing_30[1], Fencing_30[2] = Fencing_30[2], Fencing_30[1]
-
-    if Fencing_raw[2] > Fencing_raw[1]:
-        Fencing_raw[1], Fencing_raw[2] = Fencing_raw[2], Fencing_raw[1]
+                        Fencing_raw[2] = (float(re.findall('[0-9]+\.[0-9]+', line)[0]))
 
     print(Carpark_10)
     print(Carpark_30)
