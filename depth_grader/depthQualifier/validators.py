@@ -42,6 +42,7 @@ def validate_archive_method(uploaded_file):
     finally:
         archive.close()
     
+# uploaded_file - file uploaded through admin page
 def validate_archive_sequence(uploaded_file):
     ext = os.path.splitext(uploaded_file.name)[1]       # [0] returns path+filename
     validExtensions = ['.zip']

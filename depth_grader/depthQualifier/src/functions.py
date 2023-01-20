@@ -23,7 +23,7 @@ def delete_method(method):
     # remove folder and its contents
     shutil.rmtree(full_folder_path)
 
-# WOJCIECH
+# WOJCIECH - nigdzie nie używana
 def compression_factor(x):
     if x.endswith('.zip'):
         file_name = x
@@ -40,41 +40,6 @@ def compression_factor(x):
 FUNCTIONS_PATH = str(pathlib.Path(__file__).parent)
 
 MAIN_PATH = str(pathlib.Path(__file__).parent.parent.parent)  
-    
-# TODO: TO DELETE
-# WOJCIECH (listowanie po folderze; wyznaczanie wartości: min, max, avg)
-# MATEUSZ (dostosowanie do ścieżek absolutnych; wyszukiwanie określonego pliku; pobieranie wartości za pomocą REGEX; zapis do tabeli)
-def processPSNR(object, location):
-    # /media/sequences/ absolute path - works properly
-    absPATH = pathlib.Path(MEDIA_PATH, pathlib.Path(location).parent)
-    
-    # .parts[-2] indicates currents sequence folder name, i.e. with path: "sequences/abc/abc.zip" -> "abc"
-    seqName = pathlib.PurePath(location).parts[-2]
-    
-    for fileName in os.listdir(absPATH):
-        if fileName.startswith('ivpsnr_SL_' + seqName):
-            # opening a file through its absolute path
-            file = open(pathlib.Path(absPATH, fileName))
-            
-            psnrValues = []
-            
-            for line in file:
-                if line.startswith('IVPSNR'):
-                    psnrValues.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
-            
-            if psnrValues:      # if psnrValues list isn't empty
-                maxValue = max(psnrValues)
-                minValue = min(psnrValues)
-                avgValue = round((sum(psnrValues) / len(psnrValues)), 4)
-                # TODO: update SequenceModels object
-                object.quality = avgValue
-                # INFO: .update method doesn't work on single objects
-                # object.update(quality=avgValue)
-                print("AVG_DATA:", avgValue)
-                object.save(update_fields=['quality'])
-                
-##############################################
-# multicolum
 
 # MATEUSZ - wyciąganie map głębi dla wielu sekwencji i restrukturyzacja kodu
 # WOJCIECH - pierwotny zamysł
@@ -89,7 +54,6 @@ def mul_zip_unpack(location):
             zip_obj.close()
         
 # MATEUSZ
-# DONE: probably - batchSynthesis
 def mul_batch_synthesis(method):
     # running BATCH file
     batchPATH_Poznan_10 = os.path.abspath(FUNCTIONS_PATH + '/synthSequence.bat ' + str(method.src).replace('.zip', '') 
@@ -135,9 +99,7 @@ def mul_process_data(method, location):
 
     metoda = method
 
-    # absPATH = pathlib.Path(MEDIA_PATH, pathlib.Path(location).parent)
-
-    ideal_path = str(MEDIA_PATH) + str(pathlib.Path(location).parent)
+    ideal_path = pathlib.Path(MEDIA_PATH, pathlib.Path(location).parent)
     
     Carpark_10 = ['Carpark_10', 0, 0]
     Carpark_30 = ['Carpark_30', 0, 0]
