@@ -7,6 +7,12 @@ body{
     background-image: url("img/y-so-serious-white.png");
 }
 
+.code{
+    width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #container
 {
     width: 1000px;
@@ -19,6 +25,18 @@ body{
     width: 1200px;
     margin-left: auto;
     margin-right: auto;
+}
+
+#container-depth
+{
+    width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    opacity: 0.8;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 1px 1px 30px;
 }
 
 #container-ratings
@@ -361,6 +379,7 @@ table {
     /* box-shadow: 1px 1px 30px; */
 }
 table th {
+    border: 1px solid white;
     text-align: center;
     padding: 8px;
     /* border: 1px solid rgb(39, 38, 38); */
@@ -387,6 +406,14 @@ table tr:hover {
     color: rgb(25, 105, 226);
 }table .mobile-head {
     display:none;
+}
+
+td{
+    text-align: center;
+}
+
+th{
+    text-align: center;
 }
 
 @media screen and (max-width: 600px) {
@@ -533,6 +560,26 @@ table tr:hover {
 {
     width: 780px;
     padding: 20px;
+    margin: 90px;
+    margin-top: 100px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    color: rgb(36, 36, 36);
+    background-color: white;
+    font-size: 20px;
+    opacity: 0.8;
+    float: left;
+    text-align: left;
+    /* outline-style: dashed; */
+    box-shadow: 1px 1px 30px;
+}
+
+.basictiledownload
+{
+    width: 700px;
+    padding: 20px;
+    padding-left: 60px;
+    padding-right: 60px;
     margin: 90px;
     margin-top: 100px;
     margin-bottom: 10px;

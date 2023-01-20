@@ -32,6 +32,22 @@ def index(request):
     return render(request, TEMPLATE_PATH + 'index.html')
     # return HttpResponse("<br><br><center><h1>Here will be placed a database of cute HTTP cats!</h1></center>")
 
+def downloads(request):
+    print(DEBUG + "site rendering")
+    # template = loader.get_template(TEMPLATE_PATH + "index.html")
+    # print(template)
+    # return HttpResponse(template.render)
+
+    sequences = Sequence.objects.all()
+    context = {'sequences' : sequences}
+
+    # TEXTURES = Sequence.objects.get(seq_name = SEQUENCE_CARPARK)
+    
+    # context = {'download': TEXTURES}
+
+    return render(request, TEMPLATE_PATH + 'downloads.html', context=context)
+    # return HttpResponse("<br><br><center><h1>Here will be placed a database of cute HTTP cats!</h1></center>")
+
 ##############################################
 # multicolumn
 # NEW METHOD VERSIONs

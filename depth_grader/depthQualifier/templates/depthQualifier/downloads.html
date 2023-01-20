@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <title>Badanie map głębi</title>
+        <link href='https://fonts.googleapis.com/css?family=Lato:400' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'depthQualifier/style.css' %}">
+    </head>
+    <body>
+        <div class="navbar">
+            <ol>
+                <li><a href="{% url 'index' %}">Homepage</a></li>
+                <li><a href="{% url 'method_form' %}">Submit</a></li>
+                <li><a href="{% url 'methods_list' %}">Ratings</a></li>
+                <li><a href="{% url 'downloads' %}">Downloads</a></li>
+            </ol>
+        </div>
+
+        <div id = "container">
+            <div class = "square">
+                <div class = "basictiledownload">
+                    <center>
+                    <h1>DOWNLOADS</h1>
+                    You can download TEXTURES here.<br/>
+                    While uploading your depths keep in mind the proper file structure listed below:<br/><br/>
+                    <!-- {% load static %} <img src="{% static 'depthQualifier/img/filestructure.png'%}" alt="home" /> -->
+                </center>
+                <div class="code">
+                <b>+---Carpark<br/></b>
+                |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v0_depth_1920x1088_yuv400p16le.yuv<br/>
+                |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+                |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v8_depth_1920x1088_yuv400p16le.yuv<br/>
+                |<br/>
+                <b>\---PoznanFencing<br/></b>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v0_depth_1920x1088_yuv400p16le.yuv<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v8_depth_1920x1088_yuv400p16le.yuv<br/><br/>
+                </div>
+                </div>
+            </div>
+            <div style="clear: both;"></div>
+            <br/>
+        <div id="container-depth">
+            {% if sequences %}
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Download</th>
+                    </tr>
+                    {% for seq in sequences %}
+                    <tr>
+                        <td>{{ seq.seq_name }}</td>
+                        <td><a href="{{ seq.seq_src.url }}" style="font-size: large; text-align: center;">💾</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% else %}
+            <p>No models available.</p>
+        {% endif %}
+        </div>
+<!-- 
+            <a href="{{ seq.seq_src.url }}" style="font-size: large; text-align: center;">
+                <div id="download">
+                    <h2>CLICK TO DOWNLOAD<br/>TEXTURES</h2>
+                </div>
+                </a> -->
+
+        </div>
+
+        <div id = "footer">
+            Wojciech Kaczmarek Mateusz Szuda &copy; 2023. All rights reserved</br>
+        </div>
+    </body>
+</html>
