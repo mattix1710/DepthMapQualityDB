@@ -58,7 +58,7 @@ def sequence_location(instance, seq_name):
     name = str(instance.title).lower().replace(' ', '_')
 
     # when returns: create folder of sequence_name title and name the file as it is
-    return 'textures_DOWNLOAD/' + 'texture_' + name + file_extension
+    return 'textures/' + 'texture_' + name + file_extension
 
 ############################
 # MODELS
@@ -68,28 +68,25 @@ class MethodProposal(models.Model):
     id = models.AutoField(primary_key=True)
     method_name = models.CharField(max_length=30, unique=True, validators=[validate_method_name_exist, validate_method_name_correct])
     desc = models.TextField()
-    upload_date = models.DateField(auto_now=True)                            # maybeee changing to DateTimeField()
+    upload_date = models.DateField(auto_now=True)
     src = models.FileField(upload_to=method_location, validators=[validate_archive_method])
     
     def __str__(self) -> str:
         return self.method_name
 
-# IDEA: Sequence can be updated only from admin perspective (??)
+# Sequence can be updated only from admin perspective
 class Sequence(models.Model):
     id = models.AutoField(primary_key=True)
     seq_name = models.CharField(max_length=30, unique=True, validators=[validate_sequence_name_exist, validate_sequence_name_correct])
     seq_src = models.FileField(upload_to=sequence_location, validators=[validate_archive_sequence])
-    
-    def get_seq_name(self):
-        return Sequence.objects.filter(pk=self.pk)
     
     def __str__(self) -> str:
         return self.seq_name
     
 class SeqDepthResult(models.Model):
     result_id = models.AutoField(primary_key=True)
-    method_id = models.ForeignKey(MethodProposal, on_delete=models.CASCADE, db_column='method_id', to_field='id')          # while deleting method - delete its data
-    seq_id = models.ForeignKey(Sequence, on_delete=models.PROTECT, db_column='seq_id', to_field='id')                      # while deleting test sequence - protect calcutions
+    method_id = models.ForeignKey(MethodProposal, on_delete=models.CASCADE, db_column='method_id', to_field='id')   # while deleting method - delete its data
+    seq_id = models.ForeignKey(Sequence, on_delete=models.PROTECT, db_column='seq_id', to_field='id')               # while deleting test sequence - protect calcutions
     synth_PSNR_1018    = models.FloatField(null=True)
     synth_bitrate_1018 = models.FloatField(null=True)
     synth_PSNR_3042    = models.FloatField(null=True)
