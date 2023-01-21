@@ -10,13 +10,6 @@ FIXTURE_FILENAME = 'init_sequences.json'
 
 def load_fixture(apps, schema_editor):
     call_command('loaddata', FIXTURE_FILENAME, app_label='depthQualifier')
-    # fixture_file = Path(FIXTURE_DIR, FIXTURE_FILENAME)
-    
-    # with open(fixture_file, 'rb') as fixture:
-    #     objects = serializers.deserialize('json', fixture, ignorenonexistent=True)
-    #     for obj in objects:
-    #         obj.save()
-    #     fixture.close()
     
 def unload_fixture(apps, schema_editor):
     # Delete all the elements of Seqeuence model class
