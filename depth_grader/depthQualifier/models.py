@@ -32,10 +32,10 @@ def validate_method_name_exist(value):
 
 # method_name - name of a method given by user in form
 def validate_method_name_correct(method_name):
-    if not re.search(r"^[a-zA-Z_][a-zA-Z_ ]{1,}$", method_name): # TODO: rethink regular expression (allow some special characters to be used)
+    if not re.search(r"^[a-zA-Z_0-9][a-zA-Z_ 0-9]{1,}$", method_name): # TODO: rethink regular expression (allow some special characters to be used)
         if not re.search("^.{1,}$", method_name):
             raise ValidationError('Title should have at least 2 characters!')
-        raise ValidationError('Title encloses invalid characters!\nIt should include only a-z, A-Z, _ and space characters.')
+        raise ValidationError('Title encloses invalid characters!\nIt should include only a-z, A-Z, 0-9, _ and space characters.')
     
 # MATEUSZ
 def validate_sequence_name_exist(value):
