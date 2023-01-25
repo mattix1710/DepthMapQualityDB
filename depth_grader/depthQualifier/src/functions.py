@@ -90,12 +90,12 @@ def mul_batch_synthesis(method):
     shutil.rmtree(rmPATH)
     print("PROCESSING_{}: REMOVING auxilliary folder of {}".format(str(method.method_name), str(method.method_name)))
 
-SEQUENCE_POZNAN_FENCING = Sequence.objects.get(seq_name = 'PoznanFencing')
-SEQUENCE_CARPARK = Sequence.objects.get(seq_name = 'Carpark')
-
 # WOJCIECH po wielkich męczarniach
 # process calculated data: PSNR & bitrate (found in txt files in objects location)
 def mul_process_data(method, location):
+    
+    SEQUENCE_POZNAN_FENCING = Sequence.objects.get(seq_name = 'PoznanFencing')
+    SEQUENCE_CARPARK = Sequence.objects.get(seq_name = 'Carpark')
 
     metoda = method
 
