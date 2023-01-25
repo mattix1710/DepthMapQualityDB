@@ -30,6 +30,7 @@ Dawid Mieloch
 
         </div>
     </center> -->
+        {% if est_methods %}
         <center><div class="sort-container">
             
                 <span class="sort-info">SORT BY</span><br>
@@ -52,8 +53,8 @@ Dawid Mieloch
                     <span>Name ⬇️</span>
                 </label>
             </form>
-        </div>
-    </center>
+        </div></center>
+        {% endif %}
 </div>
 <div style="clear:both"></div>
 
@@ -117,10 +118,21 @@ Dawid Mieloch
                 </table>
             </div>
         {% else %}
-            <p> No methods available.</p>
+        <br><br><br><br>
+        <div id="container-no-ratings">
+            <div class="table-container">
+                <h2>No methods available...<br></h2>
+                <h3>
+                    <a href="{% url 'method_form' %}">Submit</a> method<br>
+                    or<br>
+                    <a href="{% url 'downloads' %}">Download</a> sequence textures
+                </h3>
+            </div>
         {% endif %}
     </div>
+    {% if est_methods %}
     <br><br><br>
+    {% endif %}
     <div id = "footer">
         Wojciech Kaczmarek Mateusz Szuda &copy; 2023. All rights reserved</br>
     </div>
