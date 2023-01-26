@@ -41,7 +41,7 @@ body{
 
 #container-ratings
 {
-    width: 1180px;
+    width: 1400px;
     margin-left: auto;
     margin-right: auto;
     background-color: white;
@@ -358,7 +358,7 @@ label span:before {
 } */
 
 .table-container{
-    margin: 10px;
+    margin: 10px 5px ;
 }
 
 table tr:first-child th:first-child,
@@ -405,17 +405,17 @@ table td{
     /* border: 1px solid #274f41; */
 }
 table tr{
-    background-color: white;
+    background-color: rgb(227, 235, 249);
     color:#000000;
     text-align:left;
 }
 table tr:nth-child(odd) {
-    background-color: rgb(215, 215, 215);
+    background-color: rgb(149, 175, 220);
     color: #000000
 }
 table tr:hover {
-    /* background-color: rgb(215, 215, 215); */
-    color: rgb(25, 105, 226);
+    background-color: rgb(25, 105, 226);
+    color: white;
 }table .mobile-head {
     display:none;
 }

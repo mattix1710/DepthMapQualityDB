@@ -63,22 +63,23 @@ Dawid Mieloch
             <div class="table-container">
                 <table class = "table table-sortable">
                     <tr>
-                        <th rowspan="2" colspan="2">Date</th>
-                        <th rowspan="2" colspan="2" width="10%">Method name</th>
+                        <th rowspan="3">Date</th>
+                        <th rowspan="3" width="10%">Method name</th>
                         <th colspan="6">PoznanFencing</th>
                         <th colspan="6">Carpark</th>
                         <th rowspan="3">Download</th>
                         <!-- <th rowspan="3">Delete method</th> -->
                     </tr>
                     <tr>
-                        <th colspan="3" style="font-size: small;">PSNR (QP depth/QP texture) [dB]</th>
-                        <th colspan="3" style="font-size: small;">bitrate (QP depth/QP texture) [Mb/s]</th>
-                        <th colspan="3" style="font-size: small;">PSNR (QP depth/QP texture) [dB]</th>
-                        <th colspan="3" style="font-size: small;">bitrate (QP depth/QP texture) [Mb/s]</th>
+                        <!-- QP depth/QP texture -->
+                        <th colspan="3" style="font-size: small;">Mean PSNR of synthesized views [dB]</th>
+                        <th colspan="3" style="font-size: small;">Bitrate of compressed synthesized views [Mb/s]</th>
+                        <th colspan="3" style="font-size: small;">Mean PSNR of synthesized views [dB]</th>
+                        <th colspan="3" style="font-size: small;">Bitrate of compressed synthesized views [Mb/s]</th>
                     </tr>
                     <tr>
                         <!-- DATE SORT -->
-                        <th>
+                        <!-- <th>
                             <form method="GET">
                                 <label>
                                     <input type="radio" name="sort" value="dateUP" onclick="this.form.submit()" />
@@ -93,9 +94,9 @@ Dawid Mieloch
                                     <span>⬇️</span>
                                 </label>
                             </form>
-                        </th>
+                        </th> -->
                         <!-- METHOD_NAME SORT -->
-                        <th>
+                        <!-- <th>
                             <form method="GET">
                                 <label>
                                     <input type="radio" name="sort" value="nameUP" onclick="this.form.submit()" />
@@ -110,27 +111,27 @@ Dawid Mieloch
                                     <span>⬇️</span>
                                 </label>
                             </form>
-                        </th>
+                        </th> -->
 
                         <!-- PoznanFencing -->
-                        <th>(10/18)</th>
-                        <th>(30/42)</th>
-                        <th>(raw)</th>
-                        <th>(10/18)</th>
-                        <th>(30/42)</th>
-                        <th>(raw)</th>
+                        <th style="font-size: small;">Uncompressed</th>
+                        <th style="font-size: small;">Low compression</th>
+                        <th style="font-size: small;">High compression</th>
+                        <th style="font-size: small;">Uncompressed</th>
+                        <th style="font-size: small;">Low compression</th>
+                        <th style="font-size: small;">High compression</th>
                         <!-- Carpark -->
-                        <th>(10/18)</th>
-                        <th>(30/42)</th>
-                        <th>(raw)</th>
-                        <th>(10/18)</th>
-                        <th>(30/42)</th>
-                        <th>(raw)</th>
+                        <th style="font-size: small;">Uncompressed</th>
+                        <th style="font-size: small;">Low compression</th>
+                        <th style="font-size: small;">High compression</th>
+                        <th style="font-size: small;">Uncompressed</th>
+                        <th style="font-size: small;">Low compression</th>
+                        <th style="font-size: small;">High compression</th>
                     </tr>
             {% for method in est_methods %}
                     <tr>
-                        <td colspan="2">{{ method.upload_date|date:'d/m/Y' }}</td>
-                        <td colspan="2">
+                        <td>{{ method.upload_date|date:'d/m/Y' }}</td>
+                        <td>
                             <div class="method_shown method">{{ method.method_name }}
                                 <div class="innerDesc">
                                     <p>{{ method.desc }}</p>
@@ -138,20 +139,20 @@ Dawid Mieloch
                             </div>
                         </td>
                         <!-- PoznanFencing -->
+                        <td style="text-align: center;">{% if method.seq_1_PSNR_raw is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_raw }}{% endif %}</td>
                         <td style="text-align: center;">{% if method.seq_1_PSNR_1018 is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_1018 }}{% endif %}</td>
                         <td style="text-align: center;">{% if method.seq_1_PSNR_3042 is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_3042 }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_1_PSNR_raw is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_raw }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_1_bitrate_raw is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_raw }}{% endif %}</td>
                         <td style="text-align: center;">{% if method.seq_1_bitrate_1018 is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_1018 }}{% endif %}</td>
                         <td style="text-align: center;">{% if method.seq_1_bitrate_3042 is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_3042 }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_1_bitrate_raw is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_raw }}{% endif %}</td>
 
                         <!-- Carpark -->
+                        <td style="text-align: center;">{% if method.seq_2_PSNR_raw is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_raw }}{% endif %}</td>
                         <td style="text-align: center;">{% if method.seq_2_PSNR_1018 is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_1018 }}{% endif %}</td>
                         <td style="text-align: center;">{% if method.seq_2_PSNR_3042 is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_3042 }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_2_PSNR_raw is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_raw }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_2_bitrate_raw is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_raw }}{% endif %}</td>
                         <td style="text-align: center;">{% if method.seq_2_bitrate_1018 is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_1018 }}{% endif %}</td>
                         <td style="text-align: center;">{% if method.seq_2_bitrate_3042 is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_3042 }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_2_bitrate_raw is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_raw }}{% endif %}</td>
 
                         <!-- common -->
                         <td><a href="{{ method.src.url }}" style="font-size: large; text-align: center;">💾</a></td>
