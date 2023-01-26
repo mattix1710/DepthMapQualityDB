@@ -51,6 +51,18 @@ body{
     box-shadow: 1px 1px 30px;
 }
 
+.innerDesc{
+    display: none;
+}
+
+.method:hover{
+    background-color:sandybrown;
+}
+
+.method:hover .innerDesc{
+    display: block;
+}
+
 .navbar
 {
     overflow: hidden;

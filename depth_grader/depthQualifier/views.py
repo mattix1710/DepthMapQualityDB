@@ -93,7 +93,7 @@ def addDepthMethod(request):
         
     return render(request, TEMPLATE_PATH + 'depth_form.html', {'form': form})
 
-QUERY_BASE = '''SELECT met.id, met.method_name, met.desc, met.src,
+QUERY_BASE = '''SELECT met.upload_date, met.id, met.method_name, met.desc, met.src,
                 res_1.synth_PSNR_1018 AS seq_1_PSNR_1018, 
                 res_1.synth_PSNR_3042 AS seq_1_PSNR_3042, 
                 res_1.synth_PSNR_none AS seq_1_PSNR_raw, 
@@ -136,12 +136,19 @@ def MethodList(request):
             order_fields = ['met.method_name']
         elif value == 'nameDOWN':
             order_fields = ['met.method_name DESC']
+        elif value == 'dateUP':
+            order_fields = ['met.upload_date']
+        elif value == 'dateDOWN':
+            order_fields = ['met.upload_date DESC']
         else:
             print('ERROR: No such value in sorting form!')
         
         qs += ORDER_STRING + ",".join(order_fields)
         
     RESULTS = MethodProposal.objects.raw(qs)
+    
+    # for obj in RESULTS:
+    #     print(type(obj.upload_date))
     
     context = {'est_methods': RESULTS}
     
