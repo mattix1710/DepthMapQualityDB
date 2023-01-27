@@ -45,8 +45,8 @@
             <div class="table-container">
                 <table>
                     <tr>
-                        <th>Name</th>
-                        <th>Download</th>
+                        <th width="70%">Name</th>
+                        <th width="30%">Download</th>
                     </tr>
                     {% for seq in sequences %}
                     <tr>
@@ -60,15 +60,10 @@
             <p>No models available.</p>
         {% endif %}
         </div>
-<!-- 
-            <a href="{{ seq.seq_src.url }}" style="font-size: large; text-align: center;">
-                <div id="download">
-                    <h2>CLICK TO DOWNLOAD<br/>TEXTURES</h2>
-                </div>
-                </a> -->
-
         </div>
-
+        {% if sequences %}
+        <br><br><br>
+        {% endif %}
         <div id = "footer">
             Wojciech Kaczmarek Mateusz Szuda &copy; 2023. All rights reserved</br>
         </div>

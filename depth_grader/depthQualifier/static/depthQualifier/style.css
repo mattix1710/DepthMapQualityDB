@@ -20,11 +20,10 @@ body{
     margin-right: auto;
 }
 
-#container-rat
+#container-sort-out
 {
-    width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+    display: flex;
+    justify-content: center;
 }
 
 #container-depth
@@ -224,12 +223,13 @@ img {
     color: rgb(36, 36, 36);
 }
 
-.sort-container{
-    float: right;
+#container-sort-in{
+    width: fit-content;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 20px;
     margin-top: 0px;
     margin-bottom: 20px;
@@ -273,8 +273,9 @@ img {
 form {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: column;
+    flex-direction: row;
     align-content: center;
+    flex-basis: auto;
 }
 label {
     display: flex;
@@ -650,7 +651,7 @@ th{
     box-shadow: 1px 1px 30px;
 }
 
-.tile3
+.tile-submit
 {
     width: 350px;
     padding: 25px;
@@ -668,7 +669,14 @@ th{
     display: inline-block;
 }
 
-.tile3::first-line
+#submit-form{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+}
+
+.tile-submit::first-line
 {
     font-size: 28px;
 }
