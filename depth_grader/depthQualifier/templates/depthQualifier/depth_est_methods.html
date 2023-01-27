@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="pl">
     <head>
-        <title>Metody estymacji głębi</title>
+        <title>Depth maps estimation methods</title>
         <link href='https://fonts.googleapis.com/css?family=Lato:400' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="{% static 'depthQualifier/style.css' %}">
         
@@ -92,12 +92,12 @@
             {% for method in est_methods %}
                     <tr>
                         <td>{{ method.upload_date|date:'d/m/Y' }}</td>
-                        <td>
-                            <div class="method_shown method">{{ method.method_name }}
+                        <td><a href="{% url 'display_method' method_id=method.id %}">{{ method.method_name }}</a>
+                            <!-- <div>{{ method.method_name }} 
                                 <div class="innerDesc">
                                     <p>{{ method.desc }}</p>
                                 </div>
-                            </div>
+                            </div> -->
                         </td>
                         <!-- PoznanFencing -->
                         <td style="text-align: center;">{% if method.seq_1_PSNR_raw is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_raw }}{% endif %}</td>
@@ -117,7 +117,7 @@
 
                         <!-- common -->
                         <td><a href="{{ method.src.url }}" style="font-size: large; text-align: center;">💾</a></td>
-                        <!-- <td><a href="{% url 'delete_method' method_id=method.id %}">Delete</a></td> -->
+                        <!-- <td><a href="{%comment%}{% url 'delete_method' method_id=method.id %}{%endcomment%}">Delete</a></td> -->
                     </tr>
             {% endfor %}
                 </table>

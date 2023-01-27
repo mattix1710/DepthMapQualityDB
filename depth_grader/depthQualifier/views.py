@@ -311,3 +311,12 @@ def delete_method_view(request, method_id=None):
         print("ERROR: was trying to delete non-existing MethodProposal object of id {}!".format(method_id))
     finally:
         return HttpResponseRedirect('../../methods')
+    
+def display_method_view(request, method_id=None):
+    try:
+        method = MethodProposal.objects.get(id=method_id)
+        context = {'method': method}
+        return render(request, TEMPLATE_PATH + 'display_method.html', context=context)
+    except ObjectDoesNotExist:
+        print("ERROR: was trying to display non-existing MethodProposal object of id {}!".format(method_id))
+        return HttpResponseRedirect('../../methods')
