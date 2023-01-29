@@ -18,7 +18,6 @@
         </div>
         <div class="block">
         </div>
-        <!-- <a href="{% url 'testing' %}" class="submit-button">Testy</a> -->
         {% if est_methods %}
         <div id="container-sort-out">
             <div id="container-sort-in">
@@ -64,7 +63,6 @@
                         <th colspan="6">PoznanFencing</th>
                         <th colspan="6">Carpark</th>
                         <th rowspan="3">Download</th>
-                        <!-- <th rowspan="3">Delete method</th> -->
                     </tr>
                     <tr>
                         <!-- QP depth/QP texture -->
@@ -92,13 +90,7 @@
             {% for method in est_methods %}
                     <tr>
                         <td>{{ method.upload_date|date:'d/m/Y' }}</td>
-                        <td><a href="{% url 'display_method' method_id=method.id %}">{{ method.method_name }}</a>
-                            <!-- <div>{{ method.method_name }} 
-                                <div class="innerDesc">
-                                    <p>{{ method.desc }}</p>
-                                </div>
-                            </div> -->
-                        </td>
+                        <td>{{ method.method_name }}</td>
                         <!-- PoznanFencing -->
                         <td style="text-align: center;">{% if method.seq_1_PSNR_raw is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_raw }}{% endif %}</td>
                         <td style="text-align: center;">{% if method.seq_1_PSNR_1018 is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_1018 }}{% endif %}</td>
@@ -117,7 +109,6 @@
 
                         <!-- common -->
                         <td><a href="{{ method.src.url }}" style="font-size: large; text-align: center;">💾</a></td>
-                        <!-- <td><a href="{%comment%}{% url 'delete_method' method_id=method.id %}{%endcomment%}">Delete</a></td> -->
                     </tr>
             {% endfor %}
                 </table>

@@ -43,7 +43,6 @@ MAIN_PATH = str(pathlib.Path(__file__).parent.parent.parent)
 
 # MATEUSZ - wyciąganie map głębi dla wielu sekwencji i restrukturyzacja kodu
 # WOJCIECH - pierwotny zamysł
-# TODO: add try/catch FILE NOT EXISTS ERROR
 def mul_zip_unpack(location):
     absPATH = MEDIA_PATH + str(pathlib.Path(location).parent)
     file_name = str(pathlib.PurePath(location).stem) + '.zip'

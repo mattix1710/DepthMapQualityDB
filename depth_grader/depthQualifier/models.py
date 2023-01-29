@@ -26,10 +26,6 @@ def validate_method_name_exist(value):
             raise ValidationError('Project of the same name already exists!')
 
 # MATEUSZ
-#
-# regular expression propositions:
-# ^[\w][\w #&()+*\\\/-]{1,}$
-
 # method_name - name of a method given by user in form
 def validate_method_name_correct(method_name):
     if not re.search(r"^[a-zA-Z_0-9][a-zA-Z_ 0-9]{1,}$", method_name):

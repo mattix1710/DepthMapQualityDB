@@ -6,7 +6,7 @@ class UploadMethodZipForm(forms.ModelForm):
     required_css_class = 'required_field'
     
     class Meta:
-        # use current model as a template for a form
+        # using current model as a template for a form
         model = MethodProposal
         fields = ['method_name', 'desc', 'src']
         

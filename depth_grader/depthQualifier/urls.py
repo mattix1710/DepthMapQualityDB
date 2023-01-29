@@ -11,7 +11,5 @@ urlpatterns = [
     path('downloads/', views.downloads, name='downloads'),
     path('testy/', views.testing, name = 'testing'),
     path('methods/', views.MethodList, name='methods_list'),
-    path('addMethod/', views.addDepthMethod, name='method_form'),
-    # path('delete/<method_id>/', views.delete_method_view, name='delete_method')
-    path('display/<method_id>/', views.display_method_view, name='display_method')
+    path('addMethod/', views.addDepthMethod, name='method_form')
 ]
