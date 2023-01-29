@@ -92,20 +92,20 @@
                         <td>{{ method.upload_date|date:'d/m/Y' }}</td>
                         <td>{{ method.method_name }}</td>
                         <!-- PoznanFencing -->
-                        <td style="text-align: center;">{% if method.seq_1_PSNR_raw is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_raw }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_1_PSNR_1018 is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_1018 }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_1_PSNR_3042 is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_3042 }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_1_bitrate_raw is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_raw }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_1_bitrate_1018 is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_1018 }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_1_bitrate_3042 is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_3042 }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_1_PSNR_raw is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_raw|floatformat:"f" }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_1_PSNR_1018 is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_1018|floatformat:"f" }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_1_PSNR_3042 is null or blank %}🔄{% else %}{{ method.seq_1_PSNR_3042|floatformat:"f" }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_1_bitrate_raw is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_raw|floatformat:"f" }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_1_bitrate_1018 is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_1018|floatformat:"f" }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_1_bitrate_3042 is null or blank %}🔄{% else %}{{ method.seq_1_bitrate_3042|floatformat:"f" }}{% endif %}</td>
 
                         <!-- Carpark -->
-                        <td style="text-align: center;">{% if method.seq_2_PSNR_raw is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_raw }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_2_PSNR_1018 is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_1018 }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_2_PSNR_3042 is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_3042 }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_2_bitrate_raw is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_raw }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_2_bitrate_1018 is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_1018 }}{% endif %}</td>
-                        <td style="text-align: center;">{% if method.seq_2_bitrate_3042 is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_3042 }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_2_PSNR_raw is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_raw|floatformat:"f" }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_2_PSNR_1018 is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_1018|floatformat:"f" }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_2_PSNR_3042 is null or blank %}🔄{% else %}{{ method.seq_2_PSNR_3042|floatformat:"f" }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_2_bitrate_raw is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_raw|floatformat:"f" }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_2_bitrate_1018 is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_1018|floatformat:"f" }}{% endif %}</td>
+                        <td style="text-align: center;">{% if method.seq_2_bitrate_3042 is null or blank %}🔄{% else %}{{ method.seq_2_bitrate_3042|floatformat:"f" }}{% endif %}</td>
 
                         <!-- common -->
                         <td><a href="{{ method.src.url }}" style="font-size: large; text-align: center;">💾</a></td>
