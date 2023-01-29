@@ -93,8 +93,6 @@ def MethodList(request):
     if(request.method == 'GET' and request.GET.__contains__('sort')):
         value = request.GET.__getitem__('sort')
         
-        # TODO: insert sorting buttons inside table (list) headers
-        
         if value == 'idUP':
             order_fields = ['met.id']
         elif value == 'idDOWN':
@@ -113,9 +111,6 @@ def MethodList(request):
         qs += ORDER_STRING + ",".join(order_fields)
         
     RESULTS = MethodProposal.objects.raw(qs)
-    
-    # for obj in RESULTS:
-    #     print(type(obj.upload_date))
     
     context = {'est_methods': RESULTS}
     

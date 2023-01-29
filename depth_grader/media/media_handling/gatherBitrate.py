@@ -15,7 +15,6 @@ counter = 0
 for file in os.listdir(FILES_PATH):
     if file.__contains__('synth_COMPRESSED.mp4'):                          # if "synth_COMPRESSED.mp4"
         FILE_PATH = pathlib2.PurePath(FILES_PATH, file)
-        # print("FILE_{} [{}]: {}".format(counter, file, os.path.getsize(FILE_PATH)))
         total_bytes += os.path.getsize(FILE_PATH)
         counter += 1
         
