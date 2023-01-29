@@ -50,6 +50,19 @@ body{
     box-shadow: 1px 1px 30px;
 }
 
+#container-no-ratings
+{
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    opacity: 0.8;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 1px 1px 30px;
+    text-align: center;
+}
+
 .innerDesc{
     display: none;
 }
@@ -730,7 +743,7 @@ th{
 {
     background-color: rgb(25, 105, 226);
     color: white;
-    padding: 12px;
+    padding: 12px 20px;
     border-radius: 10px;
     border: none;
     font-size: 16px;
