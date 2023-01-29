@@ -31,10 +31,10 @@ def validate_archive_method(uploaded_file):
             if FILE_DEPTH_METHOD_LIST != set(archive_list):
                 if len(FILE_DEPTH_METHOD_LIST) != len(archive_list):
                     print("WRONG FILE UPLOAD: some files are missing!")
-                    raise ValidationError("ERROR: some files are missing!\nCheck if contents match the file hierarchy shown next to the form.")
+                    raise ValidationError("ERROR: some files are missing!\nCheck if contents match the desired file hierarchy.")
                 else:
                     print("WRONG FILE UPLOAD: some files or folders are incorrectly named!")
-                    raise ValidationError("ERROR: some files or folders are incorrectly named!\nCheck if contents match the file hierarchy shown next to the form.")
+                    raise ValidationError("ERROR: some files or folders are incorrectly named!\nCheck if contents match the desired file hierarchy.")
     # exception thrown if uploaded file doesn't match ZIP file coding 
     # (i.e. file was secretly .7z archive, but had .zip extension instead)
     except zipfile.BadZipFile:
