@@ -1,19 +1,16 @@
 # REGULAR imports
 import pathlib2 as pathlib
 
-from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 # DJANGO imports
 from django.shortcuts import render
-from django.views.generic.list import ListView
-from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 
 # LOCAL imports
-from .forms import UploadMethodZipForm#, UploadZipForm
+from .forms import UploadMethodZipForm
 from .models import *
 from .src.functions import *
-from .tasks import process_the_depth_method#, process_the_sequence
+from .tasks import process_the_depth_method
 
 # EOF imports
 #=================================
@@ -23,30 +20,15 @@ FUNCTIONS_PATH = str(pathlib.Path(__file__).parent) + "/src/"
 
 DEBUG = "INFO: "
 
-# Create your views here.
 def index(request):
     print(DEBUG + "site rendering")
-    # template = loader.get_template(TEMPLATE_PATH + "index.html")
-    # print(template)
-    # return HttpResponse(template.render)
     return render(request, TEMPLATE_PATH + 'index.html')
-    # return HttpResponse("<br><br><center><h1>Here will be placed a database of cute HTTP cats!</h1></center>")
 
 def downloads(request):
     print(DEBUG + "site rendering")
-    # template = loader.get_template(TEMPLATE_PATH + "index.html")
-    # print(template)
-    # return HttpResponse(template.render)
-
     sequences = Sequence.objects.all()
     context = {'sequences' : sequences}
-
-    # TEXTURES = Sequence.objects.get(seq_name = SEQUENCE_CARPARK)
-    
-    # context = {'download': TEXTURES}
-
     return render(request, TEMPLATE_PATH + 'downloads.html', context=context)
-    # return HttpResponse("<br><br><center><h1>Here will be placed a database of cute HTTP cats!</h1></center>")
 
 ##############################################
 # multicolumn
@@ -65,11 +47,9 @@ def addDepthMethod(request):
                                           desc = form.cleaned_data['desc'],
                                           src = f)
             
-            # depth_name = (str(form.cleaned_data['title'])).lower().replace(' ', '_')
             depth_name = str(form.cleaned_data['method_name'])
             
             # UNZIP DATA and process depths in order to obtain PSNR and bitrate results
-            # try:
             obj = MethodProposal.objects.get(method_name = depth_name)
             print("Processing depth method of ID: {}".format(obj.id))
             
@@ -82,11 +62,6 @@ def addDepthMethod(request):
                 print("DEPTH: {} : {}".format(obj.id, sequence.id))
             
             process_the_depth_method.delay(obj.id)
-            # except MethodProposal.DoesNotExist:
-            #     print("ERROR: uploaded method wasn't saved!")
-            # except:
-            #     print("SOME ERROR...")
-            # finally:
             return HttpResponseRedirect('../methods')
     else:
         form = UploadMethodZipForm()
