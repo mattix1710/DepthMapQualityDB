@@ -77,13 +77,19 @@ def mul_batch_synthesis(method):
     # subprocess.call(batchPATH)        - old/deprecated
     # PROCESSING PoznanFencing (10/30/raw depth_QP)
     subprocess.run(batchPATH_Poznan_10)
+    mul_process_data_single_seq(method, 'PoznanFencing_10')
     subprocess.run(batchPATH_Poznan_30)
+    mul_process_data_single_seq(method, 'PoznanFencing_30')
     subprocess.run(batchPATH_Poznan_raw)
+    mul_process_data_single_seq(method, 'PoznanFencing_raw')
     
     # PROCESSING Carpark (10/30/raw depth_QP)
     subprocess.run(batchPATH_Carpark_10)
+    mul_process_data_single_seq(method, 'Carpark_10')
     subprocess.run(batchPATH_Carpark_30)
+    mul_process_data_single_seq(method, 'Carpark_30')
     subprocess.run(batchPATH_Carpark_raw)
+    mul_process_data_single_seq(method, 'Carpark_raw')
     
     # delete folder with unpacked depths
     rmPATH = pathlib.Path(MEDIA_PATH, str(method.src).replace('.zip', ''))
@@ -184,3 +190,52 @@ def mul_process_data(method, location):
     results2.synth_bitrate_3042 = Fencing_30[2]
     results2.synth_bitrate_none = Fencing_raw[2]
     results2.save()
+    
+# MATEUSZ
+# process calculated data: PSNR & bitrate (found in txt files in objects location)
+# INFO: the same method as "mul_process_data", but is executed after each synthesis (table is updated quicker and more often)
+def mul_process_data_single_seq(method, seq_name):
+    
+    if seq_name.startswith('PoznanFencing'):
+        SEQUENCE_NAME = Sequence.objects.get(seq_name = 'PoznanFencing')
+    elif seq_name.startswith('Carpark'):
+        SEQUENCE_NAME = Sequence.objects.get(seq_name = 'Carpark')
+        
+    MODE = re.findall('_([raw0-9]{2,3})', seq_name)[0]
+    
+    METHOD_PATH = pathlib.Path(MEDIA_PATH, pathlib.Path(str(method.src)).parent)
+        # str(method.src) <- retrieves method location in media subdirectory
+        
+    bitrate = 0
+    avg_PSNR = 0
+    
+    for file in os.listdir(METHOD_PATH):
+        if file.startswith('ivpsnr_SL') and seq_name in file:
+            with open(pathlib.Path(METHOD_PATH, file)) as opened_file:
+                PSNR_vals = []
+                for line in opened_file:
+                    if line.startswith('IVPSNR'):
+                        PSNR_vals.append(float(re.findall('[0-9]+\.[0-9]+', line)[0]))
+                
+                if len(PSNR_vals) != 0:
+                    avg_PSNR = round(sum(PSNR_vals) / len(PSNR_vals), 4)
+        if file.startswith('bitrate'):
+            with open(pathlib.Path(METHOD_PATH, file)) as opened_file:
+                for line in opened_file:
+                    if line.startswith(seq_name):
+                        bitrate = float(re.findall('[0-9]+\.[0-9]+', line)[0])
+                    break
+    
+    updated_elem = SeqDepthResult.objects.get(method_id = method, seq_id = SEQUENCE_NAME)
+    
+    if MODE == 'raw':
+        updated_elem.synth_PSNR_none = avg_PSNR
+        updated_elem.synth_bitrate_none = bitrate
+    elif MODE == '10':
+        updated_elem.synth_PSNR_1018 = avg_PSNR
+        updated_elem.synth_bitrate_1018 = bitrate
+    elif MODE == '30':
+        updated_elem.synth_PSNR_3042 = avg_PSNR
+        updated_elem.synth_bitrate_3042 = bitrate
+        
+    updated_elem.save()

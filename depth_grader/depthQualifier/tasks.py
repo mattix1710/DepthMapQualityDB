@@ -9,7 +9,8 @@ from .src.functions import mul_zip_unpack, mul_batch_synthesis, mul_process_data
 @shared_task
 def process_the_depth_method(method_id):    # arguments in this function need to be serializable (i.e. string, int, etc.)
     depth_method = MethodProposal.objects.get(id=method_id)
-    mul_zip_unpack(str(depth_method.src))          # MATEUSZ
-    mul_batch_synthesis(depth_method)              # MATEUSZ
+    mul_zip_unpack(str(depth_method.src))           # MATEUSZ
+    # process batch synthesis with gathering data after each synthesis
+    mul_batch_synthesis(depth_method)               # MATEUSZ
     # processing PSNR and bitrate data METHOD
-    mul_process_data(depth_method, str(depth_method.src)) # WOJCIECH
+    # mul_process_data(depth_method, str(depth_method.src))       # WOJCIECH 
